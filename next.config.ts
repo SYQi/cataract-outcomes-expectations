@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
 
-/** Keep `.next` off iCloud Drive — synced folders corrupt webpack/RSC manifests. */
-const distDir = process.env.NEXT_DIST_DIR?.trim() || "/tmp/patient-conversion-next";
+/**
+ * Local/dev: set NEXT_DIST_DIR=/tmp/patient-conversion-next (see package.json)
+ * so iCloud Drive does not corrupt the build cache.
+ * Vercel/production: leave unset so output stays in the default `.next`.
+ */
+const distDir = process.env.NEXT_DIST_DIR?.trim() || undefined;
 
 const nextConfig: NextConfig = {
-  distDir,
+  ...(distDir ? { distDir } : {}),
   /** App-only projects: segment explorer can corrupt the React Client Manifest (GET / 500). */
   devIndicators: false,
   experimental: {

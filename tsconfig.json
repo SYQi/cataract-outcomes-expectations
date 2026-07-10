@@ -29,11 +29,10 @@
     }
   },
   "include": [
+    "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "next-env.d.ts",
-    "tmp/patient-conversion-next/types/**/*.ts",
-    "/tmp/patient-conversion-next/types/**/*.ts"
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
