@@ -18,10 +18,70 @@ type Marker = {
   color: string;
   delayMs: number;
   emphasis?: boolean;
+  /** Where the label sits relative to the bar to avoid overlap. */
+  placement: "above" | "below";
 };
 
 function clampMarkerLeft(score: number): number {
-  return Math.max(4, Math.min(96, score));
+  return Math.max(6, Math.min(94, score));
+}
+
+function MarkerLabel({
+  marker,
+  visible,
+}: {
+  marker: Marker;
+  visible: boolean;
+}) {
+  const left = clampMarkerLeft(marker.score);
+  return (
+    <div
+      className={`absolute top-0 flex w-0 -translate-x-1/2 flex-col items-center ${
+        visible ? "animate-fade-up" : "opacity-0"
+      }`}
+      style={{ left: `${left}%`, animationDelay: `${marker.delayMs}ms` }}
+    >
+      <p
+        className={`max-w-[5.5rem] text-center text-[10px] font-bold leading-tight sm:max-w-[6.5rem] sm:text-[11px] ${
+          marker.emphasis ? "text-red-700" : "text-slate-800"
+        }`}
+      >
+        {marker.label}
+      </p>
+      <p
+        className={`text-xs font-black sm:text-sm ${
+          marker.emphasis ? "text-red-600" : "text-brand-navy"
+        }`}
+      >
+        {marker.score}
+      </p>
+    </div>
+  );
+}
+
+function MarkerDot({
+  marker,
+  visible,
+  className = "top-1/2 -translate-y-1/2",
+}: {
+  marker: Marker;
+  visible: boolean;
+  className?: string;
+}) {
+  const left = clampMarkerLeft(marker.score);
+  return (
+    <div
+      className={`absolute -translate-x-1/2 ${className}`}
+      style={{ left: `${left}%` }}
+    >
+      <div
+        className={`h-5 w-5 rounded-full border-[3px] border-white shadow-lg sm:h-6 sm:w-6 ${
+          visible ? "animate-scale-jump" : "scale-0 opacity-0"
+        } ${marker.emphasis ? "animate-pulse-glow" : ""}`}
+        style={{ backgroundColor: marker.color, animationDelay: `${marker.delayMs}ms` }}
+      />
+    </div>
+  );
 }
 
 export function PromsHorizontalScale({ patientScore, animate = true }: PromsHorizontalScaleProps) {
@@ -41,6 +101,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
       color: "#D31145",
       delayMs: 0,
       emphasis: true,
+      placement: "below",
     },
     {
       id: "first",
@@ -48,6 +109,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
       label: "1st Eye Surgery",
       color: "#0d9488",
       delayMs: 450,
+      placement: "below",
     },
     {
       id: "second",
@@ -55,8 +117,12 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
       label: "2nd Eye Surgery",
       color: "#22c55e",
       delayMs: 900,
+      placement: "above",
     },
   ];
+
+  const aboveMarkers = markers.filter((m) => m.placement === "above");
+  const belowMarkers = markers.filter((m) => m.placement === "below");
 
   return (
     <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
@@ -70,111 +136,38 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           <span className="text-green-600">Great</span>
         </div>
 
-        {/* Bar + dots (labels on sm+ only) */}
-        <div className="relative h-10 sm:h-24">
+        {/* Labels above bar (2nd eye surgery) */}
+        <div className="relative h-11 sm:h-12">
+          {aboveMarkers.map((m) => (
+            <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} />
+          ))}
+        </div>
+
+        {/* Gradient bar + dots */}
+        <div className="relative mx-1 h-7 sm:mx-2 sm:h-8">
           <div
-            className="absolute inset-x-0 top-2 h-6 rounded-full shadow-inner sm:top-3.5 sm:h-7"
+            className="absolute inset-0 rounded-full shadow-inner"
             style={{
               background:
                 "linear-gradient(to right, #ef4444 0%, #f97316 25%, #eab308 50%, #84cc16 75%, #22c55e 100%)",
             }}
           />
+          {markers.map((m) => (
+            <MarkerDot key={`dot-${m.id}`} marker={m} visible={visible} />
+          ))}
+        </div>
 
-          {markers.map((m) => {
-            const left = clampMarkerLeft(m.score);
-            return (
-              <div
-                key={m.id}
-                className="absolute top-0 hidden -translate-x-1/2 flex-col items-center sm:flex"
-                style={{ left: `${left}%` }}
-              >
-                <div
-                  className={`mt-3 h-5 w-5 shrink-0 rounded-full border-[3px] border-white shadow-lg sm:mt-3.5 sm:h-6 sm:w-6 ${
-                    visible ? "animate-scale-jump" : "scale-0 opacity-0"
-                  } ${m.emphasis ? "animate-pulse-glow" : ""}`}
-                  style={{ backgroundColor: m.color, animationDelay: `${m.delayMs}ms` }}
-                />
-                <div
-                  className={`mt-1.5 max-w-[7rem] text-center ${
-                    visible ? "animate-fade-up" : "opacity-0"
-                  }`}
-                  style={{ animationDelay: `${m.delayMs}ms` }}
-                >
-                  <p
-                    className={`text-[11px] font-bold leading-tight ${
-                      m.emphasis ? "text-red-700" : "text-slate-800"
-                    }`}
-                  >
-                    {m.label}
-                  </p>
-                  <p
-                    className={`text-sm font-black ${m.emphasis ? "text-red-600" : "text-brand-navy"}`}
-                  >
-                    {m.score}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Mobile: dots only on the bar */}
-          {markers.map((m) => {
-            const left = clampMarkerLeft(m.score);
-            return (
-              <div
-                key={`dot-${m.id}`}
-                className="absolute top-2 -translate-x-1/2 sm:hidden"
-                style={{ left: `${left}%` }}
-              >
-                <div
-                  className={`h-5 w-5 rounded-full border-[3px] border-white shadow-lg ${
-                    visible ? "animate-scale-jump" : "scale-0 opacity-0"
-                  } ${m.emphasis ? "animate-pulse-glow" : ""}`}
-                  style={{ backgroundColor: m.color, animationDelay: `${m.delayMs}ms` }}
-                />
-              </div>
-            );
-          })}
+        {/* Labels below bar (you today + 1st eye surgery) */}
+        <div className="relative mt-1 h-12 sm:h-14">
+          {belowMarkers.map((m) => (
+            <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} />
+          ))}
         </div>
       </div>
 
-      {/* Mobile legend — avoids overlapping labels */}
-      <ul className="mt-4 space-y-2 sm:hidden">
-        {markers.map((m) => (
-          <li
-            key={`legend-${m.id}`}
-            className={`flex items-center justify-between rounded-lg border px-3 py-2 ${
-              m.emphasis ? "border-red-200 bg-red-50" : "border-slate-200 bg-slate-50"
-            } ${visible ? "animate-fade-up" : "opacity-0"}`}
-            style={{ animationDelay: `${m.delayMs}ms` }}
-          >
-            <div className="flex min-w-0 items-center gap-2">
-              <span
-                className="h-3 w-3 shrink-0 rounded-full"
-                style={{ backgroundColor: m.color }}
-              />
-              <span
-                className={`truncate text-sm font-semibold ${
-                  m.emphasis ? "text-red-800" : "text-slate-800"
-                }`}
-              >
-                {m.label}
-              </span>
-            </div>
-            <span
-              className={`shrink-0 pl-2 text-base font-black ${
-                m.emphasis ? "text-red-600" : "text-brand-navy"
-              }`}
-            >
-              {m.score}
-            </span>
-          </li>
-        ))}
-      </ul>
-
       {patientScore < POST_OP_CAT_PROM5_FIRST_EYE && visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-xs font-medium leading-snug text-teal-800 sm:mt-2 sm:text-sm"
+          className="mt-3 animate-fade-up text-center text-xs font-medium leading-snug text-teal-800 sm:mt-4 sm:text-sm"
           style={{ animationDelay: "1.2s" }}
         >
           Many patients climb toward <strong>{POST_OP_CAT_PROM5_FIRST_EYE}</strong> after 1st eye

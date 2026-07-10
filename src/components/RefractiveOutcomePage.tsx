@@ -66,7 +66,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
           </div>
         </div>
 
-        <div className="min-h-[130px] sm:min-h-[170px]">
+        <div className="min-h-[130px] shrink-0 sm:min-h-[170px]">
           <OutcomeTrendChart
             title="Refractive ±1.0D — Woodlands specialist trend"
             seriesLabel="Within ±1.0D"

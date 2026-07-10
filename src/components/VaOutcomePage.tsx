@@ -41,9 +41,9 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex min-h-0 flex-col gap-3 sm:h-full sm:gap-3">
+      <div className="flex min-h-0 flex-col gap-4 sm:h-full sm:gap-3">
         <VaPrePostCompare visualAcuity={visualAcuity} />
-        <div className="min-h-[130px] sm:min-h-[170px]">
+        <div className="shrink-0">
           <VaTrendChart />
         </div>
         <p className="shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">

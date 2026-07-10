@@ -1,0 +1,19 @@
+---
+description: Commit and push Patient Conversion Tool to GitHub when explicitly asked
+alwaysApply: true
+---
+
+# Deploy on request (localhost 3040 → GitHub → Vercel)
+
+This project is **patient-conversion-tool** (dev server: `localhost:3040`).
+
+When the user says **"commit and push to github"** (or clearly equivalent wording):
+
+1. Work in `/Patient-Conversion-Tool` (not Acuity or sibling repos unless they specify otherwise).
+2. Run `git status`, `git diff`, and `git log -1` to review changes.
+3. Stage relevant files only — never commit secrets (`.env`, tokens).
+4. Write a concise commit message focused on **why**.
+5. `git commit` then `git push origin main`.
+6. Confirm the commit hash and remind them Vercel will deploy from GitHub automatically.
+
+**Do not** commit or push unless the user gives this explicit instruction.

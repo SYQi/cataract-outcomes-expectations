@@ -70,7 +70,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
         </div>
 
         <div
-          className={`relative min-h-0 flex-1 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${
+          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-1 sm:min-h-0 sm:p-4 ${
             show ? "animate-fade-up" : "opacity-0"
           }`}
           style={{ animationDelay: "0.35s" }}
@@ -126,7 +126,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             </div>
           </div>
 
-          <p className="mt-2 text-center text-xs font-semibold leading-snug text-slate-700 sm:text-sm">
+          <p className="mt-4 text-center text-xs font-semibold leading-relaxed text-slate-700 sm:mt-2 sm:text-sm">
             <span className="block">
               Woodlands specialist rate: <strong className="text-brand-navy">{COMPLICATION_RATE_PERCENT}%</strong>
             </span>
@@ -141,10 +141,10 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
           </p>
         </div>
 
-        <p className="shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
+        <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:mt-0 sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
         </p>
-        <div className="hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
+        <div className="mt-3 hidden shrink-0 border-t border-slate-200 pt-3 text-left text-[10px] leading-relaxed text-slate-500 sm:block">
           <p className="font-semibold text-slate-600">
             Reference — Royal College of Ophthalmologists, United Kingdom (
             {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%)
