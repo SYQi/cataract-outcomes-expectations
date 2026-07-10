@@ -97,14 +97,14 @@ export function GradientSlider({
           style={{ left: `${percent}%` }}
         />
       </div>
-      <div className="mt-2 flex flex-col gap-1.5 text-[11px] leading-snug sm:flex-row sm:justify-between sm:gap-2 sm:text-xs">
+      <div className="mt-2 flex flex-col gap-1.5 text-[13px] leading-snug sm:flex-row sm:justify-between sm:gap-2 sm:text-[14px]">
         <span className="break-words text-green-700">{minCaption ?? `${min} — no impairment`}</span>
         <span className="break-words text-right text-red-700 sm:max-w-[45%]">
           {maxCaption ?? `${max} — worst`}
         </span>
       </div>
       {!hideValue && (
-        <p className="mt-1 text-center text-sm font-semibold text-brand-navy">
+        <p className="mt-1 text-center text-[1.05rem] font-semibold text-brand-navy">
           {valueCaption ?? `Selected: ${value}`}
         </p>
       )}

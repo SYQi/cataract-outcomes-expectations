@@ -52,9 +52,9 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       onNext={onNext}
       nextLabel="Quality of life →"
     >
-      <div className="flex min-h-0 flex-col gap-3 sm:h-full sm:gap-3">
+      <div className="flex min-h-0 flex-col gap-3 sm:gap-4">
         <div
-          className={`relative overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm sm:p-4 ${
+          className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm sm:p-4 ${
             show ? "animate-scale-jump" : "opacity-0"
           }`}
         >
@@ -70,7 +70,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
         </div>
 
         <div
-          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:flex-1 sm:min-h-0 sm:p-4 ${
+          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${
             show ? "animate-fade-up" : "opacity-0"
           }`}
           style={{ animationDelay: "0.35s" }}
@@ -82,21 +82,21 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             All-cause intraoperative complications — specialist outcomes at Woodlands Hospital
           </p>
 
-          {/* Shared baseline chart: bars sit close with a level baseline */}
           <div className="mx-auto mt-4 flex max-w-md items-end justify-center gap-4 sm:gap-6">
             <div className="flex w-[42%] flex-col items-center sm:w-[45%]">
-              <p className="mb-1 text-center text-[10px] font-semibold leading-tight text-amber-800 sm:text-xs">
-                {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
-              </p>
-              <div className="relative h-28 w-full sm:h-36">
-                <div className="absolute inset-x-0 bottom-0 top-0 flex items-end">
-                  <div className="relative h-full w-full">
-                    <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
-                    <div
-                      className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
-                      style={{ height: `${rcoLowHeightPct}%` }}
-                    />
-                  </div>
+              <div className="relative h-32 w-full sm:h-36">
+                <div className="absolute inset-x-0 bottom-0 top-0">
+                  <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
+                  <div
+                    className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
+                    style={{ height: `${rcoLowHeightPct}%` }}
+                  />
+                  <p
+                    className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-amber-800 sm:text-xs"
+                    style={{ bottom: "calc(100% + 3px)" }}
+                  >
+                    {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
+                  </p>
                 </div>
               </div>
               <div className="mt-2 px-0.5">
@@ -110,12 +110,18 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             </div>
 
             <div className="flex w-[42%] flex-col items-center sm:w-[45%]">
-              <p className="mb-1 text-center text-[10px] font-bold text-brand-navy sm:text-xs">
-                {COMPLICATION_RATE_PERCENT}%
-              </p>
-              <div className="relative h-28 w-full sm:h-36">
-                <div className="absolute inset-x-0 bottom-0 flex items-end" style={{ height: `${whHeightPct}%` }}>
-                  <div className="h-full w-full rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60" />
+              <div className="relative h-32 w-full sm:h-36">
+                <div className="absolute inset-x-0 bottom-0 top-0">
+                  <div
+                    className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
+                    style={{ height: `${whHeightPct}%` }}
+                  />
+                  <p
+                    className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-brand-navy sm:text-xs"
+                    style={{ bottom: `calc(${whHeightPct}% + 3px)` }}
+                  >
+                    {COMPLICATION_RATE_PERCENT}%
+                  </p>
                 </div>
               </div>
               <div className="mt-2 px-0.5">
@@ -126,7 +132,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             </div>
           </div>
 
-          <p className="mt-4 text-center text-xs font-semibold leading-relaxed text-slate-700 sm:mt-2 sm:text-sm">
+          <p className="mt-5 border-t border-slate-100 pt-4 text-center text-xs font-semibold leading-relaxed text-slate-700 sm:text-sm">
             <span className="block">
               Woodlands specialist rate: <strong className="text-brand-navy">{COMPLICATION_RATE_PERCENT}%</strong>
             </span>
@@ -141,10 +147,10 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
           </p>
         </div>
 
-        <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:mt-0 sm:text-[11px]">
+        <p className="mt-1 shrink-0 text-center text-[10px] leading-relaxed text-slate-400 sm:mt-2 sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
         </p>
-        <div className="mt-3 hidden shrink-0 border-t border-slate-200 pt-3 text-left text-[10px] leading-relaxed text-slate-500 sm:block">
+        <div className="mt-2 hidden shrink-0 border-t border-slate-200 pt-3 text-left text-[10px] leading-relaxed text-slate-500 sm:block">
           <p className="font-semibold text-slate-600">
             Reference — Royal College of Ophthalmologists, United Kingdom (
             {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%)

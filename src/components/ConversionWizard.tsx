@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ComplicationsOutcomePage } from "@/components/ComplicationsOutcomePage";
 import { GradientSlider } from "@/components/GradientSlider";
 import { NewPatientPasswordGate } from "@/components/NewPatientPasswordGate";
@@ -15,9 +15,10 @@ import {
   type CatProm5Answers,
 } from "@/lib/catProm5";
 import { formatGmt8Timestamp } from "@/lib/datetime";
-import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
+import { useOutcomeSwipe } from "@/hooks/useOutcomeSwipe";
 import { useSessionTracker } from "@/hooks/useSessionTracker";
 import type { TrackedPage } from "@/lib/sessionAnalytics";
+import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
 
 type Step = "details" | "assessment" | "va" | "refraction" | "complications" | "proms";
 
@@ -76,6 +77,25 @@ export function ConversionWizard() {
 
   const outcomeIndex = OUTCOME_STEPS.indexOf(step);
 
+  const onSwipeLeft = useCallback(() => {
+    if (step === "va") setStep("refraction");
+    else if (step === "refraction") setStep("complications");
+    else if (step === "complications") setStep("proms");
+  }, [step]);
+
+  const onSwipeRight = useCallback(() => {
+    if (step === "va") setStep("assessment");
+    else if (step === "refraction") setStep("va");
+    else if (step === "complications") setStep("refraction");
+    else if (step === "proms") setStep("complications");
+  }, [step]);
+
+  const { active: swipeNavActive, onTouchStart, onTouchEnd } = useOutcomeSwipe({
+    enabled: isOutcome,
+    onSwipeLeft,
+    onSwipeRight,
+  });
+
   return (
     <div
       className={`mx-auto min-h-screen px-4 py-6 sm:px-6 sm:py-8 ${
@@ -119,16 +139,21 @@ export function ConversionWizard() {
           })}
         </div>
         {isOutcome && (
-          <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-            {outcomeIndex + 1} of {OUTCOME_STEPS.length} ·{" "}
-            {step === "va"
-              ? "Visual acuity"
-              : step === "refraction"
-                ? "Refractive accuracy"
-                : step === "complications"
-                  ? "Complications"
-                  : "PROMS"}
-          </p>
+          <>
+            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
+              {outcomeIndex + 1} of {OUTCOME_STEPS.length} ·{" "}
+              {step === "va"
+                ? "Visual acuity"
+                : step === "refraction"
+                  ? "Refractive accuracy"
+                  : step === "complications"
+                    ? "Complications"
+                    : "PROMS"}
+            </p>
+            {swipeNavActive && (
+              <p className="mt-1 text-[10px] text-slate-400">Swipe left or right between outcome pages</p>
+            )}
+          </>
         )}
       </header>
 
@@ -189,8 +214,8 @@ export function ConversionWizard() {
       {step === "assessment" && (
         <section className="space-y-6">
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-            <h2 className="text-lg font-semibold text-brand-navy">CAT-PROM5 questionnaire</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="text-[1.35rem] font-semibold text-brand-navy">CAT-PROM5 questionnaire</h2>
+            <p className="mt-1 text-[1.05rem] text-slate-500">
               Slide each bar to indicate how your eyesight affects you today. Green = no
               impairment; red = worst impairment.
             </p>
@@ -198,10 +223,10 @@ export function ConversionWizard() {
 
           {CAT_PROM5_QUESTIONS.map((q, i) => (
             <div key={q.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-              <p className="text-sm font-medium text-brand-navy">
+              <p className="text-[1.05rem] font-medium text-brand-navy">
                 {String.fromCharCode(65 + i)}) {q.label}
               </p>
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-[0.9rem] text-slate-500">
                 {q.minLabel} → {q.maxLabel}
               </p>
               <div className="mt-4">
@@ -219,8 +244,8 @@ export function ConversionWizard() {
           ))}
 
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-            <h3 className="text-lg font-semibold text-brand-navy">Current visual acuity</h3>
-            <p className="mt-1 text-sm text-slate-500">
+            <h3 className="text-[1.35rem] font-semibold text-brand-navy">Current visual acuity</h3>
+            <p className="mt-1 text-[1.05rem] text-slate-500">
               Select your current vision in the affected eye (with glasses if worn).
             </p>
             <div className="mt-4">
@@ -235,14 +260,14 @@ export function ConversionWizard() {
                 hideValue
               />
             </div>
-            <p className="mt-3 text-center text-xl font-bold text-brand-navy">{visualAcuity}</p>
+            <p className="mt-3 text-center text-[1.5rem] font-bold text-brand-navy">{visualAcuity}</p>
             <div className="mt-2 grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:justify-center">
               {VA_OPTIONS.map((va, i) => (
                 <button
                   key={va}
                   type="button"
                   onClick={() => handleVaChange(i)}
-                  className={`rounded-full px-2 py-1 text-xs ${
+                  className={`rounded-full px-2 py-1 text-[0.9rem] ${
                     i === vaSliderIndex
                       ? "bg-brand-navy text-white"
                       : "bg-slate-100 text-slate-600 hover:bg-slate-200"
@@ -255,7 +280,7 @@ export function ConversionWizard() {
           </div>
 
           <div className="rounded-xl bg-slate-100 px-4 py-3">
-            <div className="flex flex-col gap-1 text-center text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-3">
+            <div className="flex flex-col gap-1 text-center text-[1.05rem] text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-3">
               <span>
                 Raw score: <strong>{scores.raw}</strong>
               </span>
@@ -289,28 +314,38 @@ export function ConversionWizard() {
         </section>
       )}
 
-      {step === "va" && (
-        <VaOutcomePage
-          visualAcuity={visualAcuity}
-          onBack={() => setStep("assessment")}
-          onNext={() => setStep("refraction")}
-        />
-      )}
+      {isOutcome && (
+        <div className="touch-pan-y" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+          {step === "va" && (
+            <VaOutcomePage
+              visualAcuity={visualAcuity}
+              onBack={() => setStep("assessment")}
+              onNext={() => setStep("refraction")}
+            />
+          )}
 
-      {step === "refraction" && (
-        <RefractiveOutcomePage onBack={() => setStep("va")} onNext={() => setStep("complications")} />
-      )}
+          {step === "refraction" && (
+            <RefractiveOutcomePage
+              onBack={() => setStep("va")}
+              onNext={() => setStep("complications")}
+            />
+          )}
 
-      {step === "complications" && (
-        <ComplicationsOutcomePage onBack={() => setStep("refraction")} onNext={() => setStep("proms")} />
-      )}
+          {step === "complications" && (
+            <ComplicationsOutcomePage
+              onBack={() => setStep("refraction")}
+              onNext={() => setStep("proms")}
+            />
+          )}
 
-      {step === "proms" && (
-        <PromsOutcomePage
-          patientScore={scores.score100}
-          onBack={() => setStep("complications")}
-          onNewPatient={() => setShowNewPatientGate(true)}
-        />
+          {step === "proms" && (
+            <PromsOutcomePage
+              patientScore={scores.score100}
+              onBack={() => setStep("complications")}
+              onNewPatient={() => setShowNewPatientGate(true)}
+            />
+          )}
+        </div>
       )}
 
       <NewPatientPasswordGate

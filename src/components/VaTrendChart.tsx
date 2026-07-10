@@ -14,7 +14,7 @@ export function VaTrendChart() {
       data={MONTHLY_VA_612_TREND}
       reference={{
         value: BLUE_MOUNTAINS_VA_REFERENCE_PERCENT,
-        label: `Blue Mountains ${BLUE_MOUNTAINS_VA_REFERENCE_PERCENT}%`,
+        label: "Sydney Blue Mountains Study",
         stroke: "#b45309",
       }}
     />

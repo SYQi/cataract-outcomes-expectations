@@ -53,7 +53,7 @@ export function OutcomeTrendChart({
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
-            margin={{ top: 8, right: 8, left: 0, bottom: 28 }}
+            margin={{ top: 8, right: 8, left: 0, bottom: 36 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis
@@ -61,11 +61,10 @@ export function OutcomeTrendChart({
               tick={{ fontSize: 8, fill: "#64748b" }}
               tickLine={false}
               axisLine={{ stroke: "#cbd5e1" }}
-              interval="preserveStartEnd"
-              minTickGap={4}
-              angle={-30}
+              interval={0}
+              angle={-35}
               textAnchor="end"
-              height={40}
+              height={44}
             />
             <YAxis
               domain={[0, 100]}
