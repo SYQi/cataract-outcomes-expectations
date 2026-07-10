@@ -26,10 +26,14 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       eyebrow="Visual acuity"
       headline={
         <>
-          <span className={EMPHASIS}>Specialist Ophthalmologists</span> at Woodlands Hospital
-          achieve good vision for{" "}
-          <span className={EMPHASIS}>{VA_612_OR_BETTER_PERCENT}%</span> of all patients within 1
-          month of cataract surgery
+          <span className="block">
+            <span className={EMPHASIS}>Specialist Ophthalmologists</span> at Woodlands Hospital
+          </span>
+          <span className="mt-1 block">
+            achieve good vision for{" "}
+            <span className={EMPHASIS}>{VA_612_OR_BETTER_PERCENT}%</span> of all patients
+          </span>
+          <span className="mt-1 block">within 1 month of cataract surgery</span>
         </>
       }
       onBack={onBack}
@@ -37,15 +41,15 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex h-full min-h-0 flex-col gap-2 sm:gap-3">
+      <div className="flex min-h-0 flex-col gap-3 sm:h-full sm:gap-3">
         <VaPrePostCompare visualAcuity={visualAcuity} />
-        <div className="min-h-[150px] flex-[1.1] sm:min-h-[170px]">
+        <div className="min-h-[130px] sm:min-h-[170px]">
           <VaTrendChart />
         </div>
         <p className="shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
         </p>
-        <p className="shrink-0 border-t border-slate-200 pt-2 text-left text-[9px] leading-snug text-slate-500 sm:text-[10px]">
+        <p className="hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
           <span className="font-semibold text-slate-600">Reference (Blue Mountains Eye Study, 75%): </span>
           {BLUE_MOUNTAINS_CITATION}
         </p>

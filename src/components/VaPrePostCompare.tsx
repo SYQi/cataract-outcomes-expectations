@@ -29,9 +29,9 @@ export function VaPrePostCompare({ visualAcuity, animate = true }: VaPrePostComp
   }, [animate, visualAcuity]);
 
   return (
-    <div className="grid min-h-0 flex-1 grid-cols-2 gap-2 sm:gap-3">
+    <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-3">
       <div
-        className={`relative min-h-[140px] overflow-hidden rounded-xl border-2 bg-slate-100 sm:min-h-[160px] ${
+        className={`relative min-h-[120px] overflow-hidden rounded-xl border-2 bg-slate-100 sm:min-h-[160px] ${
           phase >= 1 ? "animate-scale-jump border-red-300 shadow-md" : "border-transparent opacity-0"
         }`}
       >
@@ -56,7 +56,7 @@ export function VaPrePostCompare({ visualAcuity, animate = true }: VaPrePostComp
       </div>
 
       <div
-        className={`relative min-h-[140px] overflow-hidden rounded-xl border-2 bg-white sm:min-h-[160px] ${
+        className={`relative min-h-[120px] overflow-hidden rounded-xl border-2 bg-white sm:min-h-[160px] ${
           phase >= 2
             ? "animate-scale-jump border-green-400 shadow-md ring-2 ring-green-200/50"
             : "border-transparent opacity-30"

@@ -2,7 +2,6 @@
 
 import {
   CartesianGrid,
-  Label,
   Line,
   LineChart,
   ReferenceLine,
@@ -47,31 +46,34 @@ export function OutcomeTrendChart({
   return (
     <div className="flex h-full min-h-0 flex-col rounded-xl border border-slate-200 bg-white p-2 sm:p-3">
       <div className="mb-1 shrink-0">
-        <p className="text-xs font-bold text-brand-navy sm:text-sm">{title}</p>
-        <p className="text-[10px] text-slate-500 sm:text-[11px]">
+        <p className="text-balance text-xs font-bold leading-snug text-brand-navy sm:text-sm">{title}</p>
+        <p className="text-[10px] leading-snug text-slate-500 sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE} · {REPORTING_WINDOW_LABEL}
         </p>
       </div>
-      <div className="min-h-0 flex-1" style={{ minHeight: 140 }}>
+      <div className="min-h-[120px] flex-1 sm:min-h-[140px]">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 10, right: 12, left: -4, bottom: 0 }}>
+          <LineChart data={chartData} margin={{ top: 8, right: 4, left: 0, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 9, fill: "#64748b" }}
+              tick={{ fontSize: 8, fill: "#64748b" }}
               tickLine={false}
               axisLine={{ stroke: "#cbd5e1" }}
               interval="preserveStartEnd"
-              minTickGap={8}
+              minTickGap={4}
+              angle={-35}
+              textAnchor="end"
+              height={36}
             />
             <YAxis
               domain={[0, 100]}
-              ticks={[0, 25, 50, 75, 100]}
-              tick={{ fontSize: 10, fill: "#64748b" }}
+              ticks={[0, 50, 100]}
+              tick={{ fontSize: 9, fill: "#64748b" }}
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => `${v}%`}
-              width={40}
+              width={32}
               allowDataOverflow
             />
             {reference && (
@@ -80,15 +82,7 @@ export function OutcomeTrendChart({
                 stroke={reference.stroke ?? "#94a3b8"}
                 strokeDasharray="5 4"
                 strokeWidth={1.5}
-              >
-                <Label
-                  value={reference.label}
-                  position="insideTopRight"
-                  fill={reference.stroke ?? "#64748b"}
-                  fontSize={10}
-                  offset={6}
-                />
-              </ReferenceLine>
+              />
             )}
             <Tooltip
               formatter={(value: number) => [`${value}%`, seriesLabel]}
@@ -100,13 +94,22 @@ export function OutcomeTrendChart({
               dataKey="rate"
               stroke={stroke}
               strokeWidth={2.5}
-              dot={{ r: 3, fill: dotFill, stroke: "#fff", strokeWidth: 1.5 }}
-              activeDot={{ r: 5 }}
+              dot={{ r: 2.5, fill: dotFill, stroke: "#fff", strokeWidth: 1.5 }}
+              activeDot={{ r: 4 }}
               connectNulls
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
+      {reference && (
+        <p className="mt-1 shrink-0 text-center text-[10px] font-medium text-slate-500 sm:text-[11px]">
+          <span
+            className="mr-1 inline-block h-0 w-4 border-t-2 border-dashed align-middle"
+            style={{ borderColor: reference.stroke ?? "#94a3b8" }}
+          />
+          Reference: {reference.label}
+        </p>
+      )}
     </div>
   );
 }

@@ -47,7 +47,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       onNext={onNext}
       nextLabel="Complications →"
     >
-      <div className="flex h-full min-h-0 flex-col gap-2 sm:gap-3">
+      <div className="flex min-h-0 flex-col gap-3 sm:h-full sm:gap-3">
         <div className="flex shrink-0 justify-center">
           <div
             className={`relative flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl sm:h-36 sm:w-36 ${
@@ -66,9 +66,9 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
           </div>
         </div>
 
-        <div className="min-h-[150px] flex-1 sm:min-h-[170px]">
+        <div className="min-h-[130px] sm:min-h-[170px]">
           <OutcomeTrendChart
-            title="Refractive accuracy ±1.0D — Woodlands specialist trend"
+            title="Refractive ±1.0D — Woodlands specialist trend"
             seriesLabel="Within ±1.0D"
             data={MONTHLY_REFRACTIVE_1D_TREND}
             stroke="#0d9488"
@@ -85,7 +85,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
           {SPECIALIST_CARE_FOOTNOTE} · VA ≥ 6/12 cohort · {COHORT_CASE_COUNT} cases ·{" "}
           {REPORTING_WINDOW_LABEL}
         </p>
-        <p className="shrink-0 border-t border-slate-200 pt-2 text-left text-[9px] leading-snug text-slate-500 sm:text-[10px]">
+        <p className="hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
           <span className="font-semibold text-slate-600">
             Reference (NHS, {NHS_REFRACTIVE_REFERENCE_PERCENT}% within ±1.0D):{" "}
           </span>

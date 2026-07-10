@@ -29,13 +29,13 @@ export function OutcomePageShell({
   }, [headline]);
 
   return (
-    <section className="flex h-[calc(100dvh-6.5rem)] max-h-[780px] min-h-[520px] flex-col">
+    <section className="flex flex-col sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px]">
       <div className="mb-2 shrink-0 text-center sm:mb-3">
         <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal sm:text-xs">
           {eyebrow}
         </p>
         <h2
-          className={`mt-2 text-lg font-extrabold leading-snug text-brand-navy sm:text-2xl ${
+          className={`mt-2 text-balance text-lg font-extrabold leading-snug text-brand-navy sm:text-2xl ${
             showHeadline ? "animate-scale-jump" : "opacity-0"
           }`}
         >
@@ -43,7 +43,7 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      <div className="min-h-0 flex-1">{children}</div>
+      <div className="min-h-0 flex-1 overflow-y-auto sm:overflow-visible">{children}</div>
 
       <div className="mt-3 flex shrink-0 gap-2 sm:mt-4 sm:gap-3">
         {onBack && (

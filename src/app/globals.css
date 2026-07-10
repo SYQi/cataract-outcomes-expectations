@@ -11,6 +11,12 @@ body {
   color: var(--foreground);
   background: var(--background);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 input[type="range"] {

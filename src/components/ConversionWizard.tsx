@@ -133,7 +133,7 @@ export function ConversionWizard() {
       </header>
 
       {step === "details" && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
           <h2 className="text-lg font-semibold text-brand-navy">Patient details</h2>
           <p className="mt-1 text-sm text-slate-500">
             Please enter your details to begin the assessment.
@@ -188,7 +188,7 @@ export function ConversionWizard() {
 
       {step === "assessment" && (
         <section className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
             <h2 className="text-lg font-semibold text-brand-navy">CAT-PROM5 questionnaire</h2>
             <p className="mt-1 text-sm text-slate-500">
               Slide each bar to indicate how your eyesight affects you today. Green = no
@@ -197,7 +197,7 @@ export function ConversionWizard() {
           </div>
 
           {CAT_PROM5_QUESTIONS.map((q, i) => (
-            <div key={q.id} className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div key={q.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-brand-navy">
                 {String.fromCharCode(65 + i)}) {q.label}
               </p>
@@ -218,7 +218,7 @@ export function ConversionWizard() {
             </div>
           ))}
 
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
             <h3 className="text-lg font-semibold text-brand-navy">Current visual acuity</h3>
             <p className="mt-1 text-sm text-slate-500">
               Select your current vision in the affected eye (with glasses if worn).
@@ -236,7 +236,7 @@ export function ConversionWizard() {
               />
             </div>
             <p className="mt-3 text-center text-xl font-bold text-brand-navy">{visualAcuity}</p>
-            <div className="mt-2 flex flex-wrap justify-center gap-1">
+            <div className="mt-2 grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:justify-center">
               {VA_OPTIONS.map((va, i) => (
                 <button
                   key={va}
@@ -254,9 +254,20 @@ export function ConversionWizard() {
             </div>
           </div>
 
-          <div className="rounded-xl bg-slate-100 px-4 py-3 text-center text-sm text-slate-600">
-            Raw score: <strong>{scores.raw}</strong> · Logit: <strong>{scores.logit}</strong> ·
-            CAT-PROM5 (0–100): <strong>{scores.score100}</strong>
+          <div className="rounded-xl bg-slate-100 px-4 py-3">
+            <div className="flex flex-col gap-1 text-center text-sm text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-3">
+              <span>
+                Raw score: <strong>{scores.raw}</strong>
+              </span>
+              <span className="hidden sm:inline">·</span>
+              <span>
+                Logit: <strong>{scores.logit}</strong>
+              </span>
+              <span className="hidden sm:inline">·</span>
+              <span>
+                CAT-PROM5 (0–100): <strong>{scores.score100}</strong>
+              </span>
+            </div>
           </div>
 
           <div className="flex gap-3">

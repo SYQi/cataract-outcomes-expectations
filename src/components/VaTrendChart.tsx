@@ -9,7 +9,7 @@ import {
 export function VaTrendChart() {
   return (
     <OutcomeTrendChart
-      title="VA 6/12 or better — Woodlands specialist trend"
+      title="VA 6/12+ — Woodlands specialist trend"
       seriesLabel="6/12 or better"
       data={MONTHLY_VA_612_TREND}
       reference={{
