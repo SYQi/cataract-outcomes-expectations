@@ -13,6 +13,8 @@ type UseSessionTrackerArgs = {
   patientName: string;
   nric: string;
   formDateTime: string;
+  insurer: string;
+  consultant: string;
   catProm5Score: number | null;
   visualAcuity: string | null;
 };
@@ -42,6 +44,8 @@ export function useSessionTracker({
   patientName,
   nric,
   formDateTime,
+  insurer,
+  consultant,
   catProm5Score,
   visualAcuity,
 }: UseSessionTrackerArgs) {
@@ -54,6 +58,8 @@ export function useSessionTracker({
     patientName,
     nric,
     formDateTime,
+    insurer,
+    consultant,
     catProm5Score,
     visualAcuity,
   });
@@ -63,10 +69,12 @@ export function useSessionTracker({
       patientName,
       nric,
       formDateTime,
+      insurer,
+      consultant,
       catProm5Score,
       visualAcuity,
     };
-  }, [patientName, nric, formDateTime, catProm5Score, visualAcuity]);
+  }, [patientName, nric, formDateTime, insurer, consultant, catProm5Score, visualAcuity]);
 
   const accumulateCurrentPage = useCallback(() => {
     const elapsedMs = Date.now() - pageEnteredAtRef.current;
@@ -87,6 +95,8 @@ export function useSessionTracker({
         patientName: meta.patientName,
         nric: meta.nric,
         formDateTime: meta.formDateTime,
+        insurer: meta.insurer || undefined,
+        consultant: meta.consultant || undefined,
         startedAtIso: startedAtIsoRef.current,
         endedAtIso: new Date().toISOString(),
         pageSeconds,
@@ -140,7 +150,7 @@ export function useSessionTracker({
     startedAtIsoRef.current = new Date().toISOString();
     pageSecondsRef.current = emptyPageSeconds();
     pageEnteredAtRef.current = Date.now();
-    currentPageRef.current = "details";
+    currentPageRef.current = "admin";
   }, [flush]);
 
   return { flush, finalizeAndReset };

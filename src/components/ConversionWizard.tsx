@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { AdminPage } from "@/components/AdminPage";
+import { CareTeamPage } from "@/components/CareTeamPage";
 import { ComplicationsOutcomePage } from "@/components/ComplicationsOutcomePage";
 import { GradientSlider } from "@/components/GradientSlider";
 import { NewPatientPasswordGate } from "@/components/NewPatientPasswordGate";
@@ -15,26 +17,30 @@ import {
   type CatProm5Answers,
 } from "@/lib/catProm5";
 import { formatGmt8Timestamp } from "@/lib/datetime";
+import { EMPTY_PATIENT_INTAKE, type PatientIntake } from "@/lib/patientRegistry";
 import { useOutcomeSwipe } from "@/hooks/useOutcomeSwipe";
 import { useSessionTracker } from "@/hooks/useSessionTracker";
 import type { TrackedPage } from "@/lib/sessionAnalytics";
 import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
 
-type Step = "details" | "assessment" | "va" | "refraction" | "complications" | "proms";
+type Step =
+  | "admin"
+  | "details"
+  | "assessment"
+  | "va"
+  | "refraction"
+  | "complications"
+  | "care-team"
+  | "proms";
 
-const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "proms"];
+const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "care-team", "proms"];
 
-type PatientDetails = {
-  name: string;
-  nric: string;
-  dateTime: string;
-};
+const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", ...OUTCOME_STEPS];
 
 export function ConversionWizard() {
-  const [step, setStep] = useState<Step>("details");
-  const [patient, setPatient] = useState<PatientDetails>({
-    name: "",
-    nric: "",
+  const [step, setStep] = useState<Step>("admin");
+  const [patient, setPatient] = useState<PatientIntake>({
+    ...EMPTY_PATIENT_INTAKE,
     dateTime: "",
   });
   const [answers, setAnswers] = useState<CatProm5Answers>(DEFAULT_CAT_PROM5_ANSWERS);
@@ -47,7 +53,11 @@ export function ConversionWizard() {
   }, []);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
-  const step1Valid = patient.name.trim().length > 0 && patient.nric.trim().length > 0;
+  const verifyValid =
+    patient.name.trim().length > 0 &&
+    patient.nric.trim().length > 0 &&
+    patient.insurer !== "" &&
+    patient.consultant !== "";
   const isOutcome = OUTCOME_STEPS.includes(step);
 
   const { finalizeAndReset } = useSessionTracker({
@@ -55,8 +65,11 @@ export function ConversionWizard() {
     patientName: patient.name,
     nric: patient.nric,
     formDateTime: patient.dateTime,
-    catProm5Score: step === "details" ? null : scores.score100,
-    visualAcuity: step === "details" || step === "assessment" ? null : visualAcuity,
+    insurer: patient.insurer,
+    consultant: patient.consultant,
+    catProm5Score: step === "admin" || step === "details" ? null : scores.score100,
+    visualAcuity:
+      step === "admin" || step === "details" || step === "assessment" ? null : visualAcuity,
   });
 
   const handleVaChange = (index: number) => {
@@ -67,8 +80,8 @@ export function ConversionWizard() {
 
   const resetPatient = async () => {
     await finalizeAndReset();
-    setStep("details");
-    setPatient({ name: "", nric: "", dateTime: formatGmt8Timestamp() });
+    setStep("admin");
+    setPatient({ ...EMPTY_PATIENT_INTAKE, dateTime: formatGmt8Timestamp() });
     setAnswers(DEFAULT_CAT_PROM5_ANSWERS);
     setVisualAcuity("6/24");
     setVaSliderIndex(4);
@@ -76,18 +89,21 @@ export function ConversionWizard() {
   };
 
   const outcomeIndex = OUTCOME_STEPS.indexOf(step);
+  const progressIndex = PROGRESS_STEPS.indexOf(step);
 
   const onSwipeLeft = useCallback(() => {
     if (step === "va") setStep("refraction");
     else if (step === "refraction") setStep("complications");
-    else if (step === "complications") setStep("proms");
+    else if (step === "complications") setStep("care-team");
+    else if (step === "care-team") setStep("proms");
   }, [step]);
 
   const onSwipeRight = useCallback(() => {
     if (step === "va") setStep("assessment");
     else if (step === "refraction") setStep("va");
     else if (step === "complications") setStep("refraction");
-    else if (step === "proms") setStep("complications");
+    else if (step === "care-team") setStep("complications");
+    else if (step === "proms") setStep("care-team");
   }, [step]);
 
   const { active: swipeNavActive, onTouchStart, onTouchEnd } = useOutcomeSwipe({
@@ -95,6 +111,17 @@ export function ConversionWizard() {
     onSwipeLeft,
     onSwipeRight,
   });
+
+  const outcomeLabel =
+    step === "va"
+      ? "Visual acuity"
+      : step === "refraction"
+        ? "Refractive accuracy"
+        : step === "complications"
+          ? "Complications"
+          : step === "care-team"
+            ? "Your care team"
+            : "PROMS";
 
   return (
     <div
@@ -113,42 +140,38 @@ export function ConversionWizard() {
               <span className="mt-1 block">Outcomes and Expectations</span>
             </h1>
             <p className="mt-2 text-sm text-slate-600">
-              See how your vision and quality of life may improve after cataract surgery.
+              Please verify your details before starting the assessment.
             </p>
           </>
         )}
-        {step !== "details" && !isOutcome && (
+        {step === "admin" && (
+          <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Staff intake</h1>
+        )}
+        {step === "assessment" && (
           <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Assessment</h1>
         )}
-        <div className={`flex justify-center gap-1.5 sm:gap-2 ${step === "details" ? "mt-3 sm:mt-4" : "mt-1"}`}>
-          {(["details", "assessment", ...OUTCOME_STEPS] as Step[]).map((s) => {
-            const active =
-              s === step ||
-              (isOutcome && OUTCOME_STEPS.includes(s) && OUTCOME_STEPS.indexOf(s) <= outcomeIndex) ||
-              (step === "assessment" && s === "details") ||
-              (isOutcome && (s === "details" || s === "assessment"));
-            return (
-              <div
-                key={s}
-                className={`h-1.5 rounded-full transition-all sm:h-2 ${
-                  active ? "w-8 bg-brand-navy sm:w-10" : "w-5 bg-slate-200 sm:w-6"
-                }`}
-                title={s}
-              />
-            );
-          })}
-        </div>
+        {step !== "admin" && (
+          <div
+            className={`flex justify-center gap-1 sm:gap-1.5 ${step === "details" ? "mt-3 sm:mt-4" : "mt-1"}`}
+          >
+            {PROGRESS_STEPS.map((s) => {
+              const active = PROGRESS_STEPS.indexOf(s) <= progressIndex;
+              return (
+                <div
+                  key={s}
+                  className={`h-1.5 rounded-full transition-all sm:h-2 ${
+                    active ? "w-6 bg-brand-navy sm:w-8" : "w-3 bg-slate-200 sm:w-4"
+                  }`}
+                  title={s}
+                />
+              );
+            })}
+          </div>
+        )}
         {isOutcome && (
           <>
             <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-              {outcomeIndex + 1} of {OUTCOME_STEPS.length} ·{" "}
-              {step === "va"
-                ? "Visual acuity"
-                : step === "refraction"
-                  ? "Refractive accuracy"
-                  : step === "complications"
-                    ? "Complications"
-                    : "PROMS"}
+              {outcomeIndex + 1} of {OUTCOME_STEPS.length} · {outcomeLabel}
             </p>
             {swipeNavActive && (
               <p className="mt-1 text-[10px] text-slate-400">Swipe left or right between outcome pages</p>
@@ -157,57 +180,55 @@ export function ConversionWizard() {
         )}
       </header>
 
+      {step === "admin" && (
+        <AdminPage
+          patient={patient}
+          onChange={setPatient}
+          onContinue={() => setStep("details")}
+        />
+      )}
+
       {step === "details" && (
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-          <h2 className="text-lg font-semibold text-brand-navy">Patient details</h2>
+          <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
           <p className="mt-1 text-sm text-slate-500">
-            Please enter your details to begin the assessment.
+            These were entered by staff. Please confirm they are correct before continuing.
           </p>
 
           <div className="mt-6 space-y-5">
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">Full name</span>
-              <input
-                type="text"
-                value={patient.name}
-                onChange={(e) => setPatient((p) => ({ ...p, name: e.target.value }))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-base focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-navy/20"
-                placeholder="Enter patient name"
-                autoComplete="name"
-              />
-            </label>
-
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">NRIC</span>
-              <input
-                type="text"
-                value={patient.nric}
-                onChange={(e) => setPatient((p) => ({ ...p, nric: e.target.value.toUpperCase() }))}
-                className="mt-1 w-full rounded-lg border border-slate-300 px-4 py-3 text-base uppercase focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-navy/20"
-                placeholder="e.g. S1234567A"
-                autoComplete="off"
-              />
-            </label>
-
-            <label className="block">
-              <span className="text-sm font-medium text-slate-700">Date &amp; time (GMT+8)</span>
-              <input
-                type="text"
-                readOnly
-                value={patient.dateTime}
-                className="mt-1 w-full cursor-default rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-600"
-              />
-            </label>
+            {[
+              { label: "Full name", value: patient.name },
+              { label: "NRIC", value: patient.nric },
+              { label: "Insurer", value: patient.insurer },
+              { label: "Specialist consultant", value: patient.consultant },
+              { label: "Date & time (GMT+8)", value: patient.dateTime },
+            ].map((field) => (
+              <div key={field.label} className="block">
+                <span className="text-sm font-medium text-slate-700">{field.label}</span>
+                <div className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-800">
+                  {field.value || "—"}
+                </div>
+              </div>
+            ))}
           </div>
 
-          <button
-            type="button"
-            disabled={!step1Valid}
-            onClick={() => setStep("assessment")}
-            className="mt-8 w-full rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Continue to assessment
-          </button>
+          <div className="mt-8 flex gap-3">
+            <button
+              type="button"
+              onClick={() => setStep("admin")}
+              className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              Back to staff
+            </button>
+            <button
+              type="button"
+              disabled={!verifyValid}
+              onClick={() => setStep("assessment")}
+              className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Confirm &amp; continue
+            </button>
+          </div>
         </section>
       )}
 
@@ -334,6 +355,14 @@ export function ConversionWizard() {
           {step === "complications" && (
             <ComplicationsOutcomePage
               onBack={() => setStep("refraction")}
+              onNext={() => setStep("care-team")}
+            />
+          )}
+
+          {step === "care-team" && (
+            <CareTeamPage
+              patient={patient}
+              onBack={() => setStep("complications")}
               onNext={() => setStep("proms")}
             />
           )}
@@ -341,7 +370,7 @@ export function ConversionWizard() {
           {step === "proms" && (
             <PromsOutcomePage
               patientScore={scores.score100}
-              onBack={() => setStep("complications")}
+              onBack={() => setStep("care-team")}
               onNewPatient={() => setShowNewPatientGate(true)}
             />
           )}

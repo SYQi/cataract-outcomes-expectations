@@ -50,7 +50,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel="Quality of life →"
+      nextLabel="Your care team →"
     >
       <div className="flex min-h-0 flex-col gap-3 sm:gap-4">
         <div
@@ -82,50 +82,47 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             All-cause intraoperative complications — specialist outcomes at Woodlands Hospital
           </p>
 
-          <div className="mx-auto mt-4 flex max-w-md items-end justify-center gap-4 sm:gap-6">
-            <div className="flex w-[42%] flex-col items-center sm:w-[45%]">
-              <div className="relative h-32 w-full sm:h-36">
-                <div className="absolute inset-x-0 bottom-0 top-0">
-                  <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
-                  <div
-                    className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
-                    style={{ height: `${rcoLowHeightPct}%` }}
-                  />
-                  <p
-                    className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-amber-800 sm:text-xs"
-                    style={{ bottom: "calc(100% + 3px)" }}
-                  >
-                    {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
-                  </p>
-                </div>
+          <div className="mx-auto mt-4 max-w-md">
+            <div className="flex justify-center gap-4 sm:gap-6">
+              <div className="relative h-32 w-[42%] sm:h-36 sm:w-[45%]">
+                <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
+                <div
+                  className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
+                  style={{ height: `${rcoLowHeightPct}%` }}
+                />
+                <p
+                  className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-semibold text-amber-800 sm:text-xs"
+                  style={{ bottom: "calc(100% + 3px)" }}
+                >
+                  {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
+                </p>
               </div>
-              <div className="mt-2 px-0.5">
-                <p className="text-center text-[10px] font-bold leading-snug text-amber-900 sm:text-[11px]">
+
+              <div className="relative h-32 w-[42%] sm:h-36 sm:w-[45%]">
+                <div
+                  className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
+                  style={{ height: `${whHeightPct}%` }}
+                />
+                <p
+                  className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-brand-navy sm:text-xs"
+                  style={{ bottom: `calc(${whHeightPct}% + 3px)` }}
+                >
+                  {COMPLICATION_RATE_PERCENT}%
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-2 flex justify-center gap-4 sm:gap-6">
+              <div className="w-[42%] px-0.5 text-center sm:w-[45%]">
+                <p className="text-[10px] font-bold leading-snug text-amber-900 sm:text-[11px]">
                   <span className="sm:hidden">RCOphth (UK)</span>
                   <span className="hidden sm:inline">
                     Royal College of Ophthalmologists, United Kingdom
                   </span>
                 </p>
               </div>
-            </div>
-
-            <div className="flex w-[42%] flex-col items-center sm:w-[45%]">
-              <div className="relative h-32 w-full sm:h-36">
-                <div className="absolute inset-x-0 bottom-0 top-0">
-                  <div
-                    className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
-                    style={{ height: `${whHeightPct}%` }}
-                  />
-                  <p
-                    className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold text-brand-navy sm:text-xs"
-                    style={{ bottom: `calc(${whHeightPct}% + 3px)` }}
-                  >
-                    {COMPLICATION_RATE_PERCENT}%
-                  </p>
-                </div>
-              </div>
-              <div className="mt-2 px-0.5">
-                <p className="text-center text-[10px] font-bold uppercase tracking-wide text-brand-navy sm:text-[11px]">
+              <div className="w-[42%] px-0.5 text-center sm:w-[45%]">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-brand-navy sm:text-[11px]">
                   Woodlands
                 </p>
               </div>

@@ -19,7 +19,7 @@ export function PromsOutcomePage({ patientScore, onBack, onNewPatient }: PromsOu
       onBack={onBack}
       onNext={onNewPatient}
       nextLabel="New patient"
-      backLabel="← Complications"
+      backLabel="← Your care team"
     >
       <div className="flex min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:h-full sm:p-6">
         <div className="min-h-0 flex-1">

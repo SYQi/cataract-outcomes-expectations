@@ -1,10 +1,12 @@
 /** Page keys tracked for dwell-time analytics. */
 export const TRACKED_PAGES = [
+  "admin",
   "details",
   "assessment",
   "va",
   "refraction",
   "complications",
+  "care-team",
   "proms",
 ] as const;
 
@@ -18,6 +20,8 @@ export type PatientSessionRecord = {
   nric: string;
   /** GMT+8 display timestamp captured on the form. */
   formDateTime: string;
+  insurer?: string;
+  consultant?: string;
   startedAtIso: string;
   endedAtIso: string;
   pageSeconds: PageDurationsSeconds;
@@ -29,11 +33,13 @@ export type PatientSessionRecord = {
 
 export function emptyPageSeconds(): PageDurationsSeconds {
   return {
+    admin: 0,
     details: 0,
     assessment: 0,
     va: 0,
     refraction: 0,
     complications: 0,
+    "care-team": 0,
     proms: 0,
   };
 }
@@ -43,10 +49,12 @@ export function isTrackedPage(value: string): value is TrackedPage {
 }
 
 export const PAGE_LABELS: Record<TrackedPage, string> = {
-  details: "Patient details",
+  admin: "Administrator (staff)",
+  details: "Patient verification",
   assessment: "CAT-PROM5 + VA assessment",
   va: "Visual acuity outcomes",
   refraction: "Refractive accuracy",
   complications: "Complications",
+  "care-team": "Insurer & consultant",
   proms: "PROMS / quality of life",
 };
