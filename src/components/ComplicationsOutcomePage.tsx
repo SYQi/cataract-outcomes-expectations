@@ -50,7 +50,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel="Your care team →"
+      nextLabel="Quality of life →"
     >
       <div className="flex min-h-0 flex-col gap-3 sm:gap-4">
         <div

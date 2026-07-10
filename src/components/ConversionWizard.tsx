@@ -33,7 +33,7 @@ type Step =
   | "care-team"
   | "proms";
 
-const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "care-team", "proms"];
+const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "proms", "care-team"];
 
 const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", ...OUTCOME_STEPS];
 
@@ -94,16 +94,16 @@ export function ConversionWizard() {
   const onSwipeLeft = useCallback(() => {
     if (step === "va") setStep("refraction");
     else if (step === "refraction") setStep("complications");
-    else if (step === "complications") setStep("care-team");
-    else if (step === "care-team") setStep("proms");
+    else if (step === "complications") setStep("proms");
+    else if (step === "proms") setStep("care-team");
   }, [step]);
 
   const onSwipeRight = useCallback(() => {
     if (step === "va") setStep("assessment");
     else if (step === "refraction") setStep("va");
     else if (step === "complications") setStep("refraction");
-    else if (step === "care-team") setStep("complications");
-    else if (step === "proms") setStep("care-team");
+    else if (step === "proms") setStep("complications");
+    else if (step === "care-team") setStep("proms");
   }, [step]);
 
   const { active: swipeNavActive, onTouchStart, onTouchEnd } = useOutcomeSwipe({
@@ -119,9 +119,9 @@ export function ConversionWizard() {
         ? "Refractive accuracy"
         : step === "complications"
           ? "Complications"
-          : step === "care-team"
-            ? "Your care team"
-            : "PROMS";
+          : step === "proms"
+            ? "PROMS"
+            : "Your care team";
 
   return (
     <div
@@ -355,14 +355,6 @@ export function ConversionWizard() {
           {step === "complications" && (
             <ComplicationsOutcomePage
               onBack={() => setStep("refraction")}
-              onNext={() => setStep("care-team")}
-            />
-          )}
-
-          {step === "care-team" && (
-            <CareTeamPage
-              patient={patient}
-              onBack={() => setStep("complications")}
               onNext={() => setStep("proms")}
             />
           )}
@@ -370,7 +362,15 @@ export function ConversionWizard() {
           {step === "proms" && (
             <PromsOutcomePage
               patientScore={scores.score100}
-              onBack={() => setStep("care-team")}
+              onBack={() => setStep("complications")}
+              onNext={() => setStep("care-team")}
+            />
+          )}
+
+          {step === "care-team" && (
+            <CareTeamPage
+              patient={patient}
+              onBack={() => setStep("proms")}
               onNewPatient={() => setShowNewPatientGate(true)}
             />
           )}

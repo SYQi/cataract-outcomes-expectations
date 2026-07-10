@@ -13,10 +13,10 @@ import {
 type CareTeamPageProps = {
   patient: PatientIntake;
   onBack: () => void;
-  onNext: () => void;
+  onNewPatient: () => void;
 };
 
-export function CareTeamPage({ patient, onBack, onNext }: CareTeamPageProps) {
+export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProps) {
   const insurer = patient.insurer as Insurer;
   const consultant = patient.consultant as ConsultantName;
   const profile = CONSULTANT_PROFILES[consultant];
@@ -33,9 +33,9 @@ export function CareTeamPage({ patient, onBack, onNext }: CareTeamPageProps) {
         </>
       }
       onBack={onBack}
-      onNext={onNext}
-      nextLabel="Quality of life →"
-      backLabel="← Complications"
+      onNext={onNewPatient}
+      nextLabel="New patient"
+      backLabel="← Quality of life"
     >
       <div className="flex min-h-0 flex-col gap-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
@@ -47,9 +47,9 @@ export function CareTeamPage({ patient, onBack, onNext }: CareTeamPageProps) {
             <Image
               src={insurerLogoPath(insurer)}
               alt={`${insurer} logo`}
-              width={240}
-              height={80}
-              className="h-16 w-auto max-w-[220px] object-contain sm:h-20"
+              width={280}
+              height={100}
+              className="h-16 w-auto max-w-[260px] object-contain sm:h-20"
             />
           </div>
         </div>

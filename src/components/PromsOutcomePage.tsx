@@ -8,18 +8,18 @@ import { CAT_PROM5_CITATION } from "@/lib/whOutcomes";
 type PromsOutcomePageProps = {
   patientScore: number;
   onBack: () => void;
-  onNewPatient: () => void;
+  onNext: () => void;
 };
 
-export function PromsOutcomePage({ patientScore, onBack, onNewPatient }: PromsOutcomePageProps) {
+export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomePageProps) {
   return (
     <OutcomePageShell
       eyebrow="Patient-reported outcomes"
       headline={<>Better Sight, Happier Lives</>}
       onBack={onBack}
-      onNext={onNewPatient}
-      nextLabel="New patient"
-      backLabel="← Your care team"
+      onNext={onNext}
+      nextLabel="Your care team →"
+      backLabel="← Complications"
     >
       <div className="flex min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:h-full sm:p-6">
         <div className="min-h-0 flex-1">

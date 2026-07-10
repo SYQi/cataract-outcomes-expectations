@@ -172,18 +172,18 @@ export const CONSULTANT_PROFILES: Record<ConsultantName, ConsultantProfile> = {
   },
 };
 
-/** Logo file under /public/insurers/ (SVG, sourced from public brand assets). */
+/** Logo file under /public/insurers/ (official brand assets). */
 export function insurerLogoPath(insurer: Insurer): string {
-  const slug: Record<Insurer, string> = {
-    AIA: "aia",
-    "Great Eastern": "great-eastern",
-    Prudential: "prudential",
-    Singlife: "singlife",
-    "NTUC Income": "ntuc-income",
-    Raffles: "raffles",
-    HSBC: "hsbc",
+  const file: Record<Insurer, string> = {
+    AIA: "aia.jpg",
+    "Great Eastern": "great-eastern.webp",
+    Prudential: "prudential.webp",
+    Singlife: "singlife.png",
+    "NTUC Income": "ntuc-income.png",
+    Raffles: "raffles.png",
+    HSBC: "hsbc.svg",
   };
-  return `/insurers/${slug[insurer]}.svg`;
+  return `/insurers/${file[insurer]}`;
 }
 
 export type PatientIntake = {
