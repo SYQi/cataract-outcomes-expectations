@@ -3,7 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 
 type OutcomePageShellProps = {
-  eyebrow: string;
+  eyebrow?: string;
   headline: ReactNode;
   children: ReactNode;
   onBack?: () => void;
@@ -31,11 +31,13 @@ export function OutcomePageShell({
   return (
     <section className="flex flex-col sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px]">
       <div className="mb-2 shrink-0 text-center sm:mb-3">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal sm:text-xs">
-          {eyebrow}
-        </p>
+        {eyebrow ? (
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal sm:text-xs">
+            {eyebrow}
+          </p>
+        ) : null}
         <h2
-          className={`mt-2 text-balance text-lg font-extrabold leading-snug text-brand-navy sm:text-2xl ${
+          className={`${eyebrow ? "mt-2" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy sm:text-2xl ${
             showHeadline ? "animate-scale-jump" : "opacity-0"
           }`}
         >

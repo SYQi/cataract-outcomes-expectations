@@ -172,12 +172,14 @@ export const CONSULTANT_PROFILES: Record<ConsultantName, ConsultantProfile> = {
   },
 };
 
+import type { VisualAcuity } from "@/lib/va";
+
 /** Logo file under /public/insurers/ (official brand assets). */
 export function insurerLogoPath(insurer: Insurer): string {
   const file: Record<Insurer, string> = {
     AIA: "aia.jpg",
     "Great Eastern": "great-eastern.webp",
-    Prudential: "prudential.webp",
+    Prudential: "prudential.png",
     Singlife: "singlife.png",
     "NTUC Income": "ntuc-income.png",
     Raffles: "raffles.png",
@@ -190,6 +192,7 @@ export type PatientIntake = {
   name: string;
   nric: string;
   dateTime: string;
+  visualAcuity: VisualAcuity | "";
   insurer: Insurer | "";
   consultant: ConsultantName | "";
 };
@@ -198,6 +201,7 @@ export const EMPTY_PATIENT_INTAKE: PatientIntake = {
   name: "",
   nric: "",
   dateTime: "",
+  visualAcuity: "",
   insurer: "",
   consultant: "",
 };

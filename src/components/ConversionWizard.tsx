@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AdminPage } from "@/components/AdminPage";
 import { CareTeamPage } from "@/components/CareTeamPage";
+import { CatProm5QuestionPage } from "@/components/CatProm5QuestionPage";
 import { ComplicationsOutcomePage } from "@/components/ComplicationsOutcomePage";
-import { GradientSlider } from "@/components/GradientSlider";
 import { NewPatientPasswordGate } from "@/components/NewPatientPasswordGate";
 import { PromsOutcomePage } from "@/components/PromsOutcomePage";
 import { RefractiveOutcomePage } from "@/components/RefractiveOutcomePage";
@@ -21,7 +21,7 @@ import { EMPTY_PATIENT_INTAKE, type PatientIntake } from "@/lib/patientRegistry"
 import { useOutcomeSwipe } from "@/hooks/useOutcomeSwipe";
 import { useSessionTracker } from "@/hooks/useSessionTracker";
 import type { TrackedPage } from "@/lib/sessionAnalytics";
-import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
+import type { VisualAcuity } from "@/lib/va";
 
 type Step =
   | "admin"
@@ -44,8 +44,7 @@ export function ConversionWizard() {
     dateTime: "",
   });
   const [answers, setAnswers] = useState<CatProm5Answers>(DEFAULT_CAT_PROM5_ANSWERS);
-  const [visualAcuity, setVisualAcuity] = useState<VisualAcuity>("6/24");
-  const [vaSliderIndex, setVaSliderIndex] = useState(4);
+  const [catQuestionIndex, setCatQuestionIndex] = useState(0);
   const [showNewPatientGate, setShowNewPatientGate] = useState(false);
 
   useEffect(() => {
@@ -53,12 +52,9 @@ export function ConversionWizard() {
   }, []);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
-  const verifyValid =
-    patient.name.trim().length > 0 &&
-    patient.nric.trim().length > 0 &&
-    patient.insurer !== "" &&
-    patient.consultant !== "";
+  const verifyValid = patient.name.trim().length > 0 && patient.nric.trim().length > 0;
   const isOutcome = OUTCOME_STEPS.includes(step);
+  const visualAcuity = patient.visualAcuity as VisualAcuity;
 
   const { finalizeAndReset } = useSessionTracker({
     step: step as TrackedPage,
@@ -67,25 +63,32 @@ export function ConversionWizard() {
     formDateTime: patient.dateTime,
     insurer: patient.insurer,
     consultant: patient.consultant,
-    catProm5Score: step === "admin" || step === "details" ? null : scores.score100,
+    catProm5Score: step === "admin" || step === "details" || step === "assessment" ? null : scores.score100,
     visualAcuity:
-      step === "admin" || step === "details" || step === "assessment" ? null : visualAcuity,
+      step === "admin" || step === "details" || step === "assessment" || !visualAcuity
+        ? null
+        : visualAcuity,
   });
-
-  const handleVaChange = (index: number) => {
-    const clamped = Math.max(0, Math.min(VA_OPTIONS.length - 1, index));
-    setVaSliderIndex(clamped);
-    setVisualAcuity(VA_OPTIONS[clamped]);
-  };
 
   const resetPatient = async () => {
     await finalizeAndReset();
     setStep("admin");
     setPatient({ ...EMPTY_PATIENT_INTAKE, dateTime: formatGmt8Timestamp() });
     setAnswers(DEFAULT_CAT_PROM5_ANSWERS);
-    setVisualAcuity("6/24");
-    setVaSliderIndex(4);
+    setCatQuestionIndex(0);
     setShowNewPatientGate(false);
+  };
+
+  const handleCatAnswer = (questionId: keyof CatProm5Answers, value: number) => {
+    setAnswers((a) => ({ ...a, [questionId]: value }));
+  };
+
+  const handleCatRelease = () => {
+    if (catQuestionIndex < CAT_PROM5_QUESTIONS.length - 1) {
+      setCatQuestionIndex((i) => i + 1);
+    } else {
+      setStep("va");
+    }
   };
 
   const outcomeIndex = OUTCOME_STEPS.indexOf(step);
@@ -148,7 +151,10 @@ export function ConversionWizard() {
           <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Staff intake</h1>
         )}
         {step === "assessment" && (
-          <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Assessment</h1>
+          <>
+            <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Assessment</h1>
+            <p className="mt-1 text-sm text-slate-500">CAT-PROM5 questionnaire</p>
+          </>
         )}
         {step !== "admin" && (
           <div
@@ -199,8 +205,6 @@ export function ConversionWizard() {
             {[
               { label: "Full name", value: patient.name },
               { label: "NRIC", value: patient.nric },
-              { label: "Insurer", value: patient.insurer },
-              { label: "Specialist consultant", value: patient.consultant },
               { label: "Date & time (GMT+8)", value: patient.dateTime },
             ].map((field) => (
               <div key={field.label} className="block">
@@ -223,7 +227,10 @@ export function ConversionWizard() {
             <button
               type="button"
               disabled={!verifyValid}
-              onClick={() => setStep("assessment")}
+              onClick={() => {
+                setCatQuestionIndex(0);
+                setStep("assessment");
+              }}
               className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Confirm &amp; continue
@@ -233,114 +240,34 @@ export function ConversionWizard() {
       )}
 
       {step === "assessment" && (
-        <section className="space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-            <h2 className="text-[1.35rem] font-semibold text-brand-navy">CAT-PROM5 questionnaire</h2>
-            <p className="mt-1 text-[1.05rem] text-slate-500">
-              Slide each bar to indicate how your eyesight affects you today. Green = no
-              impairment; red = worst impairment.
-            </p>
-          </div>
-
-          {CAT_PROM5_QUESTIONS.map((q, i) => (
-            <div key={q.id} className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-              <p className="text-[1.05rem] font-medium text-brand-navy">
-                {String.fromCharCode(65 + i)}) {q.label}
-              </p>
-              <p className="mt-1 text-[0.9rem] text-slate-500">
-                {q.minLabel} → {q.maxLabel}
-              </p>
-              <div className="mt-4">
-                <GradientSlider
-                  id={`cat-${q.id}`}
-                  value={answers[q.id]}
-                  min={q.min}
-                  max={q.max}
-                  onChange={(v) => setAnswers((a) => ({ ...a, [q.id]: v }))}
-                  minCaption={`${q.min} — ${q.minLabel}`}
-                  maxCaption={`${q.max} — ${q.maxLabel}`}
-                />
-              </div>
-            </div>
-          ))}
-
-          <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-            <h3 className="text-[1.35rem] font-semibold text-brand-navy">Current visual acuity</h3>
-            <p className="mt-1 text-[1.05rem] text-slate-500">
-              Select your current vision in the affected eye (with glasses if worn).
-            </p>
-            <div className="mt-4">
-              <GradientSlider
-                id="va-slider"
-                value={vaSliderIndex}
-                min={0}
-                max={VA_OPTIONS.length - 1}
-                onChange={handleVaChange}
-                minCaption="6/9 — best"
-                maxCaption="Worse than 6/60"
-                hideValue
-              />
-            </div>
-            <p className="mt-3 text-center text-[1.5rem] font-bold text-brand-navy">{visualAcuity}</p>
-            <div className="mt-2 grid grid-cols-3 gap-1.5 sm:flex sm:flex-wrap sm:justify-center">
-              {VA_OPTIONS.map((va, i) => (
-                <button
-                  key={va}
-                  type="button"
-                  onClick={() => handleVaChange(i)}
-                  className={`rounded-full px-2 py-1 text-[0.9rem] ${
-                    i === vaSliderIndex
-                      ? "bg-brand-navy text-white"
-                      : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {va}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-xl bg-slate-100 px-4 py-3">
-            <div className="flex flex-col gap-1 text-center text-[1.05rem] text-slate-600 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-3">
-              <span>
-                Raw score: <strong>{scores.raw}</strong>
-              </span>
-              <span className="hidden sm:inline">·</span>
-              <span>
-                Logit: <strong>{scores.logit}</strong>
-              </span>
-              <span className="hidden sm:inline">·</span>
-              <span>
-                CAT-PROM5 (0–100): <strong>{scores.score100}</strong>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
+        <section className="space-y-4">
+          <CatProm5QuestionPage
+            questionIndex={catQuestionIndex}
+            answers={answers}
+            onAnswer={handleCatAnswer}
+            onRelease={handleCatRelease}
+          />
+          {catQuestionIndex > 0 && (
             <button
               type="button"
-              onClick={() => setStep("details")}
-              className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50"
+              onClick={() => setCatQuestionIndex((i) => i - 1)}
+              className="w-full rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
             >
-              Back
+              Previous question
             </button>
-            <button
-              type="button"
-              onClick={() => setStep("va")}
-              className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 font-semibold text-white hover:bg-brand-navy/90"
-            >
-              View projected outcomes
-            </button>
-          </div>
+          )}
         </section>
       )}
 
-      {isOutcome && (
+      {isOutcome && visualAcuity && (
         <div className="touch-pan-y" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
           {step === "va" && (
             <VaOutcomePage
               visualAcuity={visualAcuity}
-              onBack={() => setStep("assessment")}
+              onBack={() => {
+                setCatQuestionIndex(CAT_PROM5_QUESTIONS.length - 1);
+                setStep("assessment");
+              }}
               onNext={() => setStep("refraction")}
             />
           )}

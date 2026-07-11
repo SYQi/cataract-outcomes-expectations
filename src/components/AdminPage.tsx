@@ -5,6 +5,7 @@ import {
   INSURERS,
   type PatientIntake,
 } from "@/lib/patientRegistry";
+import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
 import { WhLogo } from "@/components/WhLogo";
 
 type AdminPageProps = {
@@ -17,6 +18,7 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
   const valid =
     patient.name.trim().length > 0 &&
     patient.nric.trim().length > 0 &&
+    patient.visualAcuity !== "" &&
     patient.insurer !== "" &&
     patient.consultant !== "";
 
@@ -58,6 +60,27 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
             placeholder="e.g. S1234567A"
             autoComplete="off"
           />
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Current visual acuity</span>
+          <select
+            value={patient.visualAcuity}
+            onChange={(e) =>
+              onChange({ ...patient, visualAcuity: e.target.value as VisualAcuity | "" })
+            }
+            className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-base focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-navy/20"
+          >
+            <option value="">Select visual acuity</option>
+            {VA_OPTIONS.map((va) => (
+              <option key={va} value={va}>
+                {va}
+              </option>
+            ))}
+          </select>
+          <p className="mt-1 text-xs text-slate-500">
+            Affected eye, with glasses if worn.
+          </p>
         </label>
 
         <label className="block">

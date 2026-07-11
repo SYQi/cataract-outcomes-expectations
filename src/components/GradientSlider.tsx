@@ -7,6 +7,8 @@ type GradientSliderProps = {
   min: number;
   max: number;
   onChange: (value: number) => void;
+  /** Called when the pointer is released after the user adjusts the slider. */
+  onRelease?: (value: number) => void;
   id?: string;
   minCaption?: string;
   maxCaption?: string;
@@ -29,6 +31,7 @@ export function GradientSlider({
   min,
   max,
   onChange,
+  onRelease,
   id,
   minCaption,
   maxCaption,
@@ -37,6 +40,10 @@ export function GradientSlider({
 }: GradientSliderProps) {
   const trackRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
+  const interacted = useRef(false);
+  const latestValue = useRef(value);
+
+  latestValue.current = value;
 
   const updateFromEvent = useCallback(
     (clientX: number) => {
@@ -47,19 +54,25 @@ export function GradientSlider({
     [min, max, onChange],
   );
 
+  const finishInteraction = useCallback(() => {
+    dragging.current = false;
+    if (interacted.current) {
+      onRelease?.(latestValue.current);
+    }
+    interacted.current = false;
+  }, [onRelease]);
+
   const handlePointerDown = (e: React.PointerEvent) => {
     dragging.current = true;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    interacted.current = true;
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     updateFromEvent(e.clientX);
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
     if (!dragging.current) return;
+    interacted.current = true;
     updateFromEvent(e.clientX);
-  };
-
-  const handlePointerUp = () => {
-    dragging.current = false;
   };
 
   const percent = max === min ? 0 : ((value - min) / (max - min)) * 100;
@@ -80,15 +93,20 @@ export function GradientSlider({
         }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
-        onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerUp={finishInteraction}
+        onPointerCancel={finishInteraction}
         onKeyDown={(e) => {
           if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
             e.preventDefault();
+            interacted.current = true;
             onChange(Math.max(min, value - 1));
           } else if (e.key === "ArrowRight" || e.key === "ArrowUp") {
             e.preventDefault();
+            interacted.current = true;
             onChange(Math.min(max, value + 1));
+          } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onRelease?.(value);
           }
         }}
       >

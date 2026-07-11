@@ -23,14 +23,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
 
   return (
     <OutcomePageShell
-      eyebrow="Your care team"
       headline={
-        <>
-          <span className="block">Your insurer and specialist</span>
-          <span className="mt-1 block text-[1.05em] font-bold text-brand-teal">
-            confirmed for this visit
-          </span>
-        </>
+        <span className="block">
+          Your{" "}
+          <span className="text-[1.15em] font-extrabold text-brand-teal">Insurer</span> and{" "}
+          <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist</span> for
+          Cataract Surgery
+        </span>
       }
       onBack={onBack}
       onNext={onNewPatient}
