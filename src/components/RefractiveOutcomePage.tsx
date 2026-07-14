@@ -30,36 +30,31 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       prominentHeadline
       eyebrow="Refractive accuracy"
       headline={
-        <>
-          <span className="block">
-            <span className="text-[1.15em] font-extrabold text-brand-teal">
-              {REFRACTIVE_WITHIN_1D_PERCENT}%
-            </span>{" "}
-            chance you wont need glasses when looking far:
-          </span>
-          <span className="mt-1 block">
-            <span className="text-[1.15em] font-extrabold text-brand-teal">Consultant-led</span>{" "}
-            surgeries
-          </span>
-        </>
+        <span className="block">
+          No Glasses Required After Surgery:{" "}
+          <span className="text-[1.15em] font-extrabold text-brand-teal">
+            {REFRACTIVE_WITHIN_1D_PERCENT}%
+          </span>{" "}
+          Success Rate
+        </span>
       }
       onBack={onBack}
       onNext={onNext}
       nextLabel="Complications →"
     >
-      <div className="flex flex-col items-center gap-3 landscape:grid landscape:grid-cols-[auto_1fr] landscape:items-center landscape:gap-4 sm:gap-3">
+      <div className="flex flex-col items-center gap-3 sm:gap-4">
         <div className="flex shrink-0 justify-center">
           <div
-            className={`relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-24 landscape:w-24 sm:h-32 sm:w-32 ${
+            className={`relative flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-32 landscape:w-32 sm:h-36 sm:w-36 ${
               show ? "animate-scale-jump" : "scale-75 opacity-0"
             }`}
           >
-            <div className="absolute inset-2 rounded-full border-2 border-white/30 sm:inset-3" />
+            <div className="absolute inset-2.5 rounded-full border-2 border-white/30 sm:inset-3" />
             <div className="text-center text-white">
-              <p className="text-2xl font-black leading-none sm:text-3xl">
+              <p className="text-3xl font-black leading-none sm:text-4xl">
                 {REFRACTIVE_WITHIN_1D_PERCENT}%
               </p>
-              <p className="mt-1 text-[8px] font-semibold uppercase tracking-wide text-white/85 sm:text-[9px]">
+              <p className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-white/90 sm:text-[10px]">
                 within ±1.0D
               </p>
             </div>
@@ -67,9 +62,13 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
         </div>
 
         <div className="min-h-0 w-full shrink-0">
-          <div className="h-[170px] w-full landscape:h-[160px] sm:h-[190px]">
+          <div className="h-[210px] w-full landscape:h-[200px] sm:h-[240px]">
             <RefractiveQuarterlyChart />
           </div>
+
+          <p className="mt-3 text-center text-sm font-medium leading-snug text-slate-600 sm:text-base">
+            Reading glasses are still required for near or small text.
+          </p>
 
           <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
             {SPECIALIST_CARE_FOOTNOTE} · VA ≥ 6/12 cohort · {COHORT_CASE_COUNT} cases ·{" "}

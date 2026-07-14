@@ -54,7 +54,7 @@ export function OutcomePageShell({
     <section className="flex min-h-0 flex-1 flex-col">
       <div
         className={`shrink-0 text-center ${
-          headlineSpaced ? "mt-4 landscape:mt-3 sm:mt-5" : ""
+          headlineSpaced ? "mt-10 landscape:mt-8 sm:mt-14" : ""
         } ${
           compactHeadline ? "mb-0.5 landscape:mb-0 sm:mb-1" : "mb-1.5 landscape:mb-1 sm:mb-2"
         }`}

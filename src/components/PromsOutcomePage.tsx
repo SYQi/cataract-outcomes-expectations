@@ -16,7 +16,7 @@ export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomeP
     <OutcomePageShell
       eyebrow="Patient-reported outcomes"
       headline={
-        <span className="block text-[1.6875rem] sm:text-[1.875rem]">Better Sight, Happier Lives</span>
+        <span className="block text-[2.025rem] sm:text-[2.25rem]">Better Sight, Happier Lives</span>
       }
       onBack={onBack}
       onNext={onNext}

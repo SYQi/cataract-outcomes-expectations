@@ -4,7 +4,6 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -33,9 +32,9 @@ export function VaQuarterlyChart() {
         Good vision (6/12+) — quarterly specialist outcomes
       </p>
 
-      <div className="h-[150px] w-full shrink-0 landscape:h-[130px] sm:h-[160px]">
+      <div className="h-[195px] w-full shrink-0 landscape:h-[169px] sm:h-[208px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 14, right: 12, left: 4, bottom: 4 }}>
+          <AreaChart data={chartData} margin={{ top: 10, right: 12, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="vaQuarterFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#0d9488" stopOpacity={0.35} />
@@ -77,16 +76,6 @@ export function VaQuarterlyChart() {
               labelFormatter={(label) => String(label)}
               contentStyle={{ fontSize: 13, borderRadius: 10, border: "1px solid #cbd5e1" }}
             />
-            <Legend
-              verticalAlign="top"
-              height={22}
-              iconType="plainline"
-              wrapperStyle={{ fontSize: 12, fontWeight: 700 }}
-              payload={[
-                { value: "Woodlands Health", type: "line", color: WH_COLOR, id: "wh" },
-                { value: "Sydney reference", type: "line", color: SYDNEY_COLOR, id: "sydney" },
-              ]}
-            />
             <Area
               type="monotone"
               name="Woodlands Health"
@@ -94,6 +83,7 @@ export function VaQuarterlyChart() {
               stroke={WH_COLOR}
               strokeWidth={3}
               fill="url(#vaQuarterFill)"
+              isAnimationActive={false}
               dot={{
                 r: 6,
                 fill: "#0d9488",

@@ -4,7 +4,6 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
-  Legend,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -33,10 +32,9 @@ export function RefractiveQuarterlyChart() {
         Refractive accuracy (±1.0D) — quarterly specialist outcomes
       </p>
 
-      {/* Explicit height so ResponsiveContainer does not collapse to 0 */}
-      <div className="h-[150px] w-full shrink-0 landscape:h-[140px] sm:h-[170px]">
+      <div className="h-[195px] w-full shrink-0 landscape:h-[182px] sm:h-[221px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 14, right: 12, left: 4, bottom: 4 }}>
+          <AreaChart data={chartData} margin={{ top: 10, right: 12, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="refractiveQuarterFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#00205B" stopOpacity={0.28} />
@@ -77,16 +75,6 @@ export function RefractiveQuarterlyChart() {
               formatter={(value: number) => [`${value}%`, "Woodlands Health"]}
               labelFormatter={(label) => String(label)}
               contentStyle={{ fontSize: 13, borderRadius: 10, border: "1px solid #cbd5e1" }}
-            />
-            <Legend
-              verticalAlign="top"
-              height={22}
-              iconType="plainline"
-              wrapperStyle={{ fontSize: 12, fontWeight: 700 }}
-              payload={[
-                { value: "Woodlands Health", type: "line", color: WH_COLOR, id: "wh" },
-                { value: "NHS reference", type: "line", color: NHS_COLOR, id: "nhs" },
-              ]}
             />
             <Area
               type="monotone"

@@ -17,8 +17,6 @@ type VaOutcomePageProps = {
   onNext: () => void;
 };
 
-const EMPHASIS = "text-[1.15em] font-extrabold text-brand-teal";
-
 export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePageProps) {
   return (
     <OutcomePageShell
@@ -28,31 +26,36 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       fitViewport
       eyebrow="Visual acuity"
       headline={
-        <>
-          <span className="block landscape:inline">
-            <span className={EMPHASIS}>Specialist Ophthalmologists</span> at Woodlands Hospital
-          </span>
-          <span className="mt-0.5 block landscape:mt-0 landscape:inline landscape:ml-1">
-            achieve good vision for{" "}
-            <span className={EMPHASIS}>{VA_612_OR_BETTER_PERCENT}%</span> of all patients within 1
-            month
-          </span>
-        </>
+        <span className="block">
+          <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist Ophthalmologists</span>{" "}
+          at Woodlands Hospital
+        </span>
       }
       onBack={onBack}
       onNext={onNext}
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-2 landscape:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] landscape:gap-3 sm:gap-3">
+      <div className="grid min-h-0 flex-1 grid-cols-1 items-stretch gap-3 landscape:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] landscape:gap-4">
         <div className="min-h-0 landscape:max-h-full">
           <VaPrePostCompare stacked visualAcuity={visualAcuity} />
         </div>
-        <div className="flex min-h-0 flex-col gap-1">
+
+        <div className="flex min-h-0 flex-col justify-between gap-2">
           <div className="min-h-0 flex-1">
             <VaQuarterlyChart />
           </div>
-          <p className="shrink-0 text-center text-[9px] leading-snug text-slate-400 landscape:text-[8px] sm:text-[10px]">
+
+          <div className="shrink-0 rounded-xl border border-teal-100 bg-gradient-to-r from-teal-50/80 to-white px-3 py-2 text-center shadow-sm">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-teal-700/80 sm:text-xs">
+              Better vision after surgery
+            </p>
+            <p className="mt-0.5 text-base font-extrabold text-brand-navy sm:text-lg">
+              <span className="text-teal-700">{VA_612_OR_BETTER_PERCENT}%</span> success rate
+            </p>
+          </div>
+
+          <p className="shrink-0 text-center text-[9px] leading-snug text-slate-400 sm:text-[10px]">
             {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
           </p>
         </div>

@@ -63,10 +63,10 @@ export function VaPrePostCompare({
         </div>
         <div className="absolute inset-0 bg-red-950/10" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-red-950/85 to-transparent px-2 pb-1.5 pt-4">
-          <p className="text-[9px] font-bold uppercase tracking-wide text-red-100 sm:text-[10px]">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-red-100 sm:text-xs">
             How you see today
           </p>
-          <p className="text-xs font-extrabold text-white sm:text-sm">{visualAcuity}</p>
+          <p className="text-sm font-extrabold text-white sm:text-base">{visualAcuity}</p>
         </div>
       </div>
 
@@ -97,10 +97,10 @@ export function VaPrePostCompare({
           </div>
         </div>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-green-950/85 to-transparent px-2 pb-1.5 pt-4">
-          <p className="text-[9px] font-bold uppercase tracking-wide text-green-100 sm:text-[10px]">
+          <p className="text-[11px] font-bold uppercase tracking-wide text-green-100 sm:text-xs">
             After cataract surgery
           </p>
-          <p className="text-xs font-extrabold text-white sm:text-sm">{POST_OP_VA_LABEL}</p>
+          <p className="text-sm font-extrabold text-white sm:text-base">{POST_OP_VA_LABEL}</p>
         </div>
       </div>
     </div>
