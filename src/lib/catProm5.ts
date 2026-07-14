@@ -132,3 +132,5 @@ export function computeCatProm5Score100(answers: CatProm5Answers): {
 
 export const POST_OP_CAT_PROM5_FIRST_EYE = 60;
 export const POST_OP_CAT_PROM5_SECOND_EYE = 72;
+/** Midpoint of expected post-op range (1st and 2nd eye). */
+export const POST_OP_CAT_PROM5_AVERAGE = 66;

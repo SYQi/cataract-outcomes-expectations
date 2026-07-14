@@ -11,9 +11,15 @@ import {
 type VaPrePostCompareProps = {
   visualAcuity: VisualAcuity;
   animate?: boolean;
+  /** Stack blurred above clear (left column layout). Default: side-by-side. */
+  stacked?: boolean;
 };
 
-export function VaPrePostCompare({ visualAcuity, animate = true }: VaPrePostCompareProps) {
+export function VaPrePostCompare({
+  visualAcuity,
+  animate = true,
+  stacked = false,
+}: VaPrePostCompareProps) {
   const [phase, setPhase] = useState(animate ? 0 : 2);
   const currentBlur = vaToBlurPx(visualAcuity);
   const postOpRevealed = phase >= 2;
@@ -29,8 +35,12 @@ export function VaPrePostCompare({ visualAcuity, animate = true }: VaPrePostComp
     };
   }, [animate, visualAcuity]);
 
+  const gridClass = stacked
+    ? "grid h-full min-h-0 grid-cols-1 grid-rows-2 gap-2"
+    : "grid h-full min-h-0 grid-cols-2 gap-2 landscape:gap-2.5 sm:gap-3";
+
   return (
-    <div className="grid h-full min-h-0 grid-cols-2 gap-2 landscape:gap-2.5 sm:gap-3">
+    <div className={gridClass}>
       <div
         className={`relative min-h-0 overflow-hidden rounded-xl border-2 bg-slate-100 transition-[border-color,box-shadow,opacity] duration-500 ${
           phase >= 1 ? "border-red-300 opacity-100 shadow-md" : "border-transparent opacity-0"

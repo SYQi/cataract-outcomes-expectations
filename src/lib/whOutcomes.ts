@@ -98,6 +98,32 @@ export type MonthlyRatePoint = {
   cases: number;
 };
 
+export type QuarterlyRatePoint = {
+  label: string;
+  rate: number;
+  cases: number;
+};
+
+const QUARTER_BUCKETS: { label: string; months: SurgicalMonth[] }[] = [
+  { label: "Q3 '25", months: ["2506", "2507", "2508"] },
+  { label: "Q4 '25", months: ["2509", "2510", "2511", "2512"] },
+  { label: "Q1 '26", months: ["2601", "2602", "2603", "2604"] },
+];
+
+/** Case-weighted quarterly average from monthly trend points. */
+export function aggregateMonthlyToQuarters(points: MonthlyRatePoint[]): QuarterlyRatePoint[] {
+  return QUARTER_BUCKETS.map(({ label, months }) => {
+    const subset = points.filter((p) => months.includes(p.month));
+    const scorable = subset.filter((p) => p.rate != null);
+    const cases = subset.reduce((sum, p) => sum + p.cases, 0);
+    if (scorable.length === 0) return { label, rate: 0, cases };
+    const weightedSum = scorable.reduce((sum, p) => sum + (p.rate ?? 0) * p.cases, 0);
+    const weight = scorable.reduce((sum, p) => sum + p.cases, 0);
+    const rate = Math.round((10 * weightedSum) / weight) / 10;
+    return { label, rate, cases };
+  });
+}
+
 function monthlyTrend(
   rateFn: (rows: ClinicalRecord[]) => number | null,
 ): MonthlyRatePoint[] {
@@ -116,6 +142,10 @@ function monthlyTrend(
 export const MONTHLY_VA_612_TREND: MonthlyRatePoint[] = monthlyTrend((rows) =>
   yesRate(rows, "postOpVa612"),
 );
+
+/** Quarterly VA 6/12+ trend (case-weighted from monthly data). */
+export const QUARTERLY_VA_612_TREND: QuarterlyRatePoint[] =
+  aggregateMonthlyToQuarters(MONTHLY_VA_612_TREND);
 
 /** @deprecated Prefer MONTHLY_VA_612_TREND */
 export const MONTHLY_VA_69_TREND = MONTHLY_VA_612_TREND;

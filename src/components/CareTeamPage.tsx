@@ -24,8 +24,9 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
   return (
     <OutcomePageShell
       compactHeadline
+      headlineSpaced
       headline={
-        <span className="block text-[1.56em]">
+        <span className="block text-[1.872em]">
           Your{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Insurer</span> and{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist</span> for
@@ -68,6 +69,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
               <div className="min-w-0 text-center text-[1.728em] leading-snug sm:text-left">
                 <h3 className="text-[1.755rem] font-bold text-brand-navy">{profile.name}</h3>
                 <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">{profile.rank}</p>
+                <p className="text-sm font-medium text-slate-600">NHG Eye Institute</p>
                 <p className="text-sm text-slate-600">{profile.department}</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
                   <span className="font-semibold text-slate-700">Clinical interests: </span>

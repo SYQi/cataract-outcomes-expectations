@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import {
+  POST_OP_CAT_PROM5_AVERAGE,
   POST_OP_CAT_PROM5_FIRST_EYE,
   POST_OP_CAT_PROM5_SECOND_EYE,
 } from "@/lib/catProm5";
@@ -172,17 +173,13 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           className="mt-3 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-4 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}
         >
-          <span className="block">
-            Quality of life score is expected to increase from{" "}
-            <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
-          </span>
+          <span className="block">Quality of life is expected to increase from</span>
           <span className="mt-1 block">
-            to between{" "}
-            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_FIRST_EYE}</span>
-            <span>–</span>
-            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_SECOND_EYE}</span>{" "}
-            following cataract surgery
+            <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
+            {" to an average score of "}
+            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_AVERAGE}</span>
           </span>
+          <span className="mt-1 block">after cataract surgery</span>
         </p>
       )}
     </div>

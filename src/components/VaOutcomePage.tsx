@@ -2,7 +2,7 @@
 
 import { OutcomePageShell } from "@/components/OutcomePageShell";
 import { VaPrePostCompare } from "@/components/VaPrePostCompare";
-import { VaTrendChart } from "@/components/VaTrendChart";
+import { VaQuarterlyChart } from "@/components/VaQuarterlyChart";
 import { SPECIALIST_CARE_FOOTNOTE } from "@/lib/messaging";
 import type { VisualAcuity } from "@/lib/va";
 import {
@@ -44,16 +44,18 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex min-h-0 flex-1 flex-col gap-2 landscape:gap-1">
-        <div className="aspect-[2.4/1] max-h-[11rem] w-full shrink-0 landscape:max-h-[9.5rem] sm:max-h-[12rem]">
-          <VaPrePostCompare visualAcuity={visualAcuity} />
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-2 landscape:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] landscape:gap-3 sm:gap-3">
+        <div className="min-h-0 landscape:max-h-full">
+          <VaPrePostCompare stacked visualAcuity={visualAcuity} />
         </div>
-        <div className="min-h-0 flex-1">
-          <VaTrendChart compact />
+        <div className="flex min-h-0 flex-col gap-1">
+          <div className="min-h-0 flex-1">
+            <VaQuarterlyChart />
+          </div>
+          <p className="shrink-0 text-center text-[9px] leading-snug text-slate-400 landscape:text-[8px] sm:text-[10px]">
+            {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
+          </p>
         </div>
-        <p className="shrink-0 text-center text-[9px] leading-snug text-slate-400 landscape:text-[8px] sm:text-[10px]">
-          {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
-        </p>
       </div>
     </OutcomePageShell>
   );

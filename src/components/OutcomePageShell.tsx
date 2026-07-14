@@ -19,6 +19,8 @@ type OutcomePageShellProps = {
   compactHeadline?: boolean;
   /** Prevent inner scroll; content must fit the remaining viewport height. */
   fitViewport?: boolean;
+  /** Extra top margin before the headline (care team page). */
+  headlineSpaced?: boolean;
 };
 
 export function OutcomePageShell({
@@ -33,6 +35,7 @@ export function OutcomePageShell({
   alignContentTop = false,
   compactHeadline = false,
   fitViewport = false,
+  headlineSpaced = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
@@ -51,6 +54,8 @@ export function OutcomePageShell({
     <section className="flex min-h-0 flex-1 flex-col">
       <div
         className={`shrink-0 text-center ${
+          headlineSpaced ? "mt-4 landscape:mt-3 sm:mt-5" : ""
+        } ${
           compactHeadline ? "mb-0.5 landscape:mb-0 sm:mb-1" : "mb-1.5 landscape:mb-1 sm:mb-2"
         }`}
       >
