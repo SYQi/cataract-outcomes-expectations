@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { OutcomePageShell } from "@/components/OutcomePageShell";
-import { OutcomeTrendChart } from "@/components/OutcomeTrendChart";
+import { RefractiveQuarterlyChart } from "@/components/RefractiveQuarterlyChart";
 import { SPECIALIST_CARE_FOOTNOTE } from "@/lib/messaging";
 import {
   COHORT_CASE_COUNT,
-  MONTHLY_REFRACTIVE_1D_TREND,
   NHS_REFRACTIVE_CITATION,
   NHS_REFRACTIVE_REFERENCE_PERCENT,
   REFRACTIVE_WITHIN_1D_PERCENT,
@@ -68,19 +67,8 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
         </div>
 
         <div className="min-h-0 w-full shrink-0">
-          <div className="min-h-[100px] landscape:min-h-[120px] sm:min-h-[150px]">
-            <OutcomeTrendChart
-              title="Refractive ±1.0D — Woodlands specialist trend"
-              seriesLabel="Within ±1.0D"
-              data={MONTHLY_REFRACTIVE_1D_TREND}
-              stroke="#0d9488"
-              dotFill="#00205B"
-              reference={{
-                value: NHS_REFRACTIVE_REFERENCE_PERCENT,
-                label: `NHS ${NHS_REFRACTIVE_REFERENCE_PERCENT}%`,
-                stroke: "#b45309",
-              }}
-            />
+          <div className="min-h-[120px] landscape:min-h-[140px] sm:min-h-[160px]">
+            <RefractiveQuarterlyChart />
           </div>
 
           <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">

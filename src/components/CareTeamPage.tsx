@@ -58,7 +58,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
             <p className="text-center text-xs font-bold uppercase tracking-wide text-slate-500">
               Your specialist consultant
             </p>
-            <div className="mt-3 flex flex-col items-center gap-3 sm:flex-row sm:items-start">
+            <div className="mt-3 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
               <Image
                 src={profile.photoPath}
                 alt={profile.name}
@@ -66,7 +66,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 height={228}
                 className="h-36 w-32 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-40 sm:w-36"
               />
-              <div className="min-w-0 text-center text-[1.728em] leading-snug sm:text-left">
+              <div className="min-w-0 max-w-xl text-center text-[1.728em] leading-snug sm:text-left">
                 <h3 className="text-[1.755rem] font-bold text-brand-navy">{profile.name}</h3>
                 <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">{profile.rank}</p>
                 <p className="text-sm font-medium text-slate-600">NHG Eye Institute</p>

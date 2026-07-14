@@ -132,10 +132,6 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
   return (
     <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
-      <p className="mb-3 text-center text-[1.1375rem] font-bold text-brand-navy sm:text-[1.3rem]">
-        Quality of Vision and Life
-      </p>
-
       <div className="relative mx-1 sm:mx-4">
         <div className="mb-2 flex justify-between text-xs font-semibold sm:text-sm">
           <span className="text-red-600">Poor</span>
@@ -170,14 +166,23 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
       {visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-4 sm:text-[1.365rem]"
+          className="mt-8 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-8 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}
         >
           <span className="block">Quality of life is expected to increase from</span>
           <span className="mt-1 block">
             <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
             {" to an average score of "}
-            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_AVERAGE}</span>
+            <span
+              className={`${SCORE_NUM} text-[#2dd4bf]`}
+              style={{
+                WebkitTextStroke: "1.2px #0f172a",
+                paintOrder: "stroke fill",
+                textShadow: "0 0 0 #0f172a",
+              }}
+            >
+              {POST_OP_CAT_PROM5_AVERAGE}
+            </span>
           </span>
           <span className="mt-1 block">after cataract surgery</span>
         </p>

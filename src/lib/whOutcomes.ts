@@ -162,6 +162,10 @@ export const MONTHLY_REFRACTIVE_1D_TREND: MonthlyRatePoint[] = monthlyTrend((row
   return rate;
 });
 
+/** Quarterly refractive ±1.0D trend (case-weighted from monthly data). */
+export const QUARTERLY_REFRACTIVE_1D_TREND: QuarterlyRatePoint[] =
+  aggregateMonthlyToQuarters(MONTHLY_REFRACTIVE_1D_TREND);
+
 export const REPORTING_WINDOW_LABEL = "Jun 2025 – Apr 2026";
 export const COHORT_CASE_COUNT = windowRecords.length;
 

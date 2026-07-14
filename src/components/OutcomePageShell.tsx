@@ -67,7 +67,7 @@ export function OutcomePageShell({
         <h2
           className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance font-extrabold leading-snug text-brand-navy ${
             prominentHeadline
-              ? "text-[1.4625rem] landscape:text-[1.35rem] sm:text-[1.625rem] landscape:sm:text-[1.4625rem]"
+              ? "text-[1.901rem] landscape:text-[1.755rem] sm:text-[2.1125rem] landscape:sm:text-[1.901rem]"
               : "text-lg landscape:text-base sm:text-xl landscape:sm:text-lg"
           } ${showHeadline ? "animate-scale-jump" : "opacity-0"}`}
         >
