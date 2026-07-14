@@ -17,6 +17,7 @@ import {
   type CatProm5Answers,
 } from "@/lib/catProm5";
 import { formatGmt8Timestamp } from "@/lib/datetime";
+import { resetPageScroll, resetPageScrollAfterPaint } from "@/lib/scrollReset";
 import { EMPTY_PATIENT_INTAKE, type PatientIntake } from "@/lib/patientRegistry";
 import { useOutcomeSwipe } from "@/hooks/useOutcomeSwipe";
 import { useSessionTracker } from "@/hooks/useSessionTracker";
@@ -53,17 +54,8 @@ export function ConversionWizard() {
   }, []);
 
   useEffect(() => {
-    const resetScroll = () => {
-      window.scrollTo(0, 0);
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-      if (mainRef.current) mainRef.current.scrollTop = 0;
-    };
-
-    resetScroll();
-    // Run again after paint so nested scroll containers settle at the top.
-    const frame = window.requestAnimationFrame(resetScroll);
-    return () => window.cancelAnimationFrame(frame);
+    if (step !== "details" && step !== "va") return;
+    resetPageScrollAfterPaint(mainRef.current);
   }, [step]);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
@@ -102,6 +94,7 @@ export function ConversionWizard() {
     if (unlockedCount < CAT_PROM5_QUESTIONS.length) {
       setUnlockedCount((c) => c + 1);
     } else {
+      resetPageScroll(mainRef.current);
       setStep("va");
     }
   };
@@ -234,7 +227,10 @@ export function ConversionWizard() {
             <AdminPage
               patient={patient}
               onChange={setPatient}
-              onContinue={() => setStep("details")}
+              onContinue={() => {
+                resetPageScroll(mainRef.current);
+                setStep("details");
+              }}
             />
           </div>
         )}

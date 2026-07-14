@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { resetPageScrollAfterPaint } from "@/lib/scrollReset";
 
 type OutcomePageShellProps = {
   eyebrow?: string;
@@ -14,6 +15,8 @@ type OutcomePageShellProps = {
   prominentHeadline?: boolean;
   /** Pin content to the top instead of vertically centering when space allows. */
   alignContentTop?: boolean;
+  /** Reduce space between headline and content (care team page). */
+  compactHeadline?: boolean;
 };
 
 export function OutcomePageShell({
@@ -26,6 +29,7 @@ export function OutcomePageShell({
   backLabel = "Back",
   prominentHeadline = false,
   alignContentTop = false,
+  compactHeadline = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
@@ -35,16 +39,18 @@ export function OutcomePageShell({
     return () => window.clearTimeout(t);
   }, [headline]);
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-    if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0;
-  }, [headline, alignContentTop]);
+  useLayoutEffect(() => {
+    if (!alignContentTop) return;
+    resetPageScrollAfterPaint(contentScrollRef.current);
+  }, [alignContentTop, headline]);
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
-      <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-2">
+      <div
+        className={`shrink-0 text-center ${
+          compactHeadline ? "mb-0.5 landscape:mb-0 sm:mb-1" : "mb-1.5 landscape:mb-1 sm:mb-2"
+        }`}
+      >
         {eyebrow ? (
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[9px] sm:text-xs">
             {eyebrow}
@@ -68,7 +74,9 @@ export function OutcomePageShell({
           alignContentTop ? "justify-start" : "justify-center"
         }`}
       >
-        <div className={`w-full py-1 ${alignContentTop ? "" : "my-auto"}`}>{children}</div>
+        <div className={`w-full ${compactHeadline ? "py-0" : "py-1"} ${alignContentTop ? "" : "my-auto"}`}>
+          {children}
+        </div>
       </div>
 
       <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">

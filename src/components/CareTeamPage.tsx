@@ -23,8 +23,9 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
 
   return (
     <OutcomePageShell
+      compactHeadline
       headline={
-        <span className="block text-[1.3em]">
+        <span className="block text-[1.56em]">
           Your{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Insurer</span> and{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist</span> for
