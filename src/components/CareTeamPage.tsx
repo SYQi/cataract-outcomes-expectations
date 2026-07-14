@@ -36,13 +36,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
       nextLabel="New patient"
       backLabel="← Quality of life"
     >
-      <div className="flex min-h-0 flex-col gap-4 landscape:grid landscape:h-full landscape:grid-cols-2 landscape:gap-4">
-        <div className="flex min-h-0 flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:h-full sm:p-5">
+      <div className="flex min-h-0 flex-col gap-4">
+        <div className="flex flex-col rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <p className="shrink-0 text-center text-xs font-bold uppercase tracking-wide text-slate-500">
             Your insurer
           </p>
           <p className="mt-1 shrink-0 text-center text-lg font-bold text-brand-navy">{insurer}</p>
-          <div className="mt-3 flex min-h-[9rem] flex-1 items-center justify-center px-2 landscape:min-h-0 sm:min-h-[11rem]">
+          <div className="mt-3 flex min-h-[9rem] items-center justify-center px-2 sm:min-h-[11rem]">
             <Image
               src={insurerLogoPath(insurer)}
               alt={`${insurer} logo`}
@@ -66,7 +66,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 height={175}
                 className="h-36 w-28 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-40 sm:w-32"
               />
-              <div className="min-w-0 text-center sm:text-left">
+              <div className="min-w-0 text-center text-[1.2em] sm:text-left">
                 <h3 className="text-lg font-bold text-brand-navy">{profile.name}</h3>
                 <p className="mt-0.5 text-sm font-semibold text-brand-teal">{profile.rank}</p>
                 <p className="text-sm text-slate-600">{profile.department}</p>

@@ -12,6 +12,10 @@ type OutcomePageShellProps = {
   backLabel?: string;
   /** Fit content to the viewport without inner scrolling (e.g. Visual Acuity). */
   fitViewport?: boolean;
+  /** +30% headline size for key outcome toplines. */
+  prominentHeadline?: boolean;
+  /** Vertically center headline + content within the viewport. */
+  centerViewport?: boolean;
 };
 
 export function OutcomePageShell({
@@ -23,6 +27,8 @@ export function OutcomePageShell({
   nextLabel = "Next",
   backLabel = "Back",
   fitViewport = false,
+  prominentHeadline = false,
+  centerViewport = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
 
@@ -35,7 +41,7 @@ export function OutcomePageShell({
     <section
       className={`flex min-h-0 flex-col landscape:h-[calc(100dvh-4.75rem)] sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px] landscape:max-h-none ${
         fitViewport ? "overflow-hidden" : ""
-      }`}
+      } ${centerViewport ? "justify-center" : ""}`}
     >
       <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-2">
         {eyebrow ? (
@@ -44,18 +50,22 @@ export function OutcomePageShell({
           </p>
         ) : null}
         <h2
-          className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy landscape:text-base sm:text-xl landscape:sm:text-lg ${
-            showHeadline ? "animate-scale-jump" : "opacity-0"
-          }`}
+          className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance font-extrabold leading-snug text-brand-navy ${
+            prominentHeadline
+              ? "text-[1.4625rem] landscape:text-[1.35rem] sm:text-[1.625rem] landscape:sm:text-[1.4625rem]"
+              : "text-lg landscape:text-base sm:text-xl landscape:sm:text-lg"
+          } ${showHeadline ? "animate-scale-jump" : "opacity-0"}`}
         >
           {headline}
         </h2>
       </div>
 
       <div
-        className={`min-h-0 flex-1 pr-0.5 ${
+        className={`min-h-0 pr-0.5 ${
+          centerViewport ? "shrink-0" : "flex-1"
+        } ${
           fitViewport ? "flex flex-col overflow-hidden" : "overflow-y-auto overscroll-contain"
-        }`}
+        } ${centerViewport && fitViewport ? "justify-center" : ""}`}
       >
         {children}
       </div>

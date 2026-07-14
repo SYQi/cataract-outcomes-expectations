@@ -34,6 +34,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
 
   return (
     <OutcomePageShell
+      prominentHeadline
       eyebrow="Complications"
       headline={
         <>

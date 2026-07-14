@@ -126,16 +126,19 @@ export function ConversionWizard() {
             ? "PROMS"
             : "Your care team";
 
-  const tightTop = step === "details" || step === "assessment";
+  const tightTop = step === "assessment";
+  const centerPage = step === "details";
 
   return (
     <div
-      className={`mx-auto min-h-screen px-4 sm:px-6 ${
-        tightTop
-          ? "pb-5 pt-3 landscape:pb-3 landscape:pt-2 sm:pb-6 sm:pt-4"
-          : isOutcome
-            ? "py-3 landscape:py-2 sm:py-4"
-            : "py-5 landscape:py-3 sm:py-8 landscape:sm:py-4"
+      className={`mx-auto px-4 sm:px-6 ${
+        centerPage
+          ? "flex min-h-screen flex-col justify-center py-4 landscape:py-3"
+          : tightTop
+            ? "min-h-screen pb-5 pt-3 landscape:pb-3 landscape:pt-2 sm:pb-6 sm:pt-4"
+            : isOutcome
+              ? "min-h-screen py-3 landscape:py-2 sm:py-4"
+              : "min-h-screen py-5 landscape:py-3 sm:py-8 landscape:sm:py-4"
       } ${
         isOutcome
           ? "max-w-5xl landscape:max-w-6xl"
@@ -146,9 +149,11 @@ export function ConversionWizard() {
         className={`text-center ${
           isOutcome
             ? "mb-1.5 landscape:mb-1"
-            : tightTop
-              ? "mb-3 landscape:mb-2"
-              : "mb-6 landscape:mb-4 sm:mb-8"
+            : centerPage
+              ? "mb-4 landscape:mb-3"
+              : tightTop
+                ? "mb-3 landscape:mb-2"
+                : "mb-6 landscape:mb-4 sm:mb-8"
         }`}
       >
         {step === "details" && (
@@ -270,7 +275,11 @@ export function ConversionWizard() {
       )}
 
       {isOutcome && visualAcuity && (
-        <div className="touch-pan-y" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div
+          className={step === "va" ? "flex flex-col justify-center landscape:min-h-[calc(100dvh-5.5rem)]" : ""}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
           {step === "va" && (
             <VaOutcomePage
               visualAcuity={visualAcuity}

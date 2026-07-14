@@ -28,6 +28,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
 
   return (
     <OutcomePageShell
+      prominentHeadline
       eyebrow="Refractive accuracy"
       headline={
         <>

@@ -126,7 +126,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
   return (
     <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
-      <p className="mb-3 text-center text-sm font-bold text-brand-navy sm:text-base">
+      <p className="mb-3 text-center text-[1.1375rem] font-bold text-brand-navy sm:text-[1.3rem]">
         Quality of Vision and Life
       </p>
 
@@ -165,13 +165,19 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
         </div>
       </div>
 
-      {patientScore < POST_OP_CAT_PROM5_FIRST_EYE && visible && (
+      {visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-xs font-medium leading-snug text-teal-800 sm:mt-4 sm:text-sm"
+          className="mt-3 animate-fade-up text-center text-[0.975rem] font-medium leading-snug text-teal-800 sm:mt-4 sm:text-[1.1375rem]"
           style={{ animationDelay: "1.2s" }}
         >
-          Many patients climb toward <strong>{POST_OP_CAT_PROM5_FIRST_EYE}</strong> after 1st eye
-          surgery and <strong>{POST_OP_CAT_PROM5_SECOND_EYE}</strong> after 2nd eye surgery.
+          <span className="block">
+            Quality of life score is expected to increase from{" "}
+            <strong>{patientScore}</strong>
+          </span>
+          <span className="mt-1 block">
+            to between <strong>{POST_OP_CAT_PROM5_FIRST_EYE}</strong>–
+            <strong>{POST_OP_CAT_PROM5_SECOND_EYE}</strong> following cataract surgery
+          </span>
         </p>
       )}
     </div>
