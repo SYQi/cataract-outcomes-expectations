@@ -126,20 +126,34 @@ export function ConversionWizard() {
             ? "PROMS"
             : "Your care team";
 
+  const tightTop = step === "details" || step === "assessment";
+
   return (
     <div
-      className={`mx-auto min-h-screen px-4 py-5 landscape:py-3 sm:px-6 sm:py-8 landscape:sm:py-4 ${
+      className={`mx-auto min-h-screen px-4 sm:px-6 ${
+        tightTop
+          ? "pb-5 pt-3 landscape:pb-3 landscape:pt-2 sm:pb-6 sm:pt-4"
+          : isOutcome
+            ? "py-3 landscape:py-2 sm:py-4"
+            : "py-5 landscape:py-3 sm:py-8 landscape:sm:py-4"
+      } ${
         isOutcome
           ? "max-w-5xl landscape:max-w-6xl"
-          : step === "assessment"
-            ? "max-w-2xl landscape:max-w-3xl"
-            : "max-w-2xl landscape:max-w-3xl"
+          : "max-w-2xl landscape:max-w-3xl"
       }`}
     >
-      <header className={`text-center ${isOutcome ? "mb-2 landscape:mb-1.5" : "mb-6 landscape:mb-4 sm:mb-8"}`}>
+      <header
+        className={`text-center ${
+          isOutcome
+            ? "mb-1.5 landscape:mb-1"
+            : tightTop
+              ? "mb-3 landscape:mb-2"
+              : "mb-6 landscape:mb-4 sm:mb-8"
+        }`}
+      >
         {step === "details" && (
           <>
-            <div className="mb-3 flex justify-center landscape:mb-2 sm:mb-4">
+            <div className="mb-2 flex justify-center landscape:mb-1.5 sm:mb-3">
               <WhLogo size="lg" />
             </div>
             <h1 className="mt-1 text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
@@ -164,7 +178,7 @@ export function ConversionWizard() {
         )}
         {step !== "admin" && (
           <div
-            className={`flex justify-center gap-1 sm:gap-1.5 ${step === "details" ? "mt-3 sm:mt-4" : "mt-1"}`}
+            className={`flex justify-center gap-1 sm:gap-1.5 ${step === "details" ? "mt-2 sm:mt-3" : "mt-1"}`}
           >
             {PROGRESS_STEPS.map((s) => {
               const active = PROGRESS_STEPS.indexOf(s) <= progressIndex;
@@ -182,7 +196,7 @@ export function ConversionWizard() {
         )}
         {isOutcome && (
           <>
-            <p className="mt-1.5 text-[11px] font-medium uppercase tracking-wide text-slate-400 landscape:mt-1">
+            <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">
               {outcomeIndex + 1} of {OUTCOME_STEPS.length} · {outcomeLabel}
             </p>
             {swipeNavActive && (
@@ -209,11 +223,10 @@ export function ConversionWizard() {
             These were entered by staff. Please confirm they are correct before continuing.
           </p>
 
-          <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-3 landscape:gap-4 landscape:space-y-0">
+          <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-2 landscape:gap-4 landscape:space-y-0">
             {[
               { label: "Full name", value: patient.name },
               { label: "NRIC", value: patient.nric },
-              { label: "Date & time (GMT+8)", value: patient.dateTime },
             ].map((field) => (
               <div key={field.label} className="block">
                 <span className="text-sm font-medium text-slate-700">{field.label}</span>

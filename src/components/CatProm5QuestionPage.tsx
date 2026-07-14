@@ -14,6 +14,9 @@ type CatProm5QuestionPageProps = {
   onFrontierRelease: () => void;
 };
 
+/** One question ≈ one viewport so neighbors are off-screen until the patient scrolls. */
+const PANEL_HEIGHT = "min-h-[calc(100dvh-6.5rem)] landscape:min-h-[calc(100dvh-5.25rem)]";
+
 export function CatProm5QuestionPage({
   unlockedCount,
   answers,
@@ -26,13 +29,16 @@ export function CatProm5QuestionPage({
   useEffect(() => {
     if (unlockedCount > prevUnlocked.current) {
       const el = questionRefs.current[unlockedCount - 1];
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      // Center the next question in the viewport after release
+      window.setTimeout(() => {
+        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 40);
     }
     prevUnlocked.current = unlockedCount;
   }, [unlockedCount]);
 
   return (
-    <div className="space-y-5 pb-8 landscape:space-y-4">
+    <div className="flex flex-col">
       {CAT_PROM5_QUESTIONS.slice(0, unlockedCount).map((q, index) => {
         const letter = String.fromCharCode(65 + index);
         const isFrontier = index === unlockedCount - 1;
@@ -43,42 +49,45 @@ export function CatProm5QuestionPage({
             ref={(el) => {
               questionRefs.current[index] = el;
             }}
-            className="scroll-mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:p-5 sm:p-6"
+            className={`flex ${PANEL_HEIGHT} scroll-mt-2 flex-col items-center justify-center py-3`}
           >
-            <p className="text-center text-xs font-semibold uppercase tracking-wide text-slate-400">
-              Question {index + 1} of {CAT_PROM5_QUESTIONS.length}
-            </p>
-            <h2 className="mt-2 text-[1.25rem] font-semibold leading-snug text-brand-navy landscape:text-[1.35rem] sm:text-[1.35rem]">
-              {letter}){" "}
-              {q.labelParts.map((part, i) =>
-                part.emphasize ? (
-                  <span key={i} className="font-extrabold text-brand-teal">
-                    {part.text}
-                  </span>
-                ) : (
-                  <span key={i}>{part.text}</span>
-                ),
-              )}
-            </h2>
-            <p className="mt-2 text-[1.05rem] text-slate-500">
-              {isFrontier
-                ? "Slide the bar to indicate how your eyesight affects you today. Release to continue."
-                : "You can adjust this answer anytime, then scroll to the next question."}
-            </p>
-            <p className="mt-1 text-[0.9rem] text-slate-500">
-              {q.minLabel} → {q.maxLabel}
-            </p>
-            <div className="mt-6">
-              <GradientSlider
-                id={`cat-${q.id}`}
-                value={answers[q.id]}
-                min={q.min}
-                max={q.max}
-                onChange={(v) => onAnswer(q.id, v)}
-                onRelease={isFrontier ? onFrontierRelease : undefined}
-                minCaption={`${q.min} — ${q.minLabel}`}
-                maxCaption={`${q.max} — ${q.maxLabel}`}
-              />
+            <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm landscape:p-6 sm:p-7">
+              <p className="text-center text-xs font-semibold uppercase tracking-wide text-slate-400">
+                Question {index + 1} of {CAT_PROM5_QUESTIONS.length}
+              </p>
+              {/* Base ×1.2; emphasized words ×1.1 on top of that */}
+              <h2 className="mt-3 text-center text-[1.5rem] font-semibold leading-snug text-brand-navy sm:text-[1.62rem]">
+                {letter}){" "}
+                {q.labelParts.map((part, i) =>
+                  part.emphasize ? (
+                    <span key={i} className="text-[1.1em] font-extrabold text-brand-teal">
+                      {part.text}
+                    </span>
+                  ) : (
+                    <span key={i}>{part.text}</span>
+                  ),
+                )}
+              </h2>
+              <p className="mt-3 text-center text-[1.05rem] text-slate-500">
+                {isFrontier
+                  ? "Slide the bar to indicate how your eyesight affects you today. Release to continue."
+                  : "You can adjust this answer anytime, then scroll to continue."}
+              </p>
+              <p className="mt-1 text-center text-[0.9rem] text-slate-500">
+                {q.minLabel} → {q.maxLabel}
+              </p>
+              <div className="mt-8">
+                <GradientSlider
+                  id={`cat-${q.id}`}
+                  value={answers[q.id]}
+                  min={q.min}
+                  max={q.max}
+                  onChange={(v) => onAnswer(q.id, v)}
+                  onRelease={isFrontier ? onFrontierRelease : undefined}
+                  minCaption={`${q.min} — ${q.minLabel}`}
+                  maxCaption={`${q.max} — ${q.maxLabel}`}
+                />
+              </div>
             </div>
           </section>
         );

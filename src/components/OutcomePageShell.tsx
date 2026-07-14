@@ -10,6 +10,8 @@ type OutcomePageShellProps = {
   onNext?: () => void;
   nextLabel?: string;
   backLabel?: string;
+  /** Fit content to the viewport without inner scrolling (e.g. Visual Acuity). */
+  fitViewport?: boolean;
 };
 
 export function OutcomePageShell({
@@ -20,6 +22,7 @@ export function OutcomePageShell({
   onNext,
   nextLabel = "Next",
   backLabel = "Back",
+  fitViewport = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
 
@@ -29,15 +32,19 @@ export function OutcomePageShell({
   }, [headline]);
 
   return (
-    <section className="flex min-h-0 flex-col landscape:h-[calc(100dvh-4.75rem)] sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px] landscape:max-h-none">
-      <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-3">
+    <section
+      className={`flex min-h-0 flex-col landscape:h-[calc(100dvh-4.75rem)] sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px] landscape:max-h-none ${
+        fitViewport ? "overflow-hidden" : ""
+      }`}
+    >
+      <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-2">
         {eyebrow ? (
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[9px] sm:text-xs">
             {eyebrow}
           </p>
         ) : null}
         <h2
-          className={`${eyebrow ? "mt-1.5 landscape:mt-1" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy landscape:text-base sm:text-2xl landscape:sm:text-lg ${
+          className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy landscape:text-base sm:text-xl landscape:sm:text-lg ${
             showHeadline ? "animate-scale-jump" : "opacity-0"
           }`}
         >
@@ -45,10 +52,15 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      {/* Always scroll content so nav buttons stay visible on landscape tablets */}
-      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">{children}</div>
+      <div
+        className={`min-h-0 flex-1 pr-0.5 ${
+          fitViewport ? "flex flex-col overflow-hidden" : "overflow-y-auto overscroll-contain"
+        }`}
+      >
+        {children}
+      </div>
 
-      <div className="sticky bottom-0 z-20 mt-2 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1.5 sm:mt-4 sm:gap-3">
+      <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">
         {onBack && (
           <button
             type="button"
