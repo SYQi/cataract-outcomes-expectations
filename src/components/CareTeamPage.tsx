@@ -66,7 +66,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 className="h-36 w-32 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-40 sm:w-36"
               />
               <div className="min-w-0 text-center text-[1.728em] leading-snug sm:text-left">
-                <h3 className="text-[1.4625rem] font-bold text-brand-navy">{profile.name}</h3>
+                <h3 className="text-[1.755rem] font-bold text-brand-navy">{profile.name}</h3>
                 <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">{profile.rank}</p>
                 <p className="text-sm text-slate-600">{profile.department}</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-slate-600">

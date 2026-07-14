@@ -233,7 +233,7 @@ export function ConversionWizard() {
               patient={patient}
               onChange={setPatient}
               onContinue={() => {
-                resetPageScroll(mainRef.current);
+                resetPageScrollAfterPaint(mainRef.current);
                 setStep("details");
               }}
             />
