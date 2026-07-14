@@ -19,16 +19,10 @@ body {
   height: 100%;
 }
 
-/* iPad / tablet landscape: lock viewport and tighten default spacing */
+/* Prefer readable, compact layout when iPad / tablet is landscape */
 @media (orientation: landscape) and (min-width: 768px) {
   html {
-    font-size: 14px;
-  }
-
-  .wizard-landscape-root {
-    height: 100dvh;
-    max-height: 100dvh;
-    overflow: hidden;
+    font-size: 15px;
   }
 }
 

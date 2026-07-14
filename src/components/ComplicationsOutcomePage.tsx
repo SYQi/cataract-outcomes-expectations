@@ -44,7 +44,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             </span>{" "}
             success rate with no complications:
           </span>
-          <span className="mt-1 block landscape:mt-0 landscape:inline landscape:ml-1">
+          <span className="mt-1 block">
             <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist Outcomes</span>
           </span>
         </>
@@ -53,52 +53,53 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       onNext={onNext}
       nextLabel="Quality of life →"
     >
-      <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-2 sm:gap-3">
+      <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-3 sm:gap-3">
         <div
-          className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm landscape:flex landscape:flex-col landscape:justify-center landscape:p-2 sm:p-4 ${
+          className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm landscape:flex landscape:flex-col landscape:justify-center sm:p-4 ${
             show ? "animate-scale-jump" : "opacity-0"
           }`}
         >
-          <p className="text-center text-[10px] font-bold uppercase tracking-[0.16em] text-teal-700 landscape:text-[9px] sm:text-xs">
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.16em] text-teal-700 sm:text-xs">
             Specialist care · Woodlands Hospital
           </p>
-          <p className="mt-1 text-center text-3xl font-black leading-none text-brand-navy landscape:mt-0.5 landscape:text-2xl sm:text-4xl">
+          <p className="mt-1 text-center text-3xl font-black leading-none text-brand-navy landscape:text-4xl sm:text-4xl">
             {SURGERY_SUCCESS_NO_COMPLICATION_PERCENT}%
           </p>
-          <p className="mt-1 text-center text-xs font-semibold text-slate-600 landscape:mt-0.5 landscape:text-[11px] sm:text-sm">
+          <p className="mt-1 text-center text-xs font-semibold text-slate-600 sm:text-sm">
             successful with no complications
           </p>
         </div>
 
         <div
-          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm landscape:p-2 sm:p-4 ${
+          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${
             show ? "animate-fade-up" : "opacity-0"
           }`}
           style={{ animationDelay: "0.35s" }}
         >
-          <p className="text-center text-xs font-bold text-brand-navy landscape:text-[11px] sm:text-sm">
+          <p className="text-center text-xs font-bold text-brand-navy sm:text-sm">
             Complication rate: Woodlands vs United Kingdom
           </p>
-          <p className="mt-0.5 text-center text-[10px] text-slate-500 landscape:hidden sm:text-[11px]">
+          <p className="mt-0.5 text-center text-[10px] text-slate-500 sm:text-[11px]">
             All-cause intraoperative complications — specialist outcomes at Woodlands Hospital
           </p>
 
-          <div className="mx-auto mt-3 max-w-md landscape:mt-1.5">
+          {/* Reserved top row for rate labels so they never overlap the titles above */}
+          <div className="mx-auto mt-3 max-w-md">
             <div className="mb-1 flex justify-center gap-4 sm:gap-6">
               <div className="w-[42%] text-center sm:w-[45%]">
-                <p className="text-[10px] font-semibold text-amber-800 landscape:text-[9px] sm:text-xs">
+                <p className="text-[10px] font-semibold text-amber-800 sm:text-xs">
                   {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
                 </p>
               </div>
               <div className="w-[42%] text-center sm:w-[45%]">
-                <p className="text-[10px] font-bold text-brand-navy landscape:text-[9px] sm:text-xs">
+                <p className="text-[10px] font-bold text-brand-navy sm:text-xs">
                   {COMPLICATION_RATE_PERCENT}%
                 </p>
               </div>
             </div>
 
             <div className="flex justify-center gap-4 sm:gap-6">
-              <div className="relative h-24 w-[42%] landscape:h-[11vh] sm:h-36 sm:w-[45%]">
+              <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
                 <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
@@ -106,7 +107,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
                 />
               </div>
 
-              <div className="relative h-24 w-[42%] landscape:h-[11vh] sm:h-36 sm:w-[45%]">
+              <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
                   style={{ height: `${whHeightPct}%` }}
@@ -114,44 +115,44 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
               </div>
             </div>
 
-            <div className="mt-2 flex justify-center gap-4 landscape:mt-1 sm:gap-6">
+            <div className="mt-2 flex justify-center gap-4 sm:gap-6">
               <div className="w-[42%] px-0.5 text-center sm:w-[45%]">
-                <p className="text-[10px] font-bold leading-snug text-amber-900 landscape:text-[9px] sm:text-[11px]">
-                  <span className="sm:hidden landscape:inline">RCOphth (UK)</span>
-                  <span className="hidden sm:inline landscape:hidden">
+                <p className="text-[10px] font-bold leading-snug text-amber-900 sm:text-[11px]">
+                  <span className="sm:hidden">RCOphth (UK)</span>
+                  <span className="hidden sm:inline">
                     Royal College of Ophthalmologists, United Kingdom
                   </span>
                 </p>
               </div>
               <div className="w-[42%] px-0.5 text-center sm:w-[45%]">
-                <p className="text-[10px] font-bold uppercase tracking-wide text-brand-navy landscape:text-[9px] sm:text-[11px]">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-brand-navy sm:text-[11px]">
                   Woodlands
                 </p>
               </div>
             </div>
           </div>
 
-          <p className="mt-3 border-t border-slate-100 pt-3 text-center text-xs font-semibold leading-relaxed text-slate-700 landscape:mt-1.5 landscape:border-0 landscape:pt-0 landscape:text-[10px] landscape:leading-snug sm:text-sm">
-            <span className="block landscape:inline">
+          <p className="mt-3 border-t border-slate-100 pt-3 text-center text-xs font-semibold leading-relaxed text-slate-700 landscape:mt-2 landscape:pt-2 sm:text-sm">
+            <span className="block">
               Woodlands specialist rate:{" "}
               <strong className="text-brand-navy">{COMPLICATION_RATE_PERCENT}%</strong>
             </span>
-            <span className="block landscape:inline landscape:ml-1">
+            <span className="block">
               vs Royal College of Ophthalmologists (UK): {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–
               {RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
             </span>
-            <span className="block landscape:inline landscape:ml-1">
+            <span className="block">
               About <strong className="text-teal-700">{ratioVsMid}%</strong> of the typical UK rate —{" "}
               <strong>nearly half</strong>
             </span>
           </p>
         </div>
 
-        <div className="shrink-0 landscape:col-span-2 landscape:hidden">
+        <div className="shrink-0 landscape:col-span-2">
           <p className="text-center text-[10px] leading-relaxed text-slate-400 sm:text-[11px]">
             {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
           </p>
-          <div className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-relaxed text-slate-500 sm:block">
+          <div className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-relaxed text-slate-500 landscape:pb-1 sm:block">
             <p className="font-semibold text-slate-600">
               Reference — Royal College of Ophthalmologists, United Kingdom (
               {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%)

@@ -44,7 +44,7 @@ function MarkerLabel({
       style={{ left: `${left}%`, animationDelay: `${marker.delayMs}ms` }}
     >
       <p
-        className={`max-w-[6.5rem] text-center text-[13px] font-bold leading-tight landscape:max-w-[5rem] landscape:text-[11px] sm:max-w-[7.5rem] sm:text-[15px] ${
+        className={`max-w-[6.5rem] text-center text-[13px] font-bold leading-tight sm:max-w-[7.5rem] sm:text-[15px] ${
           marker.emphasis ? "text-red-700" : "text-slate-800"
         }`}
       >
@@ -130,24 +130,24 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
   const belowMarkers = markers.filter((m) => m.placement === "below");
 
   return (
-    <div className="flex min-h-0 flex-col justify-center px-1 landscape:px-0 sm:px-2">
-      <p className="mb-3 text-center text-[1.1375rem] font-bold text-brand-navy landscape:mb-1.5 landscape:text-base sm:text-[1.3rem]">
+    <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
+      <p className="mb-3 text-center text-[1.1375rem] font-bold text-brand-navy sm:text-[1.3rem]">
         Quality of Vision and Life
       </p>
 
-      <div className="relative mx-1 sm:mx-4 landscape:mx-0">
-        <div className="mb-2 flex justify-between text-xs font-semibold landscape:mb-1 landscape:text-[11px] sm:text-sm">
+      <div className="relative mx-1 sm:mx-4">
+        <div className="mb-2 flex justify-between text-xs font-semibold sm:text-sm">
           <span className="text-red-600">Poor</span>
           <span className="text-green-600">Great</span>
         </div>
 
-        <div className="relative mb-2 h-14 landscape:mb-1 landscape:h-10 sm:mb-3 sm:h-16">
+        <div className="relative mb-2 h-14 sm:mb-3 sm:h-16">
           {aboveMarkers.map((m) => (
             <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} anchor="bottom" />
           ))}
         </div>
 
-        <div className="relative mx-1 h-7 landscape:mx-0 landscape:h-6 sm:mx-2 sm:h-8">
+        <div className="relative mx-1 h-7 sm:mx-2 sm:h-8">
           <div
             className="absolute inset-0 rounded-full shadow-inner"
             style={{
@@ -160,7 +160,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           ))}
         </div>
 
-        <div className="relative mt-1 h-14 landscape:h-10 sm:h-16">
+        <div className="relative mt-1 h-14 sm:h-16">
           {belowMarkers.map((m) => (
             <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} />
           ))}
@@ -169,14 +169,14 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
       {visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-sm sm:mt-4 sm:text-[1.365rem]"
+          className="mt-3 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-4 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}
         >
-          <span className="block landscape:inline">
+          <span className="block">
             Quality of life score is expected to increase from{" "}
             <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
           </span>
-          <span className="mt-1 block landscape:mt-0 landscape:inline landscape:ml-1">
+          <span className="mt-1 block">
             to between{" "}
             <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_FIRST_EYE}</span>
             <span>–</span>
