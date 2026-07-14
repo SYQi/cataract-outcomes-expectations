@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type OutcomePageShellProps = {
   eyebrow?: string;
@@ -28,11 +28,19 @@ export function OutcomePageShell({
   alignContentTop = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
+  const contentScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const t = window.setTimeout(() => setShowHeadline(true), 60);
     return () => window.clearTimeout(t);
   }, [headline]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+    if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0;
+  }, [headline, alignContentTop]);
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
@@ -55,6 +63,7 @@ export function OutcomePageShell({
 
       {/* Default: center when content fits. alignContentTop: pin to top so page chrome stays in view. */}
       <div
+        ref={contentScrollRef}
         className={`flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain ${
           alignContentTop ? "justify-start" : "justify-center"
         }`}

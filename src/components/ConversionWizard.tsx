@@ -53,8 +53,17 @@ export function ConversionWizard() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    if (mainRef.current) mainRef.current.scrollTop = 0;
+    const resetScroll = () => {
+      window.scrollTo(0, 0);
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+      if (mainRef.current) mainRef.current.scrollTop = 0;
+    };
+
+    resetScroll();
+    // Run again after paint so nested scroll containers settle at the top.
+    const frame = window.requestAnimationFrame(resetScroll);
+    return () => window.cancelAnimationFrame(frame);
   }, [step]);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);

@@ -39,15 +39,15 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
       <div className="flex min-h-0 flex-col gap-3 landscape:gap-3 sm:gap-4">
         <div className="flex shrink-0 items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:gap-4 sm:p-4">
           <div className="shrink-0 text-left">
-            <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Your insurer</p>
-            <p className="mt-0.5 text-base font-bold text-brand-navy sm:text-lg">{insurer}</p>
+            <p className="text-[0.9rem] font-bold uppercase tracking-wide text-slate-500">Your insurer</p>
+            <p className="mt-0.5 text-[1.2rem] font-bold text-brand-navy sm:text-[1.35rem]">{insurer}</p>
           </div>
           <Image
             src={insurerLogoPath(insurer)}
             alt={`${insurer} logo`}
             width={384}
             height={144}
-            className="h-auto max-h-[4.8rem] w-auto max-w-[200px] shrink-0 object-contain sm:max-h-24 sm:max-w-[240px]"
+            className="h-auto max-h-[5.75rem] w-auto max-w-[240px] shrink-0 object-contain sm:max-h-[7.2rem] sm:max-w-[288px]"
           />
         </div>
 
