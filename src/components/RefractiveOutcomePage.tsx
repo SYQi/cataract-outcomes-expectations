@@ -67,7 +67,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
         </div>
 
         <div className="min-h-0 w-full shrink-0">
-          <div className="min-h-[120px] landscape:min-h-[140px] sm:min-h-[160px]">
+          <div className="h-[170px] w-full landscape:h-[160px] sm:h-[190px]">
             <RefractiveQuarterlyChart />
           </div>
 

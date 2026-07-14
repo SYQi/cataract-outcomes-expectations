@@ -64,7 +64,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 alt={profile.name}
                 width={182}
                 height={228}
-                className="h-36 w-32 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-40 sm:w-36"
+                className="h-[10.8rem] w-[9.6rem] shrink-0 rounded-xl object-cover object-top shadow-md sm:h-48 sm:w-[10.8rem]"
               />
               <div className="min-w-0 max-w-xl text-center text-[1.728em] leading-snug sm:text-left">
                 <h3 className="text-[1.755rem] font-bold text-brand-navy">{profile.name}</h3>

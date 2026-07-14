@@ -173,16 +173,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           <span className="mt-1 block">
             <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
             {" to an average score of "}
-            <span
-              className={`${SCORE_NUM} text-[#2dd4bf]`}
-              style={{
-                WebkitTextStroke: "1.2px #0f172a",
-                paintOrder: "stroke fill",
-                textShadow: "0 0 0 #0f172a",
-              }}
-            >
-              {POST_OP_CAT_PROM5_AVERAGE}
-            </span>
+            <span className={`${SCORE_NUM} text-green-600`}>{POST_OP_CAT_PROM5_AVERAGE}</span>
           </span>
           <span className="mt-1 block">after cataract surgery</span>
         </p>
