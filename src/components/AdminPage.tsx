@@ -37,7 +37,7 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
         Enter patient details for the session. The patient will verify these on the next screen.
       </p>
 
-      <div className="mt-6 space-y-5">
+      <div className="mt-6 grid grid-cols-1 gap-5 landscape:grid-cols-2 landscape:gap-4">
         <label className="block">
           <span className="text-sm font-medium text-slate-700">Patient full name</span>
           <input
@@ -134,7 +134,7 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
         type="button"
         disabled={!valid}
         onClick={onContinue}
-        className="mt-8 w-full rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
+        className="mt-8 w-full rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40 landscape:mt-5"
       >
         Continue to patient verification
       </button>

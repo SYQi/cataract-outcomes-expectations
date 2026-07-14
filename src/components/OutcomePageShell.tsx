@@ -29,15 +29,15 @@ export function OutcomePageShell({
   }, [headline]);
 
   return (
-    <section className="flex flex-col sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px]">
-      <div className="mb-2 shrink-0 text-center sm:mb-3">
+    <section className="flex min-h-0 flex-col landscape:h-[calc(100dvh-4.75rem)] sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px] landscape:max-h-none">
+      <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-3">
         {eyebrow ? (
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal sm:text-xs">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[9px] sm:text-xs">
             {eyebrow}
           </p>
         ) : null}
         <h2
-          className={`${eyebrow ? "mt-2" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy sm:text-2xl ${
+          className={`${eyebrow ? "mt-1.5 landscape:mt-1" : ""} text-balance text-lg font-extrabold leading-snug text-brand-navy landscape:text-base sm:text-2xl landscape:sm:text-lg ${
             showHeadline ? "animate-scale-jump" : "opacity-0"
           }`}
         >
@@ -45,14 +45,15 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto sm:overflow-visible">{children}</div>
+      {/* Always scroll content so nav buttons stay visible on landscape tablets */}
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain pr-0.5">{children}</div>
 
-      <div className="mt-3 flex shrink-0 gap-2 sm:mt-4 sm:gap-3">
+      <div className="sticky bottom-0 z-20 mt-2 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1.5 sm:mt-4 sm:gap-3">
         {onBack && (
           <button
             type="button"
             onClick={onBack}
-            className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 landscape:py-2"
           >
             {backLabel}
           </button>
@@ -61,7 +62,7 @@ export function OutcomePageShell({
           <button
             type="button"
             onClick={onNext}
-            className="flex-[1.4] rounded-xl bg-brand-navy px-3 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90"
+            className="flex-[1.4] rounded-xl bg-brand-navy px-3 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90 landscape:py-2"
           >
             {nextLabel}
           </button>

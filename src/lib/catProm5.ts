@@ -24,11 +24,19 @@ export const RAW_TO_LOGIT: Record<number, number> = {
   21: 7.45,
 };
 
+export type CatProm5LabelPart = {
+  text: string;
+  emphasize?: boolean;
+};
+
 export const CAT_PROM5_QUESTIONS = [
   {
     id: "a" as const,
-    label:
-      "How bad is the visual impairment considering only the affected eye?",
+    labelParts: [
+      { text: "Using only the " },
+      { text: "worse eye", emphasize: true },
+      { text: ", how bad is your vision?" },
+    ] satisfies CatProm5LabelPart[],
     minLabel: "No impairment at all",
     maxLabel: "Very bad",
     min: 0,
@@ -36,7 +44,11 @@ export const CAT_PROM5_QUESTIONS = [
   },
   {
     id: "b" as const,
-    label: "How bad is the visual impairment, with both eyes open?",
+    labelParts: [
+      { text: "Using " },
+      { text: "both eyes", emphasize: true },
+      { text: ", how bad is your vision?" },
+    ] satisfies CatProm5LabelPart[],
     minLabel: "No impairment at all",
     maxLabel: "Very bad",
     min: 0,
@@ -44,7 +56,11 @@ export const CAT_PROM5_QUESTIONS = [
   },
   {
     id: "c" as const,
-    label: "How has your (poor) eyesight interfered with life in general?",
+    labelParts: [
+      { text: "How has your " },
+      { text: "life", emphasize: true },
+      { text: " been affected by poor vision" },
+    ] satisfies CatProm5LabelPart[],
     minLabel: "No interference at all",
     maxLabel: "Extremely bad effect on quality of life",
     min: 0,
@@ -52,8 +68,13 @@ export const CAT_PROM5_QUESTIONS = [
   },
   {
     id: "d" as const,
-    label:
-      "How has your (poor) eyesight prevented you from doing things that you like to do / hobbies?",
+    labelParts: [
+      { text: "Does poor vision affect your " },
+      { text: "hobbies", emphasize: true },
+      { text: " or " },
+      { text: "favourite activities", emphasize: true },
+      { text: "?" },
+    ] satisfies CatProm5LabelPart[],
     minLabel: "Never",
     maxLabel: "All the time",
     min: 0,
@@ -61,8 +82,11 @@ export const CAT_PROM5_QUESTIONS = [
   },
   {
     id: "e" as const,
-    label:
-      "How has your (poor) eyesight affected your ability to read (with the assistance of reading glasses, if any)?",
+    labelParts: [
+      { text: "Does poor vision affect your " },
+      { text: "reading", emphasize: true },
+      { text: "?" },
+    ] satisfies CatProm5LabelPart[],
     minLabel: "No difficulties reading at all",
     maxLabel: "Can't read at all because of poor eyesight",
     min: 0,

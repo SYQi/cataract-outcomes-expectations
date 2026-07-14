@@ -44,7 +44,7 @@ export function ConversionWizard() {
     dateTime: "",
   });
   const [answers, setAnswers] = useState<CatProm5Answers>(DEFAULT_CAT_PROM5_ANSWERS);
-  const [catQuestionIndex, setCatQuestionIndex] = useState(0);
+  const [unlockedCount, setUnlockedCount] = useState(1);
   const [showNewPatientGate, setShowNewPatientGate] = useState(false);
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export function ConversionWizard() {
     setStep("admin");
     setPatient({ ...EMPTY_PATIENT_INTAKE, dateTime: formatGmt8Timestamp() });
     setAnswers(DEFAULT_CAT_PROM5_ANSWERS);
-    setCatQuestionIndex(0);
+    setUnlockedCount(1);
     setShowNewPatientGate(false);
   };
 
@@ -83,9 +83,9 @@ export function ConversionWizard() {
     setAnswers((a) => ({ ...a, [questionId]: value }));
   };
 
-  const handleCatRelease = () => {
-    if (catQuestionIndex < CAT_PROM5_QUESTIONS.length - 1) {
-      setCatQuestionIndex((i) => i + 1);
+  const handleCatFrontierRelease = () => {
+    if (unlockedCount < CAT_PROM5_QUESTIONS.length) {
+      setUnlockedCount((c) => c + 1);
     } else {
       setStep("va");
     }
@@ -128,21 +128,25 @@ export function ConversionWizard() {
 
   return (
     <div
-      className={`mx-auto min-h-screen px-4 py-6 sm:px-6 sm:py-8 ${
-        isOutcome ? "max-w-5xl" : "max-w-2xl"
+      className={`mx-auto min-h-screen px-4 py-5 landscape:py-3 sm:px-6 sm:py-8 landscape:sm:py-4 ${
+        isOutcome
+          ? "max-w-5xl landscape:max-w-6xl"
+          : step === "assessment"
+            ? "max-w-2xl landscape:max-w-3xl"
+            : "max-w-2xl landscape:max-w-3xl"
       }`}
     >
-      <header className={`text-center ${isOutcome ? "mb-3" : "mb-8"}`}>
+      <header className={`text-center ${isOutcome ? "mb-2 landscape:mb-1.5" : "mb-6 landscape:mb-4 sm:mb-8"}`}>
         {step === "details" && (
           <>
-            <div className="mb-4 flex justify-center">
+            <div className="mb-3 flex justify-center landscape:mb-2 sm:mb-4">
               <WhLogo size="lg" />
             </div>
-            <h1 className="mt-1 text-2xl font-bold leading-snug text-brand-navy sm:text-3xl">
+            <h1 className="mt-1 text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
               <span className="block">Cataract Surgery:</span>
               <span className="mt-1 block">Outcomes and Expectations</span>
             </h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-slate-600 landscape:mt-1">
               Please verify your details before starting the assessment.
             </p>
           </>
@@ -152,7 +156,9 @@ export function ConversionWizard() {
         )}
         {step === "assessment" && (
           <>
-            <h1 className="text-xl font-bold text-brand-navy sm:text-2xl">Assessment</h1>
+            <h1 className="text-xl font-bold text-brand-navy landscape:text-lg sm:text-2xl">
+              Assessment
+            </h1>
             <p className="mt-1 text-sm text-slate-500">CAT-PROM5 questionnaire</p>
           </>
         )}
@@ -176,11 +182,13 @@ export function ConversionWizard() {
         )}
         {isOutcome && (
           <>
-            <p className="mt-2 text-[11px] font-medium uppercase tracking-wide text-slate-400">
+            <p className="mt-1.5 text-[11px] font-medium uppercase tracking-wide text-slate-400 landscape:mt-1">
               {outcomeIndex + 1} of {OUTCOME_STEPS.length} · {outcomeLabel}
             </p>
             {swipeNavActive && (
-              <p className="mt-1 text-[10px] text-slate-400">Swipe left or right between outcome pages</p>
+              <p className="mt-1 text-[10px] text-slate-400 landscape:hidden">
+                Swipe left or right between outcome pages
+              </p>
             )}
           </>
         )}
@@ -195,13 +203,13 @@ export function ConversionWizard() {
       )}
 
       {step === "details" && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
           <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
           <p className="mt-1 text-sm text-slate-500">
             These were entered by staff. Please confirm they are correct before continuing.
           </p>
 
-          <div className="mt-6 space-y-5">
+          <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-3 landscape:gap-4 landscape:space-y-0">
             {[
               { label: "Full name", value: patient.name },
               { label: "NRIC", value: patient.nric },
@@ -216,7 +224,7 @@ export function ConversionWizard() {
             ))}
           </div>
 
-          <div className="mt-8 flex gap-3">
+          <div className="mt-8 flex gap-3 landscape:mt-5">
             <button
               type="button"
               onClick={() => setStep("admin")}
@@ -228,7 +236,7 @@ export function ConversionWizard() {
               type="button"
               disabled={!verifyValid}
               onClick={() => {
-                setCatQuestionIndex(0);
+                setUnlockedCount(1);
                 setStep("assessment");
               }}
               className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
@@ -240,23 +248,12 @@ export function ConversionWizard() {
       )}
 
       {step === "assessment" && (
-        <section className="space-y-4">
-          <CatProm5QuestionPage
-            questionIndex={catQuestionIndex}
-            answers={answers}
-            onAnswer={handleCatAnswer}
-            onRelease={handleCatRelease}
-          />
-          {catQuestionIndex > 0 && (
-            <button
-              type="button"
-              onClick={() => setCatQuestionIndex((i) => i - 1)}
-              className="w-full rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50"
-            >
-              Previous question
-            </button>
-          )}
-        </section>
+        <CatProm5QuestionPage
+          unlockedCount={unlockedCount}
+          answers={answers}
+          onAnswer={handleCatAnswer}
+          onFrontierRelease={handleCatFrontierRelease}
+        />
       )}
 
       {isOutcome && visualAcuity && (
@@ -265,7 +262,7 @@ export function ConversionWizard() {
             <VaOutcomePage
               visualAcuity={visualAcuity}
               onBack={() => {
-                setCatQuestionIndex(CAT_PROM5_QUESTIONS.length - 1);
+                setUnlockedCount(CAT_PROM5_QUESTIONS.length);
                 setStep("assessment");
               }}
               onNext={() => setStep("refraction")}

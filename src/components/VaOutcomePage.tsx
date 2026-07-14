@@ -41,18 +41,24 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex min-h-0 flex-col gap-4 sm:h-full sm:gap-3">
-        <VaPrePostCompare visualAcuity={visualAcuity} />
-        <div className="shrink-0">
-          <VaTrendChart />
+      <div className="flex min-h-0 flex-col gap-3 landscape:grid landscape:grid-cols-2 landscape:items-stretch landscape:gap-4 sm:gap-3">
+        <div className="min-h-0 landscape:flex landscape:flex-col">
+          <VaPrePostCompare visualAcuity={visualAcuity} />
         </div>
-        <p className="shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
-          {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
-        </p>
-        <p className="hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
-          <span className="font-semibold text-slate-600">Reference (Blue Mountains Eye Study, 75%): </span>
-          {BLUE_MOUNTAINS_CITATION}
-        </p>
+        <div className="min-h-0 shrink-0 landscape:flex landscape:min-h-0 landscape:flex-col">
+          <div className="landscape:min-h-0 landscape:flex-1">
+            <VaTrendChart />
+          </div>
+          <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 landscape:mt-1.5 sm:text-[11px]">
+            {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
+          </p>
+          <p className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 landscape:mt-1.5 landscape:pt-1.5 sm:block">
+            <span className="font-semibold text-slate-600">
+              Reference (Blue Mountains Eye Study, 75%):{" "}
+            </span>
+            {BLUE_MOUNTAINS_CITATION}
+          </p>
+        </div>
       </div>
     </OutcomePageShell>
   );

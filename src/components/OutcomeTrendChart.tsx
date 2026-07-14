@@ -49,7 +49,7 @@ export function OutcomeTrendChart({
         <p className="text-balance text-xs font-bold leading-snug text-brand-navy sm:text-sm">{title}</p>
       </div>
 
-      <div className="min-h-[150px] shrink-0 sm:min-h-[160px]" style={{ height: 150 }}>
+      <div className="h-[130px] shrink-0 landscape:h-[140px] sm:h-[160px] landscape:sm:h-[140px]">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}

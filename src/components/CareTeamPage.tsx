@@ -16,10 +16,20 @@ type CareTeamPageProps = {
   onNewPatient: () => void;
 };
 
+/** Insurers whose logos need a 20% size bump for readability. */
+const ENLARGED_LOGO_INSURERS = new Set<Insurer>([
+  "AIA",
+  "Great Eastern",
+  "Prudential",
+  "NTUC Income",
+  "HSBC",
+]);
+
 export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProps) {
   const insurer = patient.insurer as Insurer;
   const consultant = patient.consultant as ConsultantName;
   const profile = CONSULTANT_PROFILES[consultant];
+  const enlargeLogo = ENLARGED_LOGO_INSURERS.has(insurer);
 
   return (
     <OutcomePageShell
@@ -36,7 +46,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
       nextLabel="New patient"
       backLabel="← Quality of life"
     >
-      <div className="flex min-h-0 flex-col gap-4">
+      <div className="flex min-h-0 flex-col gap-4 landscape:grid landscape:grid-cols-2 landscape:gap-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <p className="text-center text-xs font-bold uppercase tracking-wide text-slate-500">
             Your insurer
@@ -46,9 +56,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
             <Image
               src={insurerLogoPath(insurer)}
               alt={`${insurer} logo`}
-              width={280}
-              height={100}
-              className="h-16 w-auto max-w-[260px] object-contain sm:h-20"
+              width={320}
+              height={120}
+              className={
+                enlargeLogo
+                  ? "h-[4.8rem] w-auto max-w-[300px] object-contain sm:h-24"
+                  : "h-16 w-auto max-w-[260px] object-contain sm:h-20"
+              }
             />
           </div>
         </div>

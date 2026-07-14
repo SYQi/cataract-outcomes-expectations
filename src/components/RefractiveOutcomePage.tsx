@@ -47,16 +47,16 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       onNext={onNext}
       nextLabel="Complications →"
     >
-      <div className="flex min-h-0 flex-col gap-3 sm:h-full sm:gap-3">
-        <div className="flex shrink-0 justify-center">
+      <div className="flex min-h-0 flex-col gap-3 landscape:grid landscape:grid-cols-[auto_1fr] landscape:items-start landscape:gap-4 sm:gap-3">
+        <div className="flex shrink-0 justify-center landscape:pt-2">
           <div
-            className={`relative flex h-28 w-28 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl sm:h-36 sm:w-36 ${
+            className={`relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-28 landscape:w-28 sm:h-36 sm:w-36 landscape:sm:h-28 landscape:sm:w-28 ${
               show ? "animate-scale-jump" : "scale-75 opacity-0"
             }`}
           >
             <div className="absolute inset-2 rounded-full border-2 border-white/30 sm:inset-3" />
             <div className="text-center text-white">
-              <p className="text-3xl font-black leading-none sm:text-4xl">
+              <p className="text-3xl font-black leading-none sm:text-4xl landscape:sm:text-3xl">
                 {REFRACTIVE_WITHIN_1D_PERCENT}%
               </p>
               <p className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-white/85 sm:text-[10px]">
@@ -66,31 +66,33 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
           </div>
         </div>
 
-        <div className="min-h-[130px] shrink-0 sm:min-h-[170px]">
-          <OutcomeTrendChart
-            title="Refractive ±1.0D — Woodlands specialist trend"
-            seriesLabel="Within ±1.0D"
-            data={MONTHLY_REFRACTIVE_1D_TREND}
-            stroke="#0d9488"
-            dotFill="#00205B"
-            reference={{
-              value: NHS_REFRACTIVE_REFERENCE_PERCENT,
-              label: `NHS ${NHS_REFRACTIVE_REFERENCE_PERCENT}%`,
-              stroke: "#b45309",
-            }}
-          />
-        </div>
+        <div className="min-h-0 shrink-0">
+          <div className="min-h-[120px] landscape:min-h-[140px] sm:min-h-[170px] landscape:sm:min-h-[140px]">
+            <OutcomeTrendChart
+              title="Refractive ±1.0D — Woodlands specialist trend"
+              seriesLabel="Within ±1.0D"
+              data={MONTHLY_REFRACTIVE_1D_TREND}
+              stroke="#0d9488"
+              dotFill="#00205B"
+              reference={{
+                value: NHS_REFRACTIVE_REFERENCE_PERCENT,
+                label: `NHS ${NHS_REFRACTIVE_REFERENCE_PERCENT}%`,
+                stroke: "#b45309",
+              }}
+            />
+          </div>
 
-        <p className="shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
-          {SPECIALIST_CARE_FOOTNOTE} · VA ≥ 6/12 cohort · {COHORT_CASE_COUNT} cases ·{" "}
-          {REPORTING_WINDOW_LABEL}
-        </p>
-        <p className="hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
-          <span className="font-semibold text-slate-600">
-            Reference (NHS, {NHS_REFRACTIVE_REFERENCE_PERCENT}% within ±1.0D):{" "}
-          </span>
-          {NHS_REFRACTIVE_CITATION}
-        </p>
+          <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
+            {SPECIALIST_CARE_FOOTNOTE} · VA ≥ 6/12 cohort · {COHORT_CASE_COUNT} cases ·{" "}
+            {REPORTING_WINDOW_LABEL}
+          </p>
+          <p className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 landscape:pb-1 sm:block">
+            <span className="font-semibold text-slate-600">
+              Reference (NHS, {NHS_REFRACTIVE_REFERENCE_PERCENT}% within ±1.0D):{" "}
+            </span>
+            {NHS_REFRACTIVE_CITATION}
+          </p>
+        </div>
       </div>
     </OutcomePageShell>
   );

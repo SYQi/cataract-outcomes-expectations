@@ -52,16 +52,16 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       onNext={onNext}
       nextLabel="Quality of life →"
     >
-      <div className="flex min-h-0 flex-col gap-3 sm:gap-4">
+      <div className="flex min-h-0 flex-col gap-3 landscape:grid landscape:grid-cols-2 landscape:gap-4 sm:gap-4">
         <div
-          className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm sm:p-4 ${
+          className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm landscape:flex landscape:flex-col landscape:justify-center sm:p-4 ${
             show ? "animate-scale-jump" : "opacity-0"
           }`}
         >
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.16em] text-teal-700 sm:text-xs">
             Specialist care · Woodlands Hospital
           </p>
-          <p className="mt-1 text-center text-3xl font-black leading-none text-brand-navy sm:text-4xl">
+          <p className="mt-1 text-center text-3xl font-black leading-none text-brand-navy landscape:text-4xl sm:text-4xl">
             {SURGERY_SUCCESS_NO_COMPLICATION_PERCENT}%
           </p>
           <p className="mt-1 text-center text-xs font-semibold text-slate-600 sm:text-sm">
@@ -82,9 +82,9 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             All-cause intraoperative complications — specialist outcomes at Woodlands Hospital
           </p>
 
-          <div className="mx-auto mt-4 max-w-md">
+          <div className="mx-auto mt-3 max-w-md landscape:mt-2">
             <div className="flex justify-center gap-4 sm:gap-6">
-              <div className="relative h-32 w-[42%] sm:h-36 sm:w-[45%]">
+              <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
                 <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
@@ -98,7 +98,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
                 </p>
               </div>
 
-              <div className="relative h-32 w-[42%] sm:h-36 sm:w-[45%]">
+              <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
                   style={{ height: `${whHeightPct}%` }}
@@ -129,9 +129,10 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
             </div>
           </div>
 
-          <p className="mt-5 border-t border-slate-100 pt-4 text-center text-xs font-semibold leading-relaxed text-slate-700 sm:text-sm">
+          <p className="mt-3 border-t border-slate-100 pt-3 text-center text-xs font-semibold leading-relaxed text-slate-700 landscape:mt-2 landscape:pt-2 sm:text-sm">
             <span className="block">
-              Woodlands specialist rate: <strong className="text-brand-navy">{COMPLICATION_RATE_PERCENT}%</strong>
+              Woodlands specialist rate:{" "}
+              <strong className="text-brand-navy">{COMPLICATION_RATE_PERCENT}%</strong>
             </span>
             <span className="block">
               vs Royal College of Ophthalmologists (UK): {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–
@@ -144,20 +145,22 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
           </p>
         </div>
 
-        <p className="mt-1 shrink-0 text-center text-[10px] leading-relaxed text-slate-400 sm:mt-2 sm:text-[11px]">
-          {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
-        </p>
-        <div className="mt-2 hidden shrink-0 border-t border-slate-200 pt-3 text-left text-[10px] leading-relaxed text-slate-500 sm:block">
-          <p className="font-semibold text-slate-600">
-            Reference — Royal College of Ophthalmologists, United Kingdom (
-            {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%)
+        <div className="shrink-0 landscape:col-span-2">
+          <p className="text-center text-[10px] leading-relaxed text-slate-400 sm:text-[11px]">
+            {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
           </p>
-          <p>
-            Day, A. C., Norridge, C. F. E., Donachie, P. H. J., Barnes, B. &amp; Sparrow, J. M. Royal
-            College of Ophthalmologists&apos; National Ophthalmology Database study of cataract
-            surgery: report 8.
-          </p>
-          <p>BMJ Open 12, e053560 (2022). PubMed: 35985773.</p>
+          <div className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-relaxed text-slate-500 landscape:pb-1 sm:block">
+            <p className="font-semibold text-slate-600">
+              Reference — Royal College of Ophthalmologists, United Kingdom (
+              {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%)
+            </p>
+            <p>
+              Day, A. C., Norridge, C. F. E., Donachie, P. H. J., Barnes, B. &amp; Sparrow, J. M. Royal
+              College of Ophthalmologists&apos; National Ophthalmology Database study of cataract
+              surgery: report 8.
+            </p>
+            <p>BMJ Open 12, e053560 (2022). PubMed: 35985773.</p>
+          </div>
         </div>
       </div>
     </OutcomePageShell>
