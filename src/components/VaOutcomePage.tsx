@@ -24,13 +24,15 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
     <OutcomePageShell
       prominentHeadline
       alignContentTop
+      compactHeadline
+      fitViewport
       eyebrow="Visual acuity"
       headline={
         <>
-          <span className="block">
+          <span className="block landscape:inline">
             <span className={EMPHASIS}>Specialist Ophthalmologists</span> at Woodlands Hospital
           </span>
-          <span className="mt-0.5 block">
+          <span className="mt-0.5 block landscape:mt-0 landscape:inline landscape:ml-1">
             achieve good vision for{" "}
             <span className={EMPHASIS}>{VA_612_OR_BETTER_PERCENT}%</span> of all patients within 1
             month
@@ -42,18 +44,16 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-3 sm:gap-3">
-        <div className="min-h-0 flex-[1.05] landscape:h-full">
+      <div className="flex min-h-0 flex-1 flex-col gap-2 landscape:gap-1">
+        <div className="aspect-[2.4/1] max-h-[11rem] w-full shrink-0 landscape:max-h-[9.5rem] sm:max-h-[12rem]">
           <VaPrePostCompare visualAcuity={visualAcuity} />
         </div>
-        <div className="flex min-h-0 flex-1 flex-col landscape:h-full">
-          <div className="min-h-0 flex-1">
-            <VaTrendChart />
-          </div>
-          <p className="mt-1 shrink-0 text-center text-[9px] leading-snug text-slate-400 sm:text-[10px]">
-            {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
-          </p>
+        <div className="min-h-0 flex-1">
+          <VaTrendChart compact />
         </div>
+        <p className="shrink-0 text-center text-[9px] leading-snug text-slate-400 landscape:text-[8px] sm:text-[10px]">
+          {SPECIALIST_CARE_FOOTNOTE} · {COHORT_CASE_COUNT} cases · {REPORTING_WINDOW_LABEL}
+        </p>
       </div>
     </OutcomePageShell>
   );

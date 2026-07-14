@@ -6,9 +6,10 @@ import {
   MONTHLY_VA_612_TREND,
 } from "@/lib/whOutcomes";
 
-export function VaTrendChart() {
+export function VaTrendChart({ compact = false }: { compact?: boolean }) {
   return (
     <OutcomeTrendChart
+      compact={compact}
       fillHeight
       title="VA 6/12+ — Woodlands specialist trend"
       seriesLabel="6/12 or better"

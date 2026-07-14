@@ -17,6 +17,8 @@ type OutcomePageShellProps = {
   alignContentTop?: boolean;
   /** Reduce space between headline and content (care team page). */
   compactHeadline?: boolean;
+  /** Prevent inner scroll; content must fit the remaining viewport height. */
+  fitViewport?: boolean;
 };
 
 export function OutcomePageShell({
@@ -30,6 +32,7 @@ export function OutcomePageShell({
   prominentHeadline = false,
   alignContentTop = false,
   compactHeadline = false,
+  fitViewport = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
@@ -70,16 +73,24 @@ export function OutcomePageShell({
       {/* Default: center when content fits. alignContentTop: pin to top so page chrome stays in view. */}
       <div
         ref={contentScrollRef}
-        className={`flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain ${
-          alignContentTop ? "justify-start" : "justify-center"
-        }`}
+        className={`flex min-h-0 flex-1 flex-col ${
+          fitViewport ? "overflow-hidden" : "overflow-y-auto overscroll-contain"
+        } ${alignContentTop ? "justify-start" : "justify-center"}`}
       >
-        <div className={`w-full ${compactHeadline ? "py-0" : "py-1"} ${alignContentTop ? "" : "my-auto"}`}>
+        <div
+          className={`w-full ${compactHeadline ? "py-0" : "py-1"} ${
+            fitViewport ? "flex min-h-0 flex-1 flex-col" : ""
+          } ${alignContentTop ? "" : "my-auto"}`}
+        >
           {children}
         </div>
       </div>
 
-      <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">
+      <div
+        className={`z-20 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm sm:gap-3 ${
+          fitViewport ? "mt-1 landscape:mt-0.5 landscape:pt-1.5" : "mt-1.5 landscape:mt-1 sm:mt-2"
+        }`}
+      >
         {onBack && (
           <button
             type="button"

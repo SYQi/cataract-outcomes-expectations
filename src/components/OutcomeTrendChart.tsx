@@ -29,6 +29,8 @@ type OutcomeTrendChartProps = {
   reference?: ReferenceMark;
   /** Stretch chart area to fill available height (Visual Acuity fit-viewport). */
   fillHeight?: boolean;
+  /** Tighter layout for Visual Acuity stacked view on iPad. */
+  compact?: boolean;
 };
 
 export function OutcomeTrendChart({
@@ -39,6 +41,7 @@ export function OutcomeTrendChart({
   dotFill = "#0d9488",
   reference,
   fillHeight = false,
+  compact = false,
 }: OutcomeTrendChartProps) {
   const chartData = data.map((p) => ({
     label: p.label.replace(" 20", " '"),
@@ -47,34 +50,48 @@ export function OutcomeTrendChart({
   }));
 
   return (
-    <div className="flex h-full min-h-0 flex-col rounded-xl border border-slate-200 bg-white p-2 sm:p-3">
-      <div className="mb-1 shrink-0">
-        <p className="text-balance text-xs font-bold leading-snug text-brand-navy sm:text-sm">{title}</p>
+    <div
+      className={`flex h-full min-h-0 flex-col rounded-xl border border-slate-200 bg-white ${
+        compact ? "p-1.5 landscape:p-1 sm:p-2" : "p-2 sm:p-3"
+      }`}
+    >
+      <div className="mb-0.5 shrink-0 landscape:mb-0">
+        <p
+          className={`text-balance font-bold leading-snug text-brand-navy ${
+            compact ? "text-[10px] landscape:text-[9px] sm:text-xs" : "text-xs sm:text-sm"
+          }`}
+        >
+          {title}
+        </p>
       </div>
 
       <div
         className={
-          fillHeight
+          fillHeight || compact
             ? "min-h-0 flex-1"
             : "h-[130px] shrink-0 landscape:h-[140px] sm:h-[160px] landscape:sm:h-[140px]"
         }
-        style={fillHeight ? { minHeight: 110 } : undefined}
+        style={fillHeight || compact ? { minHeight: compact ? 72 : 110 } : undefined}
       >
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
-            margin={{ top: 6, right: 6, left: 0, bottom: 28 }}
+            margin={
+              compact
+                ? { top: 4, right: 4, left: 0, bottom: 22 }
+                : { top: 6, right: 6, left: 0, bottom: 28 }
+            }
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
             <XAxis
               dataKey="label"
-              tick={{ fontSize: 8, fill: "#64748b" }}
+              tick={{ fontSize: compact ? 7 : 8, fill: "#64748b" }}
               tickLine={false}
               axisLine={{ stroke: "#cbd5e1" }}
               interval={0}
               angle={-35}
               textAnchor="end"
-              height={36}
+              height={compact ? 28 : 36}
             />
             <YAxis
               domain={[0, 100]}
@@ -112,20 +129,31 @@ export function OutcomeTrendChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-1 shrink-0 space-y-1 border-t border-slate-100 pt-1.5">
-        {reference && (
-          <p className="text-center text-[9px] font-medium text-slate-500 sm:text-[10px]">
-            <span
-              className="mr-1 inline-block h-0 w-4 border-t-2 border-dashed align-middle"
-              style={{ borderColor: reference.stroke ?? "#94a3b8" }}
-            />
-            Reference: {reference.label}
+      {!compact && (
+        <div className="mt-1 shrink-0 space-y-1 border-t border-slate-100 pt-1.5">
+          {reference && (
+            <p className="text-center text-[9px] font-medium text-slate-500 sm:text-[10px]">
+              <span
+                className="mr-1 inline-block h-0 w-4 border-t-2 border-dashed align-middle"
+                style={{ borderColor: reference.stroke ?? "#94a3b8" }}
+              />
+              Reference: {reference.label}
+            </p>
+          )}
+          <p className="text-center text-[9px] leading-snug text-slate-400 sm:text-[10px]">
+            {SPECIALIST_CARE_FOOTNOTE} · {REPORTING_WINDOW_LABEL}
           </p>
-        )}
-        <p className="text-center text-[9px] leading-snug text-slate-400 sm:text-[10px]">
-          {SPECIALIST_CARE_FOOTNOTE} · {REPORTING_WINDOW_LABEL}
+        </div>
+      )}
+      {compact && reference && (
+        <p className="mt-0.5 shrink-0 text-center text-[8px] font-medium text-slate-500 landscape:text-[7px] sm:text-[9px]">
+          <span
+            className="mr-1 inline-block h-0 w-3 border-t-2 border-dashed align-middle"
+            style={{ borderColor: reference.stroke ?? "#94a3b8" }}
+          />
+          Reference: {reference.label}
         </p>
-      </div>
+      )}
     </div>
   );
 }

@@ -144,7 +144,12 @@ export function ConversionWizard() {
    * stays visible at first paint without scrolling up.
    */
   const lockToViewport = step === "details" || isOutcome;
-  const mainClass = "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain";
+  const mainClass =
+    step === "assessment"
+      ? "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain"
+      : step === "va"
+        ? "flex min-h-0 flex-1 flex-col justify-start overflow-hidden overscroll-contain"
+        : "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain";
 
   return (
     <div
