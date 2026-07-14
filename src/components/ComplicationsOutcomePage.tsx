@@ -34,6 +34,8 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
 
   return (
     <OutcomePageShell
+      fitViewport
+      centerViewport
       prominentHeadline
       eyebrow="Complications"
       headline={
@@ -53,7 +55,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       onNext={onNext}
       nextLabel="Quality of life →"
     >
-      <div className="flex min-h-0 flex-col gap-3 landscape:grid landscape:grid-cols-2 landscape:gap-4 sm:gap-4">
+      <div className="flex min-h-0 flex-col items-center justify-center gap-2 landscape:grid landscape:max-h-[52vh] landscape:grid-cols-2 landscape:items-center landscape:gap-3 sm:gap-3">
         <div
           className={`relative shrink-0 overflow-hidden rounded-2xl border border-green-200 bg-gradient-to-br from-green-50 via-white to-teal-50 p-3 shadow-sm landscape:flex landscape:flex-col landscape:justify-center sm:p-4 ${
             show ? "animate-scale-jump" : "opacity-0"

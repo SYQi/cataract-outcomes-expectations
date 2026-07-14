@@ -25,7 +25,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
     <OutcomePageShell
       fitViewport
       headline={
-        <span className="block">
+        <span className="block text-[1.3em]">
           Your{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Insurer</span> and{" "}
           <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist</span> for
@@ -45,13 +45,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
           <p className="mt-0.5 shrink-0 text-center text-base font-bold text-brand-navy sm:text-lg">
             {insurer}
           </p>
-          <div className="mt-2 flex h-16 items-center justify-center px-2 sm:h-20">
+          <div className="mt-2 flex h-[4.8rem] items-center justify-center px-2 sm:h-24">
             <Image
               src={insurerLogoPath(insurer)}
               alt={`${insurer} logo`}
-              width={320}
-              height={120}
-              className="h-auto max-h-full w-auto max-w-[220px] object-contain sm:max-w-[260px]"
+              width={384}
+              height={144}
+              className="h-auto max-h-full w-auto max-w-[264px] object-contain sm:max-w-[312px]"
             />
           </div>
         </div>
@@ -69,7 +69,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 height={175}
                 className="h-28 w-24 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-32 sm:w-28"
               />
-              <div className="min-w-0 text-center text-[1.44em] leading-snug sm:text-left">
+              <div className="min-w-0 text-center text-[1.728em] leading-snug sm:text-left">
                 <h3 className="text-lg font-bold text-brand-navy">{profile.name}</h3>
                 <p className="mt-0.5 text-sm font-semibold text-brand-teal">{profile.rank}</p>
                 <p className="text-sm text-slate-600">{profile.department}</p>

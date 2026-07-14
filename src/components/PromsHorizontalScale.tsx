@@ -29,16 +29,18 @@ function clampMarkerLeft(score: number): number {
 function MarkerLabel({
   marker,
   visible,
+  anchor = "top",
 }: {
   marker: Marker;
   visible: boolean;
+  anchor?: "top" | "bottom";
 }) {
   const left = clampMarkerLeft(marker.score);
   return (
     <div
-      className={`absolute top-0 flex w-0 -translate-x-1/2 flex-col items-center ${
-        visible ? "animate-fade-up" : "opacity-0"
-      }`}
+      className={`absolute flex w-0 -translate-x-1/2 flex-col items-center ${
+        anchor === "bottom" ? "bottom-0" : "top-0"
+      } ${visible ? "animate-fade-up" : "opacity-0"}`}
       style={{ left: `${left}%`, animationDelay: `${marker.delayMs}ms` }}
     >
       <p
@@ -139,9 +141,9 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           <span className="text-green-600">Great</span>
         </div>
 
-        <div className="relative h-12 sm:h-14">
+        <div className="relative mb-2 h-14 sm:mb-3 sm:h-16">
           {aboveMarkers.map((m) => (
-            <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} />
+            <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} anchor="bottom" />
           ))}
         </div>
 
@@ -167,7 +169,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
       {visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-[0.975rem] font-medium leading-snug text-slate-700 sm:mt-4 sm:text-[1.1375rem]"
+          className="mt-3 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-4 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}
         >
           <span className="block">
@@ -177,7 +179,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           <span className="mt-1 block">
             to between{" "}
             <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_FIRST_EYE}</span>
-            <span className="text-slate-700">–</span>
+            <span>–</span>
             <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_SECOND_EYE}</span>{" "}
             following cataract surgery
           </span>

@@ -277,7 +277,7 @@ export function ConversionWizard() {
       {isOutcome && visualAcuity && (
         <div
           className={
-            step === "va" || step === "refraction"
+            step === "va" || step === "refraction" || step === "complications"
               ? "flex flex-col justify-center landscape:min-h-[calc(100dvh-5.5rem)]"
               : ""
           }
