@@ -276,7 +276,11 @@ export function ConversionWizard() {
 
       {isOutcome && visualAcuity && (
         <div
-          className={step === "va" ? "flex flex-col justify-center landscape:min-h-[calc(100dvh-5.5rem)]" : ""}
+          className={
+            step === "va" || step === "refraction"
+              ? "flex flex-col justify-center landscape:min-h-[calc(100dvh-5.5rem)]"
+              : ""
+          }
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >

@@ -28,6 +28,8 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
 
   return (
     <OutcomePageShell
+      fitViewport
+      centerViewport
       prominentHeadline
       eyebrow="Refractive accuracy"
       headline={
@@ -48,27 +50,27 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       onNext={onNext}
       nextLabel="Complications →"
     >
-      <div className="flex min-h-0 flex-col gap-3 landscape:grid landscape:grid-cols-[auto_1fr] landscape:items-start landscape:gap-4 sm:gap-3">
-        <div className="flex shrink-0 justify-center landscape:pt-2">
+      <div className="flex min-h-0 flex-col items-center justify-center gap-3 landscape:grid landscape:max-h-[52vh] landscape:grid-cols-[auto_1fr] landscape:items-center landscape:gap-4 sm:gap-3">
+        <div className="flex shrink-0 justify-center">
           <div
-            className={`relative flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-28 landscape:w-28 sm:h-36 sm:w-36 landscape:sm:h-28 landscape:sm:w-28 ${
+            className={`relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-24 landscape:w-24 sm:h-32 sm:w-32 ${
               show ? "animate-scale-jump" : "scale-75 opacity-0"
             }`}
           >
             <div className="absolute inset-2 rounded-full border-2 border-white/30 sm:inset-3" />
             <div className="text-center text-white">
-              <p className="text-3xl font-black leading-none sm:text-4xl landscape:sm:text-3xl">
+              <p className="text-2xl font-black leading-none sm:text-3xl">
                 {REFRACTIVE_WITHIN_1D_PERCENT}%
               </p>
-              <p className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-white/85 sm:text-[10px]">
+              <p className="mt-1 text-[8px] font-semibold uppercase tracking-wide text-white/85 sm:text-[9px]">
                 within ±1.0D
               </p>
             </div>
           </div>
         </div>
 
-        <div className="min-h-0 shrink-0">
-          <div className="min-h-[120px] landscape:min-h-[140px] sm:min-h-[170px] landscape:sm:min-h-[140px]">
+        <div className="min-h-0 w-full shrink-0">
+          <div className="min-h-[100px] landscape:min-h-[120px] sm:min-h-[150px]">
             <OutcomeTrendChart
               title="Refractive ±1.0D — Woodlands specialist trend"
               seriesLabel="Within ±1.0D"

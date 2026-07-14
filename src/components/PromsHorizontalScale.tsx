@@ -42,14 +42,14 @@ function MarkerLabel({
       style={{ left: `${left}%`, animationDelay: `${marker.delayMs}ms` }}
     >
       <p
-        className={`max-w-[5.5rem] text-center text-[10px] font-bold leading-tight sm:max-w-[6.5rem] sm:text-[11px] ${
+        className={`max-w-[6.5rem] text-center text-[13px] font-bold leading-tight sm:max-w-[7.5rem] sm:text-[15px] ${
           marker.emphasis ? "text-red-700" : "text-slate-800"
         }`}
       >
         {marker.label}
       </p>
       <p
-        className={`text-xs font-black sm:text-sm ${
+        className={`text-sm font-black sm:text-base ${
           marker.emphasis ? "text-red-600" : "text-brand-navy"
         }`}
       >
@@ -83,6 +83,9 @@ function MarkerDot({
     </div>
   );
 }
+
+/** +30% on top of surrounding sentence size for highlighted scores. */
+const SCORE_NUM = "text-[1.3em] font-extrabold leading-none";
 
 export function PromsHorizontalScale({ patientScore, animate = true }: PromsHorizontalScaleProps) {
   const [visible, setVisible] = useState(!animate);
@@ -136,14 +139,12 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           <span className="text-green-600">Great</span>
         </div>
 
-        {/* Labels above bar (2nd eye surgery) */}
-        <div className="relative h-11 sm:h-12">
+        <div className="relative h-12 sm:h-14">
           {aboveMarkers.map((m) => (
             <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} />
           ))}
         </div>
 
-        {/* Gradient bar + dots */}
         <div className="relative mx-1 h-7 sm:mx-2 sm:h-8">
           <div
             className="absolute inset-0 rounded-full shadow-inner"
@@ -157,8 +158,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           ))}
         </div>
 
-        {/* Labels below bar (you today + 1st eye surgery) */}
-        <div className="relative mt-1 h-12 sm:h-14">
+        <div className="relative mt-1 h-14 sm:h-16">
           {belowMarkers.map((m) => (
             <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} />
           ))}
@@ -167,16 +167,19 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
       {visible && (
         <p
-          className="mt-3 animate-fade-up text-center text-[0.975rem] font-medium leading-snug text-teal-800 sm:mt-4 sm:text-[1.1375rem]"
+          className="mt-3 animate-fade-up text-center text-[0.975rem] font-medium leading-snug text-slate-700 sm:mt-4 sm:text-[1.1375rem]"
           style={{ animationDelay: "1.2s" }}
         >
           <span className="block">
             Quality of life score is expected to increase from{" "}
-            <strong>{patientScore}</strong>
+            <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
           </span>
           <span className="mt-1 block">
-            to between <strong>{POST_OP_CAT_PROM5_FIRST_EYE}</strong>–
-            <strong>{POST_OP_CAT_PROM5_SECOND_EYE}</strong> following cataract surgery
+            to between{" "}
+            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_FIRST_EYE}</span>
+            <span className="text-slate-700">–</span>
+            <span className={`${SCORE_NUM} text-[#2dd4bf]`}>{POST_OP_CAT_PROM5_SECOND_EYE}</span>{" "}
+            following cataract surgery
           </span>
         </p>
       )}
