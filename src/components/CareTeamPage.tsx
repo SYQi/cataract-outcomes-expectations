@@ -37,20 +37,18 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
       backLabel="← Quality of life"
     >
       <div className="flex min-h-0 flex-col gap-3 landscape:gap-3 sm:gap-4">
-        <div className="flex shrink-0 items-center gap-4 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
-          <div className="min-w-0 shrink-0 text-left">
+        <div className="flex shrink-0 items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:gap-4 sm:p-4">
+          <div className="shrink-0 text-left">
             <p className="text-xs font-bold uppercase tracking-wide text-slate-500">Your insurer</p>
             <p className="mt-0.5 text-base font-bold text-brand-navy sm:text-lg">{insurer}</p>
           </div>
-          <div className="flex min-w-0 flex-1 items-center justify-end">
-            <Image
-              src={insurerLogoPath(insurer)}
-              alt={`${insurer} logo`}
-              width={384}
-              height={144}
-              className="h-auto max-h-[4.8rem] w-auto max-w-[200px] object-contain sm:max-h-24 sm:max-w-[240px]"
-            />
-          </div>
+          <Image
+            src={insurerLogoPath(insurer)}
+            alt={`${insurer} logo`}
+            width={384}
+            height={144}
+            className="h-auto max-h-[4.8rem] w-auto max-w-[200px] shrink-0 object-contain sm:max-h-24 sm:max-w-[240px]"
+          />
         </div>
 
         {profile && (

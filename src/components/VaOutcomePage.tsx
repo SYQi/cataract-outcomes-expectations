@@ -23,6 +23,7 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
   return (
     <OutcomePageShell
       prominentHeadline
+      alignContentTop
       eyebrow="Visual acuity"
       headline={
         <>

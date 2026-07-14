@@ -53,9 +53,13 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      {/* my-auto vertically centers content when it fits; alignContentTop pins to the top edge */}
-      <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto overscroll-contain">
-        <div className={`w-full py-1 ${alignContentTop ? "mt-0" : "my-auto"}`}>{children}</div>
+      {/* Default: center when content fits. alignContentTop: pin to top so page chrome stays in view. */}
+      <div
+        className={`flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain ${
+          alignContentTop ? "justify-start" : "justify-center"
+        }`}
+      >
+        <div className={`w-full py-1 ${alignContentTop ? "" : "my-auto"}`}>{children}</div>
       </div>
 
       <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">
