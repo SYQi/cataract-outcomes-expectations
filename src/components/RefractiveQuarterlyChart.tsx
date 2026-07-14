@@ -4,6 +4,7 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  LabelList,
   ReferenceLine,
   ResponsiveContainer,
   Tooltip,
@@ -18,6 +19,27 @@ import {
 const AXIS_TICK = { fontSize: 13, fill: "#0f172a", fontWeight: 700 as const };
 const WH_COLOR = "#0d9488";
 const NHS_COLOR = "#b45309";
+
+function WoodlandsEndpointLabel(props: {
+  x?: number | string;
+  y?: number | string;
+  index?: number;
+}) {
+  const { x, y, index } = props;
+  if (index !== QUARTERLY_REFRACTIVE_1D_TREND.length - 1 || x == null || y == null) return null;
+  return (
+    <text
+      x={Number(x)}
+      y={Number(y) - 12}
+      fill={WH_COLOR}
+      fontSize={14}
+      fontWeight={800}
+      textAnchor="middle"
+    >
+      Woodlands
+    </text>
+  );
+}
 
 export function RefractiveQuarterlyChart() {
   const chartData = QUARTERLY_REFRACTIVE_1D_TREND.map((p) => ({
@@ -34,7 +56,7 @@ export function RefractiveQuarterlyChart() {
 
       <div className="h-[195px] w-full shrink-0 landscape:h-[182px] sm:h-[221px]">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData} margin={{ top: 10, right: 12, left: 4, bottom: 4 }}>
+          <AreaChart data={chartData} margin={{ top: 22, right: 14, left: 4, bottom: 4 }}>
             <defs>
               <linearGradient id="refractiveQuarterFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#00205B" stopOpacity={0.28} />
@@ -91,7 +113,9 @@ export function RefractiveQuarterlyChart() {
                 strokeWidth: 2,
               }}
               activeDot={{ r: 8, fill: WH_COLOR, stroke: "#fff", strokeWidth: 2 }}
-            />
+            >
+              <LabelList dataKey="rate" content={WoodlandsEndpointLabel} />
+            </Area>
           </AreaChart>
         </ResponsiveContainer>
       </div>

@@ -85,21 +85,11 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
 
           {/* Reserved top row for rate labels so they never overlap the titles above */}
           <div className="mx-auto mt-3 max-w-md">
-            <div className="mb-1 flex justify-center gap-4 sm:gap-6">
-              <div className="w-[42%] text-center sm:w-[45%]">
-                <p className="text-[10px] font-semibold text-amber-800 sm:text-xs">
-                  {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
-                </p>
-              </div>
-              <div className="w-[42%] text-center sm:w-[45%]">
-                <p className="text-[10px] font-bold text-brand-navy sm:text-xs">
-                  {COMPLICATION_RATE_PERCENT}%
-                </p>
-              </div>
-            </div>
-
             <div className="flex justify-center gap-4 sm:gap-6">
               <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
+                <p className="absolute inset-x-0 top-0 z-10 -translate-y-full pb-1 text-center text-[10px] font-semibold leading-none text-amber-800 sm:text-xs">
+                  {RCOPHTH_COMPLICATION_RATE_LOW_PERCENT}–{RCOPHTH_COMPLICATION_RATE_HIGH_PERCENT}%
+                </p>
                 <div className="absolute inset-x-0 bottom-0 h-full rounded-t-xl bg-gradient-to-t from-amber-500 to-amber-300 shadow-inner" />
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl border-t-2 border-dashed border-amber-700/50 bg-amber-400/40"
@@ -111,7 +101,11 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
                 <div
                   className="absolute inset-x-0 bottom-0 rounded-t-xl bg-gradient-to-t from-brand-navy to-teal-500 shadow-lg ring-2 ring-teal-300/60"
                   style={{ height: `${whHeightPct}%` }}
-                />
+                >
+                  <p className="absolute inset-x-0 top-0 z-10 -translate-y-full pb-1 text-center text-[10px] font-bold leading-none text-brand-navy sm:text-xs">
+                    {COMPLICATION_RATE_PERCENT}%
+                  </p>
+                </div>
               </div>
             </div>
 
