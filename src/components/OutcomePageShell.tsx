@@ -53,8 +53,8 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      {/* my-auto: vertically centers when content fits; alignContentTop pins to the top edge */}
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
+      {/* my-auto vertically centers content when it fits; alignContentTop pins to the top edge */}
+      <div className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto overscroll-contain">
         <div className={`w-full py-1 ${alignContentTop ? "mt-0" : "my-auto"}`}>{children}</div>
       </div>
 

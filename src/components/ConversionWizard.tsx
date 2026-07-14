@@ -136,9 +136,9 @@ export function ConversionWizard() {
     ? "max-w-5xl landscape:max-w-6xl"
     : "max-w-2xl landscape:max-w-3xl";
 
-  /** Assessment scrolls full-height panels; verification stays top-aligned. */
+  /** Assessment scrolls from the top; verification and outcomes center in remaining space. */
   const mainClass =
-    step === "details" || step === "assessment"
+    step === "assessment"
       ? "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain"
       : "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain";
 
@@ -225,7 +225,7 @@ export function ConversionWizard() {
         )}
 
         {step === "details" && (
-          <div className="w-full pt-1">
+          <div className="my-auto w-full py-2">
             <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
               <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
               <p className="mt-1 text-sm text-slate-500">
