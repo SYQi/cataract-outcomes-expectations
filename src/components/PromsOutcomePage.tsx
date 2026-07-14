@@ -21,12 +21,12 @@ export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomeP
       nextLabel="Your care team →"
       backLabel="← Complications"
     >
-      <div className="flex flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <div className="flex flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:p-3 sm:p-6">
         <PromsHorizontalScale patientScore={patientScore} />
-        <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
+        <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 landscape:hidden sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE}
         </p>
-        <p className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block">
+        <p className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 sm:block landscape:hidden">
           <span className="font-semibold text-slate-600">Reference (Cat-PROM5): </span>
           {CAT_PROM5_CITATION}
         </p>

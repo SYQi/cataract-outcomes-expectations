@@ -47,16 +47,16 @@ export function OutcomeTrendChart({
   }));
 
   return (
-    <div className="flex h-full min-h-0 flex-col rounded-xl border border-slate-200 bg-white p-2 sm:p-3">
-      <div className="mb-1 shrink-0">
-        <p className="text-balance text-xs font-bold leading-snug text-brand-navy sm:text-sm">{title}</p>
+    <div className="flex h-full min-h-0 flex-col rounded-xl border border-slate-200 bg-white p-2 landscape:p-1.5 sm:p-3">
+      <div className="mb-1 shrink-0 landscape:mb-0">
+        <p className="text-balance text-xs font-bold leading-snug text-brand-navy landscape:text-[10px] sm:text-sm">{title}</p>
       </div>
 
       <div
         className={
           fillHeight
             ? "min-h-0 flex-1"
-            : "h-[130px] shrink-0 landscape:h-[140px] sm:h-[160px] landscape:sm:h-[140px]"
+            : "h-[130px] shrink-0 landscape:h-[28vh] sm:h-[160px]"
         }
         style={fillHeight ? { minHeight: 110 } : undefined}
       >
@@ -112,7 +112,7 @@ export function OutcomeTrendChart({
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-1 shrink-0 space-y-1 border-t border-slate-100 pt-1.5">
+      <div className="mt-1 shrink-0 space-y-1 border-t border-slate-100 pt-1.5 landscape:hidden">
         {reference && (
           <p className="text-center text-[9px] font-medium text-slate-500 sm:text-[10px]">
             <span

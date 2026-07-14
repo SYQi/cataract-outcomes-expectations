@@ -23,21 +23,21 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
     patient.consultant !== "";
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
-      <div className="mb-4 flex justify-center">
-        <WhLogo size="md" />
+    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:p-3 sm:p-6">
+      <div className="mb-4 flex justify-center landscape:mb-2">
+        <WhLogo size="md" className="landscape:!max-h-10" />
       </div>
-      <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-brand-teal">
+      <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[10px]">
         Staff only
       </p>
-      <h2 className="mt-1 text-center text-xl font-bold text-brand-navy sm:text-2xl">
+      <h2 className="mt-1 text-center text-xl font-bold text-brand-navy landscape:text-lg sm:text-2xl">
         Administrator Page
       </h2>
-      <p className="mt-1 text-center text-sm text-slate-500">
+      <p className="mt-1 text-center text-sm text-slate-500 landscape:hidden">
         Enter patient details for the session. The patient will verify these on the next screen.
       </p>
 
-      <div className="mt-6 grid grid-cols-1 gap-5 landscape:grid-cols-2 landscape:gap-4">
+      <div className="mt-6 grid grid-cols-1 gap-5 landscape:mt-3 landscape:grid-cols-2 landscape:gap-3">
         <label className="block">
           <span className="text-sm font-medium text-slate-700">Patient full name</span>
           <input
@@ -134,7 +134,7 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
         type="button"
         disabled={!valid}
         onClick={onContinue}
-        className="mt-8 w-full rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40 landscape:mt-5"
+        className="mt-8 w-full rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40 landscape:mt-3 landscape:py-2.5 landscape:text-sm"
       >
         Continue to patient verification
       </button>
