@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type OutcomePageShellProps = {
   eyebrow?: string;
@@ -25,14 +25,19 @@ export function OutcomePageShell({
   prominentHeadline = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
+  const contentScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const t = window.setTimeout(() => setShowHeadline(true), 60);
     return () => window.clearTimeout(t);
   }, [headline]);
 
+  useEffect(() => {
+    if (contentScrollRef.current) contentScrollRef.current.scrollTop = 0;
+  }, [headline]);
+
   return (
-    <section className="flex min-h-0 flex-1 flex-col landscape:overflow-hidden">
+    <section className="flex min-h-0 flex-1 flex-col">
       <div className="mb-1.5 shrink-0 text-center landscape:mb-0.5 sm:mb-2">
         {eyebrow ? (
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[8px] sm:text-xs">
@@ -42,7 +47,7 @@ export function OutcomePageShell({
         <h2
           className={`${eyebrow ? "mt-1 landscape:mt-0" : ""} text-balance font-extrabold leading-snug text-brand-navy landscape:leading-tight ${
             prominentHeadline
-              ? "text-[1.4625rem] landscape:text-[1.2rem] sm:text-[1.625rem] landscape:sm:text-[1.25rem]"
+              ? "text-[1.4625rem] landscape:text-[1.05rem] sm:text-[1.625rem] landscape:sm:text-[1.15rem]"
               : "text-lg landscape:text-[0.95rem] sm:text-xl landscape:sm:text-base"
           } ${showHeadline ? "animate-scale-jump" : "opacity-0"}`}
         >
@@ -50,7 +55,10 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain landscape:overflow-hidden">
+      <div
+        ref={contentScrollRef}
+        className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain"
+      >
         <div className="my-auto w-full py-1 landscape:my-0 landscape:py-0">{children}</div>
       </div>
 

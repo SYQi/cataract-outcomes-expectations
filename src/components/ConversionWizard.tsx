@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AdminPage } from "@/components/AdminPage";
 import { CareTeamPage } from "@/components/CareTeamPage";
 import { CatProm5QuestionPage } from "@/components/CatProm5QuestionPage";
@@ -46,10 +46,17 @@ export function ConversionWizard() {
   const [answers, setAnswers] = useState<CatProm5Answers>(DEFAULT_CAT_PROM5_ANSWERS);
   const [unlockedCount, setUnlockedCount] = useState(1);
   const [showNewPatientGate, setShowNewPatientGate] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setPatient((p) => ({ ...p, dateTime: formatGmt8Timestamp() }));
   }, []);
+
+  /** Always present each step from the top edge (avoids mid-page start on iPad). */
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [step]);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
   const verifyValid = patient.name.trim().length > 0 && patient.nric.trim().length > 0;
@@ -130,27 +137,27 @@ export function ConversionWizard() {
     ? "max-w-5xl landscape:max-w-6xl"
     : "max-w-2xl landscape:max-w-3xl";
 
-  /** Assessment scrolls full-height panels; other steps fill without outer scroll in landscape. */
+  /** Assessment scrolls full-height panels; other steps stay top-aligned in landscape. */
   const mainClass =
     step === "assessment"
       ? "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain"
-      : "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain landscape:overflow-hidden";
+      : "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain landscape:overflow-y-auto";
 
   return (
     <div
       className={`${step !== "assessment" ? "wizard-landscape-root" : ""} mx-auto flex min-h-[100dvh] flex-col px-4 sm:px-6 ${maxWidth} ${
         step === "details"
-          ? "pb-4 pt-2 sm:pb-5 sm:pt-3"
+          ? "pb-4 pt-2 sm:pb-5 sm:pt-3 landscape:pb-1 landscape:pt-0.5"
           : "py-3 sm:py-4"
       } landscape:px-5 landscape:py-1`}
     >
       <header className="shrink-0 text-center landscape:leading-tight">
         {step === "details" && (
           <>
-            <div className="mb-2 flex justify-center landscape:mb-0.5 sm:mb-3">
-              <WhLogo size="lg" className="landscape:!max-h-12" />
+            <div className="mb-2 flex justify-center landscape:mb-0 sm:mb-3">
+              <WhLogo size="lg" className="landscape:!max-h-8" />
             </div>
-            <h1 className="text-2xl font-bold leading-snug text-brand-navy landscape:text-lg sm:text-3xl">
+            <h1 className="text-2xl font-bold leading-snug text-brand-navy landscape:text-base sm:text-3xl">
               <span className="block landscape:inline">Cataract Surgery:</span>
               <span className="mt-1 block landscape:mt-0 landscape:inline landscape:ml-1">
                 Outcomes and Expectations
@@ -176,7 +183,9 @@ export function ConversionWizard() {
         )}
         {step !== "admin" && (
           <div
-            className={`flex justify-center gap-1 sm:gap-1.5 landscape:mt-0.5 ${step === "details" ? "mt-2 sm:mt-3" : "mt-1"}`}
+            className={`flex justify-center gap-1 sm:gap-1.5 landscape:mt-0.5 ${
+              step === "details" ? "mt-2 landscape:mt-0.5 sm:mt-3" : "mt-1"
+            }`}
           >
             {PROGRESS_STEPS.map((s) => {
               const active = PROGRESS_STEPS.indexOf(s) <= progressIndex;
@@ -206,7 +215,12 @@ export function ConversionWizard() {
         )}
       </header>
 
-      <main className={mainClass} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <main
+        ref={mainRef}
+        className={mainClass}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {step === "admin" && (
           <div className="my-auto w-full py-2 landscape:my-0 landscape:py-0">
             <AdminPage
@@ -218,34 +232,36 @@ export function ConversionWizard() {
         )}
 
         {step === "details" && (
-          <div className="w-full pt-1">
-            <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl landscape:p-3 sm:p-6">
-              <h2 className="text-lg font-semibold text-brand-navy landscape:text-base">
+          <div className="w-full pt-1 landscape:pt-0">
+            <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl landscape:p-2.5 sm:p-6">
+              <h2 className="text-lg font-semibold text-brand-navy landscape:text-sm">
                 Verify your details
               </h2>
               <p className="mt-1 text-sm text-slate-500 landscape:hidden">
                 These were entered by staff. Please confirm they are correct before continuing.
               </p>
 
-              <div className="mt-6 space-y-5 landscape:mt-3 landscape:grid landscape:grid-cols-2 landscape:gap-3 landscape:space-y-0">
+              <div className="mt-6 space-y-5 landscape:mt-2 landscape:grid landscape:grid-cols-2 landscape:gap-2.5 landscape:space-y-0">
                 {[
                   { label: "Full name", value: patient.name },
                   { label: "NRIC", value: patient.nric },
                 ].map((field) => (
                   <div key={field.label} className="block">
-                    <span className="text-sm font-medium text-slate-700">{field.label}</span>
-                    <div className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-800">
+                    <span className="text-sm font-medium text-slate-700 landscape:text-xs">
+                      {field.label}
+                    </span>
+                    <div className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-800 landscape:px-3 landscape:py-2 landscape:text-sm">
                       {field.value || "—"}
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 flex gap-3 landscape:col-span-2 landscape:mt-4">
+              <div className="mt-8 flex gap-3 landscape:col-span-2 landscape:mt-2.5">
                 <button
                   type="button"
                   onClick={() => setStep("admin")}
-                  className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50 landscape:py-2.5 landscape:text-sm"
+                  className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50 landscape:py-2 landscape:text-sm"
                 >
                   Back to staff
                 </button>
@@ -256,7 +272,7 @@ export function ConversionWizard() {
                     setUnlockedCount(1);
                     setStep("assessment");
                   }}
-                  className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40 landscape:py-2.5 landscape:text-sm"
+                  className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40 landscape:py-2 landscape:text-sm"
                 >
                   Confirm &amp; continue
                 </button>

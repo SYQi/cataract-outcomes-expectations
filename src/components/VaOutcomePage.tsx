@@ -41,11 +41,11 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-2 sm:gap-3">
-        <div className="min-h-0 landscape:h-[42vh] landscape:max-h-[42vh]">
+      <div className="flex min-h-0 flex-1 flex-col gap-2 landscape:grid landscape:h-full landscape:grid-cols-2 landscape:gap-2 sm:gap-3">
+        <div className="min-h-[200px] landscape:min-h-0 landscape:h-full">
           <VaPrePostCompare visualAcuity={visualAcuity} />
         </div>
-        <div className="flex min-h-0 flex-col landscape:h-[42vh] landscape:max-h-[42vh]">
+        <div className="flex min-h-[180px] flex-col landscape:min-h-0 landscape:h-full">
           <div className="min-h-0 flex-1">
             <VaTrendChart />
           </div>

@@ -44,13 +44,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
           <p className="mt-0.5 shrink-0 text-center text-base font-bold text-brand-navy landscape:text-sm sm:text-lg">
             {insurer}
           </p>
-          <div className="mt-2 flex h-[4.8rem] items-center justify-center px-2 landscape:mt-1 landscape:h-[5.5rem] sm:h-24">
+          <div className="mt-2 flex h-[5.75rem] items-center justify-center px-2 landscape:mt-1 landscape:h-[6.6rem] sm:h-[7.2rem]">
             <Image
               src={insurerLogoPath(insurer)}
               alt={`${insurer} logo`}
               width={384}
               height={144}
-              className="h-auto max-h-full w-auto max-w-[264px] object-contain landscape:max-w-[220px] sm:max-w-[312px]"
+              className="h-auto max-h-full w-auto max-w-[317px] object-contain landscape:max-w-[264px] sm:max-w-[374px]"
             />
           </div>
         </div>
@@ -66,7 +66,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
                 alt={profile.name}
                 width={182}
                 height={228}
-                className="h-36 w-32 shrink-0 rounded-xl object-cover object-top shadow-md landscape:h-24 landscape:w-20 sm:h-40 sm:w-36"
+                className="h-[10.8rem] w-[9.6rem] shrink-0 rounded-xl object-cover object-top shadow-md landscape:h-[7.2rem] landscape:w-24 sm:h-48 sm:w-[10.8rem]"
               />
               <div className="min-w-0 text-center text-[1.728em] leading-snug landscape:text-[1.1em] sm:text-left">
                 <h3 className="text-[1.4625rem] font-bold text-brand-navy landscape:text-base">{profile.name}</h3>
