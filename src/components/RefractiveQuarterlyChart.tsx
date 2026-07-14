@@ -89,7 +89,7 @@ export function RefractiveQuarterlyChart() {
                 value: "NHS",
                 position: "insideTopRight",
                 fill: NHS_COLOR,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 800,
               }}
             />

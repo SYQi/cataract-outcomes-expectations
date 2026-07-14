@@ -71,7 +71,7 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
         </div>
 
         <div
-          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${
+          className={`relative shrink-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5 ${
             show ? "animate-fade-up" : "opacity-0"
           }`}
           style={{ animationDelay: "0.35s" }}
@@ -79,12 +79,12 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
           <p className="text-center text-xs font-bold text-brand-navy sm:text-sm">
             Complication rate: Woodlands vs United Kingdom
           </p>
-          <p className="mt-0.5 text-center text-[10px] text-slate-500 sm:text-[11px]">
+          <p className="mt-1.5 text-center text-[11px] leading-relaxed text-slate-500 sm:mt-2 sm:text-xs">
             All-cause intraoperative complications — specialist outcomes at Woodlands Hospital
           </p>
 
-          {/* Reserved top row for rate labels so they never overlap the titles above */}
-          <div className="mx-auto mt-3 max-w-md">
+          {/* Rate labels sit just above each bar */}
+          <div className="mx-auto mt-5 max-w-md pb-1 sm:mt-6">
             <div className="flex justify-center gap-4 sm:gap-6">
               <div className="relative h-24 w-[42%] landscape:h-28 sm:h-36 landscape:sm:h-28 sm:w-[45%]">
                 <p className="absolute inset-x-0 top-0 z-10 -translate-y-full pb-1 text-center text-[10px] font-semibold leading-none text-amber-800 sm:text-xs">

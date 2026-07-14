@@ -90,7 +90,7 @@ export function VaQuarterlyChart() {
                 value: "Sydney",
                 position: "insideTopRight",
                 fill: SYDNEY_COLOR,
-                fontSize: 12,
+                fontSize: 14,
                 fontWeight: 800,
               }}
             />
@@ -121,7 +121,7 @@ export function VaQuarterlyChart() {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-1 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] font-bold sm:text-xs">
+      <div className="mt-0.5 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-0 text-[11px] font-bold sm:text-xs">
         <span className="inline-flex items-center gap-1.5 text-brand-navy">
           <span className="inline-block h-0.5 w-5 rounded bg-brand-navy" />
           Woodlands Health
