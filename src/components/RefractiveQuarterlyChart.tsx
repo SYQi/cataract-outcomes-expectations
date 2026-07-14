@@ -96,7 +96,7 @@ export function RefractiveQuarterlyChart() {
         </ResponsiveContainer>
       </div>
 
-      <div className="mt-1.5 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[11px] font-bold sm:text-xs">
+      <div className="mt-2 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-1 text-[11px] font-bold sm:text-xs">
         <span className="inline-flex items-center gap-1.5 text-teal-800">
           <span className="inline-block h-0.5 w-5 rounded bg-teal-700" />
           Woodlands Health

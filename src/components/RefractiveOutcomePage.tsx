@@ -30,13 +30,12 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       prominentHeadline
       eyebrow="Refractive accuracy"
       headline={
-        <span className="block">
-          No Glasses Required After Surgery:{" "}
-          <span className="text-[1.15em] font-extrabold text-brand-teal">
-            {REFRACTIVE_WITHIN_1D_PERCENT}%
-          </span>{" "}
-          Success Rate
-        </span>
+        <>
+          <span className="block">No Glasses Required After Surgery:</span>
+          <span className="mt-1 block text-[1.15em] font-extrabold text-brand-teal">
+            {REFRACTIVE_WITHIN_1D_PERCENT}% probability
+          </span>
+        </>
       }
       onBack={onBack}
       onNext={onNext}
@@ -66,7 +65,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
             <RefractiveQuarterlyChart />
           </div>
 
-          <p className="mt-3 text-center text-sm font-medium leading-snug text-slate-600 sm:text-base">
+          <p className="mt-6 border-t border-slate-200/80 pt-4 text-center text-sm font-medium leading-snug text-slate-600 sm:mt-7 sm:pt-5 sm:text-base">
             Reading glasses are still required for near or small text.
           </p>
 
