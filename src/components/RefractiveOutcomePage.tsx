@@ -28,8 +28,6 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
 
   return (
     <OutcomePageShell
-      fitViewport
-      centerViewport
       prominentHeadline
       eyebrow="Refractive accuracy"
       headline={
@@ -50,7 +48,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       onNext={onNext}
       nextLabel="Complications →"
     >
-      <div className="flex min-h-0 flex-col items-center justify-center gap-3 landscape:grid landscape:max-h-[52vh] landscape:grid-cols-[auto_1fr] landscape:items-center landscape:gap-4 sm:gap-3">
+      <div className="flex flex-col items-center gap-3 landscape:grid landscape:grid-cols-[auto_1fr] landscape:items-center landscape:gap-4 sm:gap-3">
         <div className="flex shrink-0 justify-center">
           <div
             className={`relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-brand-navy to-teal-600 shadow-xl landscape:h-24 landscape:w-24 sm:h-32 sm:w-32 ${

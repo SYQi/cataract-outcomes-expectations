@@ -22,8 +22,6 @@ const EMPHASIS = "text-[1.15em] font-extrabold text-brand-teal";
 export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePageProps) {
   return (
     <OutcomePageShell
-      fitViewport
-      centerViewport
       prominentHeadline
       eyebrow="Visual acuity"
       headline={
@@ -43,7 +41,7 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       nextLabel="Refractive accuracy →"
       backLabel="Revise answers"
     >
-      <div className="flex min-h-0 flex-1 flex-col gap-2 landscape:max-h-[52vh] landscape:grid landscape:grid-cols-2 landscape:items-center landscape:gap-3">
+      <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-3 sm:gap-3">
         <div className="min-h-0 flex-[1.05] landscape:h-full">
           <VaPrePostCompare visualAcuity={visualAcuity} />
         </div>

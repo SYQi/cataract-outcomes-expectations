@@ -10,12 +10,8 @@ type OutcomePageShellProps = {
   onNext?: () => void;
   nextLabel?: string;
   backLabel?: string;
-  /** Fit content to the viewport without inner scrolling (e.g. Visual Acuity). */
-  fitViewport?: boolean;
   /** +30% headline size for key outcome toplines. */
   prominentHeadline?: boolean;
-  /** Vertically center headline + content within the viewport. */
-  centerViewport?: boolean;
 };
 
 export function OutcomePageShell({
@@ -26,9 +22,7 @@ export function OutcomePageShell({
   onNext,
   nextLabel = "Next",
   backLabel = "Back",
-  fitViewport = false,
   prominentHeadline = false,
-  centerViewport = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
 
@@ -38,11 +32,7 @@ export function OutcomePageShell({
   }, [headline]);
 
   return (
-    <section
-      className={`flex min-h-0 flex-col landscape:h-[calc(100dvh-4.75rem)] sm:h-[calc(100dvh-6.5rem)] sm:max-h-[780px] landscape:max-h-none ${
-        fitViewport ? "overflow-hidden" : ""
-      } ${centerViewport ? "justify-center" : ""}`}
-    >
+    <section className="flex min-h-0 flex-1 flex-col">
       <div className="mb-1.5 shrink-0 text-center landscape:mb-1 sm:mb-2">
         {eyebrow ? (
           <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[9px] sm:text-xs">
@@ -60,14 +50,9 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      <div
-        className={`min-h-0 pr-0.5 ${
-          centerViewport ? "shrink-0" : "flex-1"
-        } ${
-          fitViewport ? "flex flex-col overflow-hidden" : "overflow-y-auto overscroll-contain"
-        } ${centerViewport && fitViewport ? "justify-center" : ""}`}
-      >
-        {children}
+      {/* my-auto: vertically centers when content fits; scrolls when it overflows */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
+        <div className="my-auto w-full py-1">{children}</div>
       </div>
 
       <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">

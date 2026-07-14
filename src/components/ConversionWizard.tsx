@@ -126,42 +126,24 @@ export function ConversionWizard() {
             ? "PROMS"
             : "Your care team";
 
-  const tightTop = step === "assessment";
-  const centerPage = step === "details";
+  const maxWidth = isOutcome
+    ? "max-w-5xl landscape:max-w-6xl"
+    : "max-w-2xl landscape:max-w-3xl";
+
+  /** Assessment scrolls full-height panels; other steps center via my-auto wrappers or OutcomePageShell. */
+  const mainClass = "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain";
 
   return (
     <div
-      className={`mx-auto px-4 sm:px-6 ${
-        centerPage
-          ? "flex min-h-screen flex-col justify-center py-4 landscape:py-3"
-          : tightTop
-            ? "min-h-screen pb-5 pt-3 landscape:pb-3 landscape:pt-2 sm:pb-6 sm:pt-4"
-            : isOutcome
-              ? "min-h-screen py-3 landscape:py-2 sm:py-4"
-              : "min-h-screen py-5 landscape:py-3 sm:py-8 landscape:sm:py-4"
-      } ${
-        isOutcome
-          ? "max-w-5xl landscape:max-w-6xl"
-          : "max-w-2xl landscape:max-w-3xl"
-      }`}
+      className={`mx-auto flex min-h-[100dvh] flex-col px-4 py-3 sm:px-6 sm:py-4 ${maxWidth}`}
     >
-      <header
-        className={`text-center ${
-          isOutcome
-            ? "mb-1.5 landscape:mb-1"
-            : centerPage
-              ? "mb-4 landscape:mb-3"
-              : tightTop
-                ? "mb-3 landscape:mb-2"
-                : "mb-6 landscape:mb-4 sm:mb-8"
-        }`}
-      >
+      <header className="shrink-0 text-center">
         {step === "details" && (
           <>
-            <div className="mb-2 flex justify-center landscape:mb-1.5 sm:mb-3">
+            <div className="mb-2 flex justify-center sm:mb-3">
               <WhLogo size="lg" />
             </div>
-            <h1 className="mt-1 text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
+            <h1 className="text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
               <span className="block">Cataract Surgery:</span>
               <span className="mt-1 block">Outcomes and Expectations</span>
             </h1>
@@ -213,123 +195,119 @@ export function ConversionWizard() {
         )}
       </header>
 
-      {step === "admin" && (
-        <AdminPage
-          patient={patient}
-          onChange={setPatient}
-          onContinue={() => setStep("details")}
-        />
-      )}
-
-      {step === "details" && (
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
-          <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
-          <p className="mt-1 text-sm text-slate-500">
-            These were entered by staff. Please confirm they are correct before continuing.
-          </p>
-
-          <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-2 landscape:gap-4 landscape:space-y-0">
-            {[
-              { label: "Full name", value: patient.name },
-              { label: "NRIC", value: patient.nric },
-            ].map((field) => (
-              <div key={field.label} className="block">
-                <span className="text-sm font-medium text-slate-700">{field.label}</span>
-                <div className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-800">
-                  {field.value || "—"}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 flex gap-3 landscape:mt-5">
-            <button
-              type="button"
-              onClick={() => setStep("admin")}
-              className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50"
-            >
-              Back to staff
-            </button>
-            <button
-              type="button"
-              disabled={!verifyValid}
-              onClick={() => {
-                setUnlockedCount(1);
-                setStep("assessment");
-              }}
-              className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              Confirm &amp; continue
-            </button>
-          </div>
-        </section>
-      )}
-
-      {step === "assessment" && (
-        <CatProm5QuestionPage
-          unlockedCount={unlockedCount}
-          answers={answers}
-          onAnswer={handleCatAnswer}
-          onFrontierRelease={handleCatFrontierRelease}
-        />
-      )}
-
-      {isOutcome && visualAcuity && (
-        <div
-          className={
-            step === "va" ||
-            step === "refraction" ||
-            step === "complications" ||
-            step === "proms" ||
-            step === "care-team"
-              ? "flex flex-col justify-center landscape:min-h-[calc(100dvh-5.5rem)]"
-              : ""
-          }
-          onTouchStart={onTouchStart}
-          onTouchEnd={onTouchEnd}
-        >
-          {step === "va" && (
-            <VaOutcomePage
-              visualAcuity={visualAcuity}
-              onBack={() => {
-                setUnlockedCount(CAT_PROM5_QUESTIONS.length);
-                setStep("assessment");
-              }}
-              onNext={() => setStep("refraction")}
-            />
-          )}
-
-          {step === "refraction" && (
-            <RefractiveOutcomePage
-              onBack={() => setStep("va")}
-              onNext={() => setStep("complications")}
-            />
-          )}
-
-          {step === "complications" && (
-            <ComplicationsOutcomePage
-              onBack={() => setStep("refraction")}
-              onNext={() => setStep("proms")}
-            />
-          )}
-
-          {step === "proms" && (
-            <PromsOutcomePage
-              patientScore={scores.score100}
-              onBack={() => setStep("complications")}
-              onNext={() => setStep("care-team")}
-            />
-          )}
-
-          {step === "care-team" && (
-            <CareTeamPage
+      <main className={mainClass} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        {step === "admin" && (
+          <div className="my-auto w-full py-2">
+            <AdminPage
               patient={patient}
-              onBack={() => setStep("proms")}
-              onNewPatient={() => setShowNewPatientGate(true)}
+              onChange={setPatient}
+              onContinue={() => setStep("details")}
             />
-          )}
-        </div>
-      )}
+          </div>
+        )}
+
+        {step === "details" && (
+          <div className="my-auto w-full py-2">
+            <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
+              <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
+              <p className="mt-1 text-sm text-slate-500">
+                These were entered by staff. Please confirm they are correct before continuing.
+              </p>
+
+              <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-2 landscape:gap-4 landscape:space-y-0">
+                {[
+                  { label: "Full name", value: patient.name },
+                  { label: "NRIC", value: patient.nric },
+                ].map((field) => (
+                  <div key={field.label} className="block">
+                    <span className="text-sm font-medium text-slate-700">{field.label}</span>
+                    <div className="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-base text-slate-800">
+                      {field.value || "—"}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex gap-3 landscape:mt-5">
+                <button
+                  type="button"
+                  onClick={() => setStep("admin")}
+                  className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Back to staff
+                </button>
+                <button
+                  type="button"
+                  disabled={!verifyValid}
+                  onClick={() => {
+                    setUnlockedCount(1);
+                    setStep("assessment");
+                  }}
+                  className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Confirm &amp; continue
+                </button>
+              </div>
+            </section>
+          </div>
+        )}
+
+        {step === "assessment" && (
+          <div className="min-h-full">
+            <CatProm5QuestionPage
+              unlockedCount={unlockedCount}
+              answers={answers}
+              onAnswer={handleCatAnswer}
+              onFrontierRelease={handleCatFrontierRelease}
+            />
+          </div>
+        )}
+
+        {isOutcome && visualAcuity && (
+          <>
+            {step === "va" && (
+              <VaOutcomePage
+                visualAcuity={visualAcuity}
+                onBack={() => {
+                  setUnlockedCount(CAT_PROM5_QUESTIONS.length);
+                  setStep("assessment");
+                }}
+                onNext={() => setStep("refraction")}
+              />
+            )}
+
+            {step === "refraction" && (
+              <RefractiveOutcomePage
+                onBack={() => setStep("va")}
+                onNext={() => setStep("complications")}
+              />
+            )}
+
+            {step === "complications" && (
+              <ComplicationsOutcomePage
+                onBack={() => setStep("refraction")}
+                onNext={() => setStep("proms")}
+              />
+            )}
+
+            {step === "proms" && (
+              <PromsOutcomePage
+                patientScore={scores.score100}
+                onBack={() => setStep("complications")}
+                onNext={() => setStep("care-team")}
+              />
+            )}
+
+            {step === "care-team" && (
+              <CareTeamPage
+                patient={patient}
+                onBack={() => setStep("proms")}
+                onNewPatient={() => setShowNewPatientGate(true)}
+              />
+            )}
+          </>
+        )}
+      </main>
 
       <NewPatientPasswordGate
         open={showNewPatientGate}

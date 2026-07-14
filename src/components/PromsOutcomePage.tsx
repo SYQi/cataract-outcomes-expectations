@@ -14,8 +14,6 @@ type PromsOutcomePageProps = {
 export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomePageProps) {
   return (
     <OutcomePageShell
-      fitViewport
-      centerViewport
       eyebrow="Patient-reported outcomes"
       headline={<>Better Sight, Happier Lives</>}
       onBack={onBack}
@@ -23,7 +21,7 @@ export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomeP
       nextLabel="Your care team →"
       backLabel="← Complications"
     >
-      <div className="flex min-h-0 flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <div className="flex flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <PromsHorizontalScale patientScore={patientScore} />
         <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
           {SPECIALIST_CARE_FOOTNOTE}

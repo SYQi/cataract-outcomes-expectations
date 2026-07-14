@@ -14,6 +14,11 @@ body {
   overflow-x: hidden;
 }
 
+html,
+body {
+  height: 100%;
+}
+
 /* Prefer readable, compact layout when iPad / tablet is landscape */
 @media (orientation: landscape) and (min-width: 768px) {
   html {

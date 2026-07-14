@@ -23,8 +23,6 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
 
   return (
     <OutcomePageShell
-      fitViewport
-      centerViewport
       headline={
         <span className="block text-[1.3em]">
           Your{" "}
