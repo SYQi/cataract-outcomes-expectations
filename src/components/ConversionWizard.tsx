@@ -135,7 +135,11 @@ export function ConversionWizard() {
 
   return (
     <div
-      className={`mx-auto flex min-h-[100dvh] flex-col px-4 py-3 sm:px-6 sm:py-4 ${maxWidth}`}
+      className={`mx-auto flex min-h-[100dvh] flex-col px-4 sm:px-6 ${maxWidth} ${
+        step === "details"
+          ? "pb-4 pt-2 sm:pb-5 sm:pt-3"
+          : "py-3 sm:py-4"
+      }`}
     >
       <header className="shrink-0 text-center">
         {step === "details" && (
@@ -207,7 +211,7 @@ export function ConversionWizard() {
         )}
 
         {step === "details" && (
-          <div className="my-auto w-full py-2">
+          <div className="w-full pt-1">
             <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
               <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
               <p className="mt-1 text-sm text-slate-500">

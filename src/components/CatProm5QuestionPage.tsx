@@ -14,6 +14,9 @@ type CatProm5QuestionPageProps = {
   onFrontierRelease: () => void;
 };
 
+/** One question ≈ one viewport so neighbors are off-screen until the patient scrolls. */
+const PANEL_HEIGHT = "min-h-[calc(100dvh-6.5rem)] landscape:min-h-[calc(100dvh-5.25rem)]";
+
 export function CatProm5QuestionPage({
   unlockedCount,
   answers,
@@ -34,7 +37,7 @@ export function CatProm5QuestionPage({
   }, [unlockedCount]);
 
   return (
-    <div className="flex min-h-full flex-col">
+    <div className="flex flex-col">
       {CAT_PROM5_QUESTIONS.slice(0, unlockedCount).map((q, index) => {
         const letter = String.fromCharCode(65 + index);
         const isFrontier = index === unlockedCount - 1;
@@ -45,7 +48,7 @@ export function CatProm5QuestionPage({
             ref={(el) => {
               questionRefs.current[index] = el;
             }}
-            className="flex min-h-full snap-start flex-col items-center justify-center py-3"
+            className={`flex ${PANEL_HEIGHT} scroll-mt-2 flex-col items-center justify-center py-3`}
           >
             <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm landscape:p-6 sm:p-7">
               <p className="text-center text-xs font-semibold uppercase tracking-wide text-slate-400">
