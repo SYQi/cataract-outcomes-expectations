@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AdminPage } from "@/components/AdminPage";
 import { CareTeamPage } from "@/components/CareTeamPage";
 import { CatProm5QuestionPage } from "@/components/CatProm5QuestionPage";
@@ -46,10 +46,16 @@ export function ConversionWizard() {
   const [answers, setAnswers] = useState<CatProm5Answers>(DEFAULT_CAT_PROM5_ANSWERS);
   const [unlockedCount, setUnlockedCount] = useState(1);
   const [showNewPatientGate, setShowNewPatientGate] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setPatient((p) => ({ ...p, dateTime: formatGmt8Timestamp() }));
   }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, [step]);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
   const verifyValid = patient.name.trim().length > 0 && patient.nric.trim().length > 0;
@@ -130,8 +136,11 @@ export function ConversionWizard() {
     ? "max-w-5xl landscape:max-w-6xl"
     : "max-w-2xl landscape:max-w-3xl";
 
-  /** Assessment scrolls full-height panels; other steps center via my-auto wrappers or OutcomePageShell. */
-  const mainClass = "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain";
+  /** Assessment scrolls full-height panels; verification stays top-aligned. */
+  const mainClass =
+    step === "details" || step === "assessment"
+      ? "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain"
+      : "flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain";
 
   return (
     <div
@@ -199,7 +208,12 @@ export function ConversionWizard() {
         )}
       </header>
 
-      <main className={mainClass} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <main
+        ref={mainRef}
+        className={mainClass}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {step === "admin" && (
           <div className="my-auto w-full py-2">
             <AdminPage

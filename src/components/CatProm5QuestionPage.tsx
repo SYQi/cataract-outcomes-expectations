@@ -30,7 +30,7 @@ export function CatProm5QuestionPage({
     if (unlockedCount > prevUnlocked.current) {
       const el = questionRefs.current[unlockedCount - 1];
       window.setTimeout(() => {
-        el?.scrollIntoView({ behavior: "smooth", block: "center" });
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
       }, 40);
     }
     prevUnlocked.current = unlockedCount;
@@ -48,7 +48,7 @@ export function CatProm5QuestionPage({
             ref={(el) => {
               questionRefs.current[index] = el;
             }}
-            className={`flex ${PANEL_HEIGHT} scroll-mt-2 flex-col items-center justify-center py-3`}
+            className={`flex ${PANEL_HEIGHT} scroll-mt-2 flex-col items-center justify-start py-3`}
           >
             <div className="w-full max-w-xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm landscape:p-6 sm:p-7">
               <p className="text-center text-xs font-semibold uppercase tracking-wide text-slate-400">

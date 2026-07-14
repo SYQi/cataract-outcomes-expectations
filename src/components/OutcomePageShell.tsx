@@ -12,6 +12,8 @@ type OutcomePageShellProps = {
   backLabel?: string;
   /** +30% headline size for key outcome toplines. */
   prominentHeadline?: boolean;
+  /** Pin content to the top instead of vertically centering when space allows. */
+  alignContentTop?: boolean;
 };
 
 export function OutcomePageShell({
@@ -23,6 +25,7 @@ export function OutcomePageShell({
   nextLabel = "Next",
   backLabel = "Back",
   prominentHeadline = false,
+  alignContentTop = false,
 }: OutcomePageShellProps) {
   const [showHeadline, setShowHeadline] = useState(false);
 
@@ -50,9 +53,9 @@ export function OutcomePageShell({
         </h2>
       </div>
 
-      {/* my-auto: vertically centers when content fits; scrolls when it overflows */}
+      {/* my-auto: vertically centers when content fits; alignContentTop pins to the top edge */}
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain">
-        <div className="my-auto w-full py-1">{children}</div>
+        <div className={`w-full py-1 ${alignContentTop ? "mt-0" : "my-auto"}`}>{children}</div>
       </div>
 
       <div className="z-20 mt-1.5 flex shrink-0 gap-2 border-t border-slate-200/80 bg-[var(--background)]/95 pt-2 backdrop-blur-sm landscape:mt-1 sm:mt-2 sm:gap-3">
