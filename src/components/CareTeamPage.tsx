@@ -24,6 +24,7 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
   return (
     <OutcomePageShell
       fitViewport
+      centerViewport
       headline={
         <span className="block text-[1.3em]">
           Your{" "}
@@ -65,13 +66,13 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
               <Image
                 src={profile.photoPath}
                 alt={profile.name}
-                width={140}
-                height={175}
-                className="h-28 w-24 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-32 sm:w-28"
+                width={182}
+                height={228}
+                className="h-36 w-32 shrink-0 rounded-xl object-cover object-top shadow-md sm:h-40 sm:w-36"
               />
               <div className="min-w-0 text-center text-[1.728em] leading-snug sm:text-left">
-                <h3 className="text-lg font-bold text-brand-navy">{profile.name}</h3>
-                <p className="mt-0.5 text-sm font-semibold text-brand-teal">{profile.rank}</p>
+                <h3 className="text-[1.4625rem] font-bold text-brand-navy">{profile.name}</h3>
+                <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">{profile.rank}</p>
                 <p className="text-sm text-slate-600">{profile.department}</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
                   <span className="font-semibold text-slate-700">Clinical interests: </span>
