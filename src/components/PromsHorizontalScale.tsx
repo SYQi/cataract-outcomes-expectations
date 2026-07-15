@@ -6,6 +6,7 @@ import {
   POST_OP_CAT_PROM5_FIRST_EYE,
   POST_OP_CAT_PROM5_SECOND_EYE,
 } from "@/lib/catProm5";
+import { useMessages } from "@/lib/i18n";
 
 type PromsHorizontalScaleProps = {
   patientScore: number;
@@ -91,19 +92,20 @@ function MarkerDot({
 const SCORE_NUM = "text-[1.3em] font-extrabold leading-none";
 
 export function PromsHorizontalScale({ patientScore, animate = true }: PromsHorizontalScaleProps) {
+  const t = useMessages();
   const [visible, setVisible] = useState(!animate);
 
   useEffect(() => {
     if (!animate) return;
-    const t = window.setTimeout(() => setVisible(true), 100);
-    return () => window.clearTimeout(t);
+    const timer = window.setTimeout(() => setVisible(true), 100);
+    return () => window.clearTimeout(timer);
   }, [animate]);
 
   const markers: Marker[] = [
     {
       id: "patient",
       score: patientScore,
-      label: "You today",
+      label: t.proms.youToday,
       color: "#D31145",
       delayMs: 0,
       emphasis: true,
@@ -112,7 +114,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
     {
       id: "first",
       score: POST_OP_CAT_PROM5_FIRST_EYE,
-      label: "1st Eye Surgery",
+      label: t.proms.firstEye,
       color: "#0d9488",
       delayMs: 450,
       placement: "below",
@@ -120,7 +122,7 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
     {
       id: "second",
       score: POST_OP_CAT_PROM5_SECOND_EYE,
-      label: "2nd Eye Surgery",
+      label: t.proms.secondEye,
       color: "#22c55e",
       delayMs: 900,
       placement: "above",
@@ -134,8 +136,8 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
     <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
       <div className="relative mx-1 sm:mx-4">
         <div className="mb-2 flex justify-between text-xs font-semibold sm:text-sm">
-          <span className="text-red-600">Poor</span>
-          <span className="text-green-600">Great</span>
+          <span className="text-red-600">{t.proms.poor}</span>
+          <span className="text-green-600">{t.proms.great}</span>
         </div>
 
         <div className="relative mb-2 h-14 sm:mb-3 sm:h-16">
@@ -169,13 +171,14 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           className="mt-8 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-8 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}
         >
-          <span className="block">Quality of life is expected to increase from</span>
+          <span className="block">{t.proms.qolLine1}</span>
           <span className="mt-1 block">
             <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
-            {" to an average score of "}
+            {t.proms.qolLine2Before ? ` ${t.proms.qolLine2Before} ` : " "}
+            {t.proms.qolLine2Mid}{" "}
             <span className={`${SCORE_NUM} text-green-600`}>{POST_OP_CAT_PROM5_AVERAGE}</span>
           </span>
-          <span className="mt-1 block">after cataract surgery</span>
+          <span className="mt-1 block">{t.proms.qolLine3}</span>
         </p>
       )}
     </div>

@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { formatMessage, useMessages } from "@/lib/i18n";
 import {
   BLUE_MOUNTAINS_CITATION,
   BLUE_MOUNTAINS_VA_REFERENCE_PERCENT,
@@ -21,6 +22,7 @@ const WH_COLOR = "#00205B";
 const SYDNEY_COLOR = "#b45309";
 
 export function VaQuarterlyChart() {
+  const t = useMessages();
   const chartData = QUARTERLY_VA_612_TREND.map((p) => ({
     label: p.label,
     rate: p.rate,
@@ -30,7 +32,7 @@ export function VaQuarterlyChart() {
   return (
     <div className="flex h-full min-h-0 flex-1 flex-col rounded-xl border border-slate-200/80 bg-gradient-to-b from-white to-slate-50/80 p-2 shadow-sm sm:p-3">
       <p className="mb-1 shrink-0 text-xs font-bold leading-snug text-brand-navy sm:text-sm">
-        Good vision (6/12+) — quarterly specialist outcomes
+        {t.va.chartTitle}
       </p>
 
       <div className="min-h-[200px] w-full flex-1 landscape:min-h-[170px] sm:min-h-[220px]">
@@ -66,13 +68,13 @@ export function VaQuarterlyChart() {
               strokeWidth={2.5}
             />
             <Tooltip
-              formatter={(value: number) => [`${value}%`, "Woodlands Health"]}
+              formatter={(value: number) => [`${value}%`, t.va.tooltipSeries]}
               labelFormatter={(label) => String(label)}
               contentStyle={{ fontSize: 13, borderRadius: 10, border: "1px solid #cbd5e1" }}
             />
             <Area
               type="monotone"
-              name="Woodlands Health"
+              name={t.va.tooltipSeries}
               dataKey="rate"
               stroke={WH_COLOR}
               strokeWidth={3}
@@ -93,19 +95,19 @@ export function VaQuarterlyChart() {
       <div className="mt-1.5 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 text-[14px] font-bold sm:text-[16px]">
         <span className="inline-flex items-center gap-1.5 text-brand-navy">
           <span className="inline-block h-1 w-6 rounded bg-brand-navy" />
-          Woodlands Health
+          {t.common.woodlandsHealth}
         </span>
         <span className="inline-flex items-center gap-1.5 text-amber-800">
           <span
             className="inline-block h-0 w-6 border-t-[3px] border-dashed"
             style={{ borderColor: SYDNEY_COLOR }}
           />
-          Sydney Blue Mountains ({BLUE_MOUNTAINS_VA_REFERENCE_PERCENT}%)
+          {formatMessage(t.va.legendSydney, { percent: BLUE_MOUNTAINS_VA_REFERENCE_PERCENT })}
         </span>
       </div>
 
       <p className="mt-2 shrink-0 border-t border-slate-100 pt-2 text-left text-[9px] leading-snug text-slate-500 sm:text-[10px]">
-        <span className="font-semibold text-slate-600">Reference (Sydney Blue Mountains): </span>
+        <span className="font-semibold text-slate-600">{t.va.referenceSydney}</span>
         {BLUE_MOUNTAINS_CITATION}
       </p>
     </div>

@@ -17,6 +17,14 @@ import {
   type CatProm5Answers,
 } from "@/lib/catProm5";
 import { formatGmt8Timestamp } from "@/lib/datetime";
+import {
+  DEFAULT_LOCALE,
+  formatMessage,
+  LocaleProvider,
+  useLocale,
+  useMessages,
+  type Locale,
+} from "@/lib/i18n";
 import { resetPageScroll, resetPageScrollAfterPaint } from "@/lib/scrollReset";
 import { EMPTY_PATIENT_INTAKE, type PatientIntake } from "@/lib/patientRegistry";
 import { useOutcomeSwipe } from "@/hooks/useOutcomeSwipe";
@@ -38,7 +46,9 @@ const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "proms", "ca
 
 const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", ...OUTCOME_STEPS];
 
-export function ConversionWizard() {
+function ConversionWizardInner() {
+  const t = useMessages();
+  const { locale, setLocale } = useLocale();
   const [step, setStep] = useState<Step>("admin");
   const [patient, setPatient] = useState<PatientIntake>({
     ...EMPTY_PATIENT_INTAKE,
@@ -79,6 +89,7 @@ export function ConversionWizard() {
 
   const resetPatient = async () => {
     await finalizeAndReset();
+    setLocale(DEFAULT_LOCALE);
     setStep("admin");
     setPatient({ ...EMPTY_PATIENT_INTAKE, dateTime: formatGmt8Timestamp() });
     setAnswers(DEFAULT_CAT_PROM5_ANSWERS);
@@ -125,24 +136,19 @@ export function ConversionWizard() {
 
   const outcomeLabel =
     step === "va"
-      ? "Visual acuity"
+      ? t.wizard.outcomeVa
       : step === "refraction"
-        ? "Refractive accuracy"
+        ? t.wizard.outcomeRefraction
         : step === "complications"
-          ? "Complications"
+          ? t.wizard.outcomeComplications
           : step === "proms"
-            ? "PROMS"
-            : "Your care team";
+            ? t.wizard.outcomeProms
+            : t.wizard.outcomeCareTeam;
 
   const maxWidth = isOutcome
     ? "max-w-5xl landscape:max-w-6xl"
     : "max-w-2xl landscape:max-w-3xl";
 
-  /**
-   * Assessment scrolls stacked panels.
-   * Verification + outcomes: lock to the viewport so the header (logo / progress bars)
-   * stays visible at first paint without scrolling up.
-   */
   const lockToViewport = step === "details" || isOutcome;
   const mainClass =
     step === "assessment"
@@ -170,12 +176,10 @@ export function ConversionWizard() {
               <WhLogo size="lg" />
             </div>
             <h1 className="text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
-              <span className="block">Cataract Surgery:</span>
-              <span className="mt-1 block">Outcomes and Expectations</span>
+              <span className="block">{t.wizard.titleLine1}</span>
+              <span className="mt-1 block">{t.wizard.titleLine2}</span>
             </h1>
-            <p className="mt-2 text-sm text-slate-600 landscape:mt-1">
-              Please verify your details before starting the assessment.
-            </p>
+            <p className="mt-2 text-sm text-slate-600 landscape:mt-1">{t.wizard.verifyIntro}</p>
           </>
         )}
         {step === "admin" && (
@@ -184,9 +188,9 @@ export function ConversionWizard() {
         {step === "assessment" && (
           <>
             <h1 className="text-xl font-bold text-brand-navy landscape:text-lg sm:text-2xl">
-              Assessment
+              {t.wizard.assessmentTitle}
             </h1>
-            <p className="mt-1 text-sm text-slate-500">CAT-PROM5 questionnaire</p>
+            <p className="mt-1 text-sm text-slate-500">{t.wizard.assessmentSubtitle}</p>
           </>
         )}
         {step !== "admin" && (
@@ -210,12 +214,14 @@ export function ConversionWizard() {
         {isOutcome && (
           <>
             <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">
-              {outcomeIndex + 1} of {OUTCOME_STEPS.length} · {outcomeLabel}
+              {formatMessage(t.wizard.outcomeOf, {
+                current: outcomeIndex + 1,
+                total: OUTCOME_STEPS.length,
+                label: outcomeLabel,
+              })}
             </p>
             {swipeNavActive && (
-              <p className="mt-1 text-[10px] text-slate-400 landscape:hidden">
-                Swipe left or right between outcome pages
-              </p>
+              <p className="mt-1 text-[10px] text-slate-400 landscape:hidden">{t.wizard.swipeHint}</p>
             )}
           </>
         )}
@@ -232,6 +238,8 @@ export function ConversionWizard() {
             <AdminPage
               patient={patient}
               onChange={setPatient}
+              locale={locale}
+              onLocaleChange={setLocale}
               onContinue={() => {
                 resetPageScrollAfterPaint(mainRef.current);
                 setStep("details");
@@ -243,15 +251,13 @@ export function ConversionWizard() {
         {step === "details" && (
           <div className="w-full pt-2">
             <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm landscape:mx-auto landscape:max-w-xl sm:p-6">
-              <h2 className="text-lg font-semibold text-brand-navy">Verify your details</h2>
-              <p className="mt-1 text-sm text-slate-500">
-                These were entered by staff. Please confirm they are correct before continuing.
-              </p>
+              <h2 className="text-lg font-semibold text-brand-navy">{t.details.heading}</h2>
+              <p className="mt-1 text-sm text-slate-500">{t.details.intro}</p>
 
               <div className="mt-6 space-y-5 landscape:mt-4 landscape:grid landscape:grid-cols-2 landscape:gap-4 landscape:space-y-0">
                 {[
-                  { label: "Full name", value: patient.name },
-                  { label: "NRIC", value: patient.nric },
+                  { label: t.details.fullName, value: patient.name },
+                  { label: t.details.nric, value: patient.nric },
                 ].map((field) => (
                   <div key={field.label} className="block">
                     <span className="text-sm font-medium text-slate-700">{field.label}</span>
@@ -268,7 +274,7 @@ export function ConversionWizard() {
                   onClick={() => setStep("admin")}
                   className="flex-1 rounded-xl border border-slate-300 bg-white px-6 py-4 font-semibold text-slate-700 hover:bg-slate-50"
                 >
-                  Back to staff
+                  {t.details.backToStaff}
                 </button>
                 <button
                   type="button"
@@ -279,7 +285,7 @@ export function ConversionWizard() {
                   }}
                   className="flex-[2] rounded-xl bg-brand-navy px-6 py-4 text-base font-semibold text-white transition hover:bg-brand-navy/90 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  Confirm &amp; continue
+                  {t.details.confirmContinue}
                 </button>
               </div>
             </section>
@@ -349,5 +355,15 @@ export function ConversionWizard() {
         onSuccess={resetPatient}
       />
     </div>
+  );
+}
+
+export function ConversionWizard() {
+  const [locale, setLocale] = useState<Locale>(DEFAULT_LOCALE);
+
+  return (
+    <LocaleProvider locale={locale} setLocale={setLocale}>
+      <ConversionWizardInner />
+    </LocaleProvider>
   );
 }

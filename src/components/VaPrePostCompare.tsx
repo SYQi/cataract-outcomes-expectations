@@ -2,11 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import {
-  POST_OP_VA_LABEL,
-  vaToBlurPx,
-  type VisualAcuity,
-} from "@/lib/va";
+import { useMessages } from "@/lib/i18n";
+import { vaToBlurPx, type VisualAcuity } from "@/lib/va";
 
 type VaPrePostCompareProps = {
   visualAcuity: VisualAcuity;
@@ -20,6 +17,7 @@ export function VaPrePostCompare({
   animate = true,
   stacked = false,
 }: VaPrePostCompareProps) {
+  const t = useMessages();
   const [phase, setPhase] = useState(animate ? 0 : 2);
   const currentBlur = vaToBlurPx(visualAcuity);
   const postOpRevealed = phase >= 2;
@@ -53,7 +51,7 @@ export function VaPrePostCompare({
           >
             <Image
               src="/woodlands-hospital-logo.png"
-              alt="Woodlands Hospital logo — as you see today"
+              alt={t.va.altToday}
               width={320}
               height={96}
               className="h-auto max-h-full w-full object-contain"
@@ -64,7 +62,7 @@ export function VaPrePostCompare({
         <div className="absolute inset-0 bg-red-950/10" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-red-950/85 to-transparent px-2 pb-1.5 pt-4">
           <p className="text-[11px] font-bold uppercase tracking-wide text-red-100 sm:text-xs">
-            How you see today
+            {t.va.howYouSeeToday}
           </p>
           <p className="text-sm font-extrabold text-white sm:text-base">{visualAcuity}</p>
         </div>
@@ -88,7 +86,7 @@ export function VaPrePostCompare({
           >
             <Image
               src="/woodlands-hospital-logo.png"
-              alt="Woodlands Hospital logo — after cataract surgery"
+              alt={t.va.altAfter}
               width={340}
               height={102}
               className="h-auto max-h-full w-full object-contain"
@@ -98,9 +96,9 @@ export function VaPrePostCompare({
         </div>
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-green-950/85 to-transparent px-2 pb-1.5 pt-4">
           <p className="text-[11px] font-bold uppercase tracking-wide text-green-100 sm:text-xs">
-            After cataract surgery
+            {t.va.afterSurgery}
           </p>
-          <p className="text-sm font-extrabold text-white sm:text-base">{POST_OP_VA_LABEL}</p>
+          <p className="text-sm font-extrabold text-white sm:text-base">{t.va.postOpVaLabel}</p>
         </div>
       </div>
     </div>

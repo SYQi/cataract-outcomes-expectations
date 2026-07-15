@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { OutcomePageShell } from "@/components/OutcomePageShell";
 import { RefractiveQuarterlyChart } from "@/components/RefractiveQuarterlyChart";
-import { SPECIALIST_CARE_FOOTNOTE } from "@/lib/messaging";
+import { formatMessage, useMessages } from "@/lib/i18n";
 import {
   COHORT_CASE_COUNT,
   NHS_REFRACTIVE_CITATION,
@@ -18,28 +18,29 @@ type RefractiveOutcomePageProps = {
 };
 
 export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageProps) {
+  const t = useMessages();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const t = window.setTimeout(() => setShow(true), 200);
-    return () => window.clearTimeout(t);
+    const timer = window.setTimeout(() => setShow(true), 200);
+    return () => window.clearTimeout(timer);
   }, []);
 
   return (
     <OutcomePageShell
       prominentHeadline
-      eyebrow="Refractive accuracy"
+      eyebrow={t.refraction.eyebrow}
       headline={
         <>
-          <span className="block">No Glasses Required After Surgery:</span>
+          <span className="block">{t.refraction.headlineNoGlasses}</span>
           <span className="mt-1 block text-[1.15em] font-extrabold text-brand-teal">
-            {REFRACTIVE_WITHIN_1D_PERCENT}% probability
+            {formatMessage(t.refraction.probability, { percent: REFRACTIVE_WITHIN_1D_PERCENT })}
           </span>
         </>
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel="Complications →"
+      nextLabel={t.refraction.nextLabel}
     >
       <div className="flex flex-col items-center gap-3 sm:gap-4">
         <div className="flex shrink-0 justify-center">
@@ -54,7 +55,7 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
                 {REFRACTIVE_WITHIN_1D_PERCENT}%
               </p>
               <p className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-white/90 sm:text-[10px]">
-                within ±1.0D
+                {t.refraction.within1d}
               </p>
             </div>
           </div>
@@ -66,16 +67,18 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
           </div>
 
           <p className="mt-6 border-t border-slate-200/80 pt-4 text-center text-sm font-medium leading-snug text-slate-600 sm:mt-7 sm:pt-5 sm:text-base">
-            Reading glasses are still required for near or small text.
+            {t.refraction.readingGlassesNote}
           </p>
 
           <p className="mt-2 shrink-0 text-center text-[10px] text-slate-400 sm:text-[11px]">
-            {SPECIALIST_CARE_FOOTNOTE} · VA ≥ 6/12 cohort · {COHORT_CASE_COUNT} cases ·{" "}
-            {REPORTING_WINDOW_LABEL}
+            {t.messaging.specialistCareFootnote} · {t.refraction.footnoteCohort} ·{" "}
+            {formatMessage(t.common.cases, { count: COHORT_CASE_COUNT })} · {REPORTING_WINDOW_LABEL}
           </p>
           <p className="mt-2 hidden border-t border-slate-200 pt-2 text-left text-[10px] leading-snug text-slate-500 landscape:pb-1 sm:block">
             <span className="font-semibold text-slate-600">
-              Reference (NHS, {NHS_REFRACTIVE_REFERENCE_PERCENT}% within ±1.0D):{" "}
+              {formatMessage(t.refraction.referenceNhs, {
+                percent: NHS_REFRACTIVE_REFERENCE_PERCENT,
+              })}
             </span>
             {NHS_REFRACTIVE_CITATION}
           </p>

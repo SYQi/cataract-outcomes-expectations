@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useMessages } from "@/lib/i18n";
 import { resetPageScrollAfterPaint } from "@/lib/scrollReset";
 
 type OutcomePageShellProps = {
@@ -29,14 +30,17 @@ export function OutcomePageShell({
   children,
   onBack,
   onNext,
-  nextLabel = "Next",
-  backLabel = "Back",
+  nextLabel,
+  backLabel,
   prominentHeadline = false,
   alignContentTop = false,
   compactHeadline = false,
   fitViewport = false,
   headlineSpaced = false,
 }: OutcomePageShellProps) {
+  const t = useMessages();
+  const resolvedNext = nextLabel ?? t.common.next;
+  const resolvedBack = backLabel ?? t.common.back;
   const [showHeadline, setShowHeadline] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
 
@@ -102,7 +106,7 @@ export function OutcomePageShell({
             onClick={onBack}
             className="flex-1 rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 landscape:py-2"
           >
-            {backLabel}
+            {resolvedBack}
           </button>
         )}
         {onNext && (
@@ -111,7 +115,7 @@ export function OutcomePageShell({
             onClick={onNext}
             className="flex-[1.4] rounded-xl bg-brand-navy px-3 py-2.5 text-sm font-semibold text-white hover:bg-brand-navy/90 landscape:py-2"
           >
-            {nextLabel}
+            {resolvedNext}
           </button>
         )}
       </div>

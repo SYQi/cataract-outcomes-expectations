@@ -1,0 +1,279 @@
+import type { Messages } from "@/lib/i18n/types";
+
+const sourceNhg = "NHG Health specialist profile";
+
+export const en: Messages = {
+  admin: {
+    languageLabel: "Questionnaire language",
+    languageEnglish: "English",
+    languageChinese: "简体中文",
+    languageHint: "English is the default. Choose Simplified Chinese for Chinese-speaking patients.",
+  },
+  wizard: {
+    titleLine1: "Cataract Surgery:",
+    titleLine2: "Outcomes and Expectations",
+    verifyIntro: "Please verify your details before starting the assessment.",
+    assessmentTitle: "Assessment",
+    assessmentSubtitle: "CAT-PROM5 questionnaire",
+    outcomeOf: "{current} of {total} · {label}",
+    swipeHint: "Swipe left or right between outcome pages",
+    outcomeVa: "Visual acuity",
+    outcomeRefraction: "Refractive accuracy",
+    outcomeComplications: "Complications",
+    outcomeProms: "PROMS",
+    outcomeCareTeam: "Your care team",
+  },
+  details: {
+    heading: "Verify your details",
+    intro: "These were entered by staff. Please confirm they are correct before continuing.",
+    fullName: "Full name",
+    nric: "NRIC",
+    backToStaff: "Back to staff",
+    confirmContinue: "Confirm & continue",
+  },
+  assessment: {
+    questionOf: "Question {n} of {total}",
+    frontierHint:
+      "Slide the bar to indicate how your eyesight affects you today. Release to continue.",
+    adjustHint: "You can adjust this answer anytime, then scroll to continue.",
+    selected: "Selected: {value}",
+  },
+  catProm5: {
+    a: {
+      labelParts: [
+        { text: "Using only the " },
+        { text: "worse eye", emphasize: true },
+        { text: ", how bad is your vision?" },
+      ],
+      minLabel: "No impairment at all",
+      maxLabel: "Very bad",
+    },
+    b: {
+      labelParts: [
+        { text: "Using " },
+        { text: "both eyes", emphasize: true },
+        { text: ", how bad is your vision?" },
+      ],
+      minLabel: "No impairment at all",
+      maxLabel: "Very bad",
+    },
+    c: {
+      labelParts: [
+        { text: "How has your " },
+        { text: "life", emphasize: true },
+        { text: " been affected by poor vision" },
+      ],
+      minLabel: "No interference at all",
+      maxLabel: "Extremely bad effect on quality of life",
+    },
+    d: {
+      labelParts: [
+        { text: "Does poor vision affect your " },
+        { text: "hobbies", emphasize: true },
+        { text: " or " },
+        { text: "favourite activities", emphasize: true },
+        { text: "?" },
+      ],
+      minLabel: "Never",
+      maxLabel: "All the time",
+    },
+    e: {
+      labelParts: [
+        { text: "Does poor vision affect your " },
+        { text: "reading", emphasize: true },
+        { text: "?" },
+      ],
+      minLabel: "No difficulties reading at all",
+      maxLabel: "Can't read at all because of poor eyesight",
+    },
+  },
+  common: {
+    next: "Next",
+    back: "Back",
+    woodlandsHospital: "Woodlands Hospital",
+    woodlandsHealth: "Woodlands Health",
+    cases: "{count} cases",
+  },
+  messaging: {
+    specialistCareFootnote:
+      "Real outcomes from specialist ophthalmology care at Woodlands Hospital",
+  },
+  va: {
+    eyebrow: "Visual acuity",
+    headlineSpecialists: "Specialist Ophthalmologists",
+    headlineAtHospital: "at Woodlands Hospital",
+    badgeTitle: "Better Vision After Surgery",
+    successRate: "success rate",
+    badgeSubtitle: "Specialist outcomes at Woodlands Hospital",
+    nextLabel: "Refractive accuracy →",
+    backLabel: "Revise answers",
+    howYouSeeToday: "How you see today",
+    afterSurgery: "After cataract surgery",
+    postOpVaLabel: "6/9 or better",
+    altToday: "Woodlands Hospital logo — as you see today",
+    altAfter: "Woodlands Hospital logo — after cataract surgery",
+    chartTitle: "Good vision (6/12+) — quarterly specialist outcomes",
+    legendSydney: "Sydney Blue Mountains ({percent}%)",
+    referenceSydney: "Reference (Sydney Blue Mountains): ",
+    tooltipSeries: "Woodlands Health",
+  },
+  refraction: {
+    eyebrow: "Refractive accuracy",
+    headlineNoGlasses: "No Glasses Required After Surgery:",
+    probability: "{percent}% probability",
+    within1d: "within ±1.0D",
+    readingGlassesNote: "Reading glasses are still required for near or small text.",
+    footnoteCohort: "VA ≥ 6/12 cohort",
+    nextLabel: "Complications →",
+    chartTitle: "Refractive accuracy (±1.0D) — quarterly specialist outcomes",
+    legendNhs: "NHS reference ({percent}%)",
+    referenceNhs: "Reference (NHS, {percent}% within ±1.0D): ",
+  },
+  complications: {
+    eyebrow: "Complications",
+    headlineSuccess: "",
+    headlineSuccessSuffix: "success rate with no complications:",
+    headlineSpecialistOutcomes: "Specialist Outcomes",
+    nextLabel: "Quality of life →",
+    careBadge: "Specialist care · Woodlands Hospital",
+    successfulNoComplications: "successful with no complications",
+    compareTitle: "Complication rate: Woodlands vs United Kingdom",
+    compareSubtitle:
+      "All-cause intraoperative complications — specialist outcomes at Woodlands Hospital",
+    labelRcoShort: "RCOphth (UK)",
+    labelRcoLong: "Royal College of Ophthalmologists, United Kingdom",
+    labelWoodlands: "Woodlands",
+    summaryWhRate: "Woodlands specialist rate:",
+    summaryVsRco: "vs Royal College of Ophthalmologists (UK): {low}–{high}%",
+    summaryRatio: "About {ratio}% of the typical UK rate —",
+    nearlyHalf: "nearly half",
+    referenceTitle:
+      "Reference — Royal College of Ophthalmologists, United Kingdom ({low}–{high}%)",
+  },
+  proms: {
+    eyebrow: "Patient-reported outcomes",
+    headline: "Better Sight, Happier Lives",
+    nextLabel: "Your care team →",
+    backLabel: "← Complications",
+    poor: "Poor",
+    great: "Great",
+    youToday: "You today",
+    firstEye: "1st Eye Surgery",
+    secondEye: "2nd Eye Surgery",
+    qolLine1: "Quality of life is expected to increase from",
+    qolLine2Before: "",
+    qolLine2Mid: "to an average score of",
+    qolLine3: "after cataract surgery",
+    referenceLabel: "Reference (Cat-PROM5): ",
+  },
+  careTeam: {
+    headlineYour: "Your",
+    headlineInsurer: "Insurer",
+    headlineAnd: "and",
+    headlineSpecialist: "Specialist",
+    headlineForSurgery: "for Cataract Surgery",
+    yourInsurer: "Your insurer",
+    yourSpecialist: "Your specialist consultant",
+    clinicalInterests: "Clinical interests:",
+    languages: "Languages:",
+    nhgEyeInstitute: "NHG Eye Institute",
+    sourcePrefix: "Source:",
+    nextLabel: "New patient",
+    backLabel: "← Quality of life",
+    consultants: {
+      "Dr James Pan": {
+        rank: "Senior Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests:
+          "Cornea and external eye diseases, cataract surgery, comprehensive ophthalmology",
+        languages: ["English", "Mandarin"],
+        about:
+          "Dr James Pan practices ophthalmology with special interests in cornea and external eye diseases, cataract surgery and comprehensive ophthalmology. He serves as Clinical Senior Lecturer at NUS Yong Loo Lin School of Medicine and NTU Lee Kong Chian School of Medicine.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Lilian Koh": {
+        rank: "Senior Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests:
+          "Medical retina, uveitis, ocular immunology, cataracts, general ophthalmology",
+        languages: ["English", "Mandarin"],
+        about:
+          "Dr Koh Lilian practices ophthalmology with special interests in medical retina, uveitis, ocular immunology and inflammation, cataracts, and general ophthalmology. She is a Clinical Lecturer at NUS and NTU medical schools.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Louis Lim": {
+        rank: "Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests:
+          "Comprehensive ophthalmology, cataract, medical retina, vitreo-retinal surgery",
+        languages: ["English", "Hokkien", "Mandarin"],
+        about:
+          "Dr Louis Lim is a Consultant with the Department of Ophthalmology at Woodlands Hospital and the National Healthcare Group Eye Institute.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Annie Lai": {
+        rank: "Senior Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Neuro-ophthalmology, cataract, comprehensive ophthalmology",
+        languages: ["English", "Cantonese", "Mandarin"],
+        about:
+          "Dr Annie Lai practices ophthalmology with special interests in neuro-ophthalmology, cataracts, and general ophthalmology. She serves as Clinical Lecturer at NUS Yong Loo Lin School of Medicine.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Muhammad Amir Tan": {
+        rank: "Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Cornea, cataract, comprehensive ophthalmology",
+        languages: ["English", "Malay", "Mandarin"],
+        about:
+          "Dr Amir is a Consultant at the Department of Ophthalmology, Woodlands Hospital, and a Visiting Consultant with Tan Tock Seng Hospital and Khoo Teck Puat Hospital.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Jane Lim": {
+        rank: "Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Cataract and comprehensive ophthalmology",
+        languages: ["English", "Mandarin"],
+        about:
+          "Dr Jane Lim is a Consultant Ophthalmologist at Woodlands Hospital and the National Healthcare Group Eye Institute.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Elizabeth Chen": {
+        rank: "Associate Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Glaucoma",
+        languages: ["English", "Mandarin"],
+        about:
+          "Dr Elizabeth Chen is an Associate Consultant at the Department of Ophthalmology, Woodlands Hospital and National Healthcare Group Eye Institute.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Soh Yu Qiang": {
+        rank: "Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Surgical retina, medical retina, scleral intraocular lens fixation",
+        languages: ["English", "Hokkien", "Mandarin"],
+        about:
+          "Dr Soh Yu Qiang is a Consultant with the Department of Ophthalmology at Woodlands Hospital and National Healthcare Group Eye Institute, with interests in retinal surgery and complex retinal pathologies.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Mohammad Jawad Abdul-Nabi": {
+        rank: "Senior Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Comprehensive ophthalmology",
+        languages: ["Arabic", "English"],
+        about:
+          "Dr Abdul-Nabi graduated from Glasgow University and trained in ophthalmology at the Tennent Institute in Glasgow and Manchester Royal Eye Hospital in the UK.",
+        sourceLabel: sourceNhg,
+      },
+      "Dr Lim Rongxuan": {
+        rank: "Senior Consultant",
+        department: "Ophthalmology, Woodlands Hospital",
+        clinicalInterests: "Glaucoma, cataract, general ophthalmology",
+        languages: ["English", "Mandarin"],
+        about:
+          "Dr Lim Rongxuan graduated from the University of Cambridge with triple first class honours and practices ophthalmology with interests in glaucoma and cataract surgery.",
+        sourceLabel: sourceNhg,
+      },
+    },
+  },
+};

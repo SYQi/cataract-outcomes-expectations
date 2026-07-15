@@ -5,16 +5,26 @@ import {
   INSURERS,
   type PatientIntake,
 } from "@/lib/patientRegistry";
+import { useMessages, type Locale } from "@/lib/i18n";
 import { VA_OPTIONS, type VisualAcuity } from "@/lib/va";
 import { WhLogo } from "@/components/WhLogo";
 
 type AdminPageProps = {
   patient: PatientIntake;
   onChange: (patient: PatientIntake) => void;
+  locale: Locale;
+  onLocaleChange: (locale: Locale) => void;
   onContinue: () => void;
 };
 
-export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
+export function AdminPage({
+  patient,
+  onChange,
+  locale,
+  onLocaleChange,
+  onContinue,
+}: AdminPageProps) {
+  const t = useMessages();
   const valid =
     patient.name.trim().length > 0 &&
     patient.nric.trim().length > 0 &&
@@ -129,6 +139,35 @@ export function AdminPage({ patient, onChange, onContinue }: AdminPageProps) {
           />
         </label>
       </div>
+
+      <fieldset className="mt-6 rounded-xl border border-slate-200 bg-slate-50/80 p-4">
+        <legend className="px-1 text-sm font-semibold text-brand-navy">{t.admin.languageLabel}</legend>
+        <p className="text-xs text-slate-500">{t.admin.languageHint}</p>
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => onLocaleChange("en")}
+            className={`rounded-xl px-4 py-3 text-base font-semibold transition ${
+              locale === "en"
+                ? "bg-brand-navy text-white shadow-sm ring-2 ring-brand-navy/30"
+                : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+            }`}
+          >
+            {t.admin.languageEnglish}
+          </button>
+          <button
+            type="button"
+            onClick={() => onLocaleChange("zh-CN")}
+            className={`rounded-xl px-4 py-3 text-base font-semibold transition ${
+              locale === "zh-CN"
+                ? "bg-brand-navy text-white shadow-sm ring-2 ring-brand-navy/30"
+                : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+            }`}
+          >
+            {t.admin.languageChinese}
+          </button>
+        </div>
+      </fieldset>
 
       <button
         type="button"

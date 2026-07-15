@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { OutcomePageShell } from "@/components/OutcomePageShell";
+import { useLocale, useMessages } from "@/lib/i18n";
 import {
   CONSULTANT_PROFILES,
   insurerLogoPath,
@@ -17,9 +18,13 @@ type CareTeamPageProps = {
 };
 
 export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProps) {
+  const t = useMessages();
+  const { locale } = useLocale();
   const insurer = patient.insurer as Insurer;
   const consultant = patient.consultant as ConsultantName;
   const profile = CONSULTANT_PROFILES[consultant];
+  const localized = profile ? t.careTeam.consultants[profile.name] : null;
+  const languageJoin = locale === "zh-CN" ? "、" : ", ";
 
   return (
     <OutcomePageShell
@@ -27,22 +32,31 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
       headlineSpaced
       headline={
         <span className="block text-[1.872em]">
-          Your{" "}
-          <span className="text-[1.15em] font-extrabold text-brand-teal">Insurer</span> and{" "}
-          <span className="text-[1.15em] font-extrabold text-brand-teal">Specialist</span> for
-          Cataract Surgery
+          {t.careTeam.headlineYour}{" "}
+          <span className="text-[1.15em] font-extrabold text-brand-teal">
+            {t.careTeam.headlineInsurer}
+          </span>{" "}
+          {t.careTeam.headlineAnd}{" "}
+          <span className="text-[1.15em] font-extrabold text-brand-teal">
+            {t.careTeam.headlineSpecialist}
+          </span>
+          {t.careTeam.headlineForSurgery ? ` ${t.careTeam.headlineForSurgery}` : ""}
         </span>
       }
       onBack={onBack}
       onNext={onNewPatient}
-      nextLabel="New patient"
-      backLabel="← Quality of life"
+      nextLabel={t.careTeam.nextLabel}
+      backLabel={t.careTeam.backLabel}
     >
       <div className="flex min-h-0 flex-col gap-3 landscape:gap-3 sm:gap-4">
         <div className="flex shrink-0 items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:gap-4 sm:p-4">
           <div className="shrink-0 text-left">
-            <p className="text-[0.9rem] font-bold uppercase tracking-wide text-slate-500">Your insurer</p>
-            <p className="mt-0.5 text-[1.2rem] font-bold text-brand-navy sm:text-[1.35rem]">{insurer}</p>
+            <p className="text-[0.9rem] font-bold uppercase tracking-wide text-slate-500">
+              {t.careTeam.yourInsurer}
+            </p>
+            <p className="mt-0.5 text-[1.2rem] font-bold text-brand-navy sm:text-[1.35rem]">
+              {insurer}
+            </p>
           </div>
           <Image
             src={insurerLogoPath(insurer)}
@@ -53,10 +67,10 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
           />
         </div>
 
-        {profile && (
+        {profile && localized && (
           <div className="min-h-0 shrink rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
             <p className="text-center text-xs font-bold uppercase tracking-wide text-slate-500">
-              Your specialist consultant
+              {t.careTeam.yourSpecialist}
             </p>
             <div className="mt-3 flex flex-col items-center justify-center gap-3 sm:flex-row sm:items-start">
               <Image
@@ -68,27 +82,29 @@ export function CareTeamPage({ patient, onBack, onNewPatient }: CareTeamPageProp
               />
               <div className="min-w-0 max-w-xl text-center text-[1.728em] leading-snug sm:text-left">
                 <h3 className="text-[1.755rem] font-bold text-brand-navy">{profile.name}</h3>
-                <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">{profile.rank}</p>
-                <p className="text-sm font-medium text-slate-600">NHG Eye Institute</p>
-                <p className="text-sm text-slate-600">{profile.department}</p>
+                <p className="mt-0.5 text-[1.1375rem] font-semibold text-brand-teal">
+                  {localized.rank}
+                </p>
+                <p className="text-sm font-medium text-slate-600">{t.careTeam.nhgEyeInstitute}</p>
+                <p className="text-sm text-slate-600">{localized.department}</p>
                 <p className="mt-1.5 text-xs leading-relaxed text-slate-600">
-                  <span className="font-semibold text-slate-700">Clinical interests: </span>
-                  {profile.clinicalInterests}
+                  <span className="font-semibold text-slate-700">{t.careTeam.clinicalInterests} </span>
+                  {localized.clinicalInterests}
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  <span className="font-semibold">Languages: </span>
-                  {profile.languages.join(", ")}
+                  <span className="font-semibold">{t.careTeam.languages} </span>
+                  {localized.languages.join(languageJoin)}
                 </p>
-                <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{profile.about}</p>
+                <p className="mt-1.5 text-xs leading-relaxed text-slate-600">{localized.about}</p>
                 <p className="mt-1.5 text-[10px] leading-snug text-slate-400">
-                  Source:{" "}
+                  {t.careTeam.sourcePrefix}{" "}
                   <a
                     href={profile.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-brand-teal underline"
                   >
-                    NHG Health specialist profile
+                    {localized.sourceLabel}
                   </a>
                 </p>
               </div>

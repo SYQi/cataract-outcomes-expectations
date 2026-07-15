@@ -10,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { formatMessage, useMessages } from "@/lib/i18n";
 import {
   NHS_REFRACTIVE_REFERENCE_PERCENT,
   QUARTERLY_REFRACTIVE_1D_TREND,
@@ -20,6 +21,7 @@ const WH_COLOR = "#0d9488";
 const NHS_COLOR = "#b45309";
 
 export function RefractiveQuarterlyChart() {
+  const t = useMessages();
   const chartData = QUARTERLY_REFRACTIVE_1D_TREND.map((p) => ({
     label: p.label,
     rate: p.rate,
@@ -29,7 +31,7 @@ export function RefractiveQuarterlyChart() {
   return (
     <div className="flex h-full min-h-0 flex-col rounded-xl border border-slate-200/80 bg-gradient-to-b from-white to-teal-50/40 p-2 shadow-sm sm:p-3">
       <p className="mb-1 shrink-0 text-xs font-bold leading-snug text-brand-navy sm:text-sm">
-        Refractive accuracy (±1.0D) — quarterly specialist outcomes
+        {t.refraction.chartTitle}
       </p>
 
       <div className="h-[195px] w-full shrink-0 landscape:h-[182px] sm:h-[221px]">
@@ -65,13 +67,13 @@ export function RefractiveQuarterlyChart() {
               strokeWidth={2.5}
             />
             <Tooltip
-              formatter={(value: number) => [`${value}%`, "Woodlands Health"]}
+              formatter={(value: number) => [`${value}%`, t.va.tooltipSeries]}
               labelFormatter={(label) => String(label)}
               contentStyle={{ fontSize: 13, borderRadius: 10, border: "1px solid #cbd5e1" }}
             />
             <Area
               type="monotone"
-              name="Woodlands Health"
+              name={t.va.tooltipSeries}
               dataKey="rate"
               stroke={WH_COLOR}
               strokeWidth={3}
@@ -92,14 +94,14 @@ export function RefractiveQuarterlyChart() {
       <div className="mt-2 flex shrink-0 flex-wrap items-center justify-center gap-x-4 gap-y-1 pb-1 text-[14px] font-bold sm:text-[16px]">
         <span className="inline-flex items-center gap-1.5 text-teal-800">
           <span className="inline-block h-1 w-6 rounded bg-teal-700" />
-          Woodlands Health
+          {t.common.woodlandsHealth}
         </span>
         <span className="inline-flex items-center gap-1.5 text-amber-800">
           <span
             className="inline-block h-0 w-6 border-t-[3px] border-dashed"
             style={{ borderColor: NHS_COLOR }}
           />
-          NHS reference ({NHS_REFRACTIVE_REFERENCE_PERCENT}%)
+          {formatMessage(t.refraction.legendNhs, { percent: NHS_REFRACTIVE_REFERENCE_PERCENT })}
         </span>
       </div>
     </div>
