@@ -1,6 +1,6 @@
-import { mkdir, readdir, readFile, writeFile } from "fs/promises";
+import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
 import path from "path";
-import { get, list, put } from "@vercel/blob";
+import { del, get, list, put } from "@vercel/blob";
 import type { PatientSessionRecord } from "@/lib/sessionAnalytics";
 
 const LOCAL_DIR = "/tmp/patient-conversion-sessions";
@@ -86,6 +86,36 @@ export async function listSessionRecords(): Promise<PatientSessionRecord[]> {
     }
   }
   return records.sort((a, b) => a.startedAtIso.localeCompare(b.startedAtIso));
+}
+
+/** Permanently delete all stored patient session records. Returns how many were removed. */
+export async function clearAllSessionRecords(): Promise<number> {
+  if (hasBlobStorage()) {
+    const pathnames: string[] = [];
+    let cursor: string | undefined;
+    do {
+      const result = await list({ prefix: BLOB_PREFIX, cursor, limit: 1000 });
+      for (const blob of result.blobs) {
+        pathnames.push(blob.pathname);
+      }
+      cursor = result.cursor;
+      if (!result.hasMore) break;
+    } while (cursor);
+
+    if (pathnames.length > 0) {
+      // Batch deletes; @vercel/blob accepts a string or array of pathnames/URLs.
+      const chunkSize = 100;
+      for (let i = 0; i < pathnames.length; i += chunkSize) {
+        await del(pathnames.slice(i, i + chunkSize));
+      }
+    }
+    return pathnames.length;
+  }
+
+  await ensureLocalDir();
+  const files = (await readdir(LOCAL_DIR)).filter((f) => f.endsWith(".json"));
+  await Promise.all(files.map((file) => rm(path.join(LOCAL_DIR, file), { force: true })));
+  return files.length;
 }
 
 export function sessionsToCsv(records: PatientSessionRecord[]): string {

@@ -10,6 +10,7 @@ export default function AdminSessionsPage() {
   const [loading, setLoading] = useState(false);
   const [sessions, setSessions] = useState<PatientSessionRecord[]>([]);
   const [storage, setStorage] = useState("");
+  const [clearing, setClearing] = useState(false);
 
   const loadSessions = async (pwd: string) => {
     setLoading(true);
@@ -43,6 +44,40 @@ export default function AdminSessionsPage() {
 
   const downloadCsv = () => {
     window.location.href = `/api/sessions/export?password=${encodeURIComponent(password)}&format=csv`;
+  };
+
+  const clearAllSessions = async () => {
+    const confirmed = window.confirm(
+      "Clear all session records?\n\nThis permanently deletes every patient visit log and cannot be undone. Download CSV first if you need a backup.",
+    );
+    if (!confirmed) return;
+
+    setClearing(true);
+    setError("");
+    try {
+      const res = await fetch("/api/sessions/clear", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.status === 401) {
+        setError("Incorrect password");
+        setAuthed(false);
+        return;
+      }
+      if (!res.ok) {
+        setError("Failed to clear sessions");
+        return;
+      }
+      const data = await res.json();
+      setSessions([]);
+      setStorage(data.storage ?? storage);
+      window.alert(`Cleared ${data.deleted ?? 0} session${data.deleted === 1 ? "" : "s"}.`);
+    } catch {
+      setError("Network error while clearing sessions");
+    } finally {
+      setClearing(false);
+    }
   };
 
   if (!authed) {
@@ -87,7 +122,7 @@ export default function AdminSessionsPage() {
             {sessions.length} session{sessions.length === 1 ? "" : "s"} · storage: {storage || "—"}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             type="button"
             onClick={() => loadSessions(password)}
@@ -102,12 +137,22 @@ export default function AdminSessionsPage() {
           >
             Download Excel (CSV)
           </button>
+          <button
+            type="button"
+            onClick={clearAllSessions}
+            disabled={clearing || sessions.length === 0}
+            className="rounded-xl border border-red-300 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            {clearing ? "Clearing…" : "Clear all sessions"}
+          </button>
         </div>
       </div>
 
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+
       <p className="mt-3 text-xs text-slate-500">
         Open the CSV in Excel or Google Sheets. Columns include name, NRIC, form date/time, and seconds
-        spent on each page.
+        spent on each page. Clear all sessions requires the same admin password and asks for confirmation.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">

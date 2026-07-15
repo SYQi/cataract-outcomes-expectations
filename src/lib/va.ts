@@ -26,9 +26,9 @@ export function vaToGoodVisionPercent(va: VisualAcuity): number {
 
 export const POST_OP_VA_6_12_OR_BETTER_PERCENT = 90;
 
-export const POST_OP_VA_LABEL = "6/12 or better";
+export const POST_OP_VA_LABEL = "6/9 or better";
 
-/** Crystal-clear post-op preview (6/12 — no blur). */
+/** Crystal-clear post-op preview (6/9 — no blur). */
 export const POST_OP_VA_BLUR_PX = 0;
 
 export const POST_OP_VA_SHARPEN_FILTER =

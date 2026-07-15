@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import {
+  BLUE_MOUNTAINS_CITATION,
   BLUE_MOUNTAINS_VA_REFERENCE_PERCENT,
   QUARTERLY_VA_612_TREND,
 } from "@/lib/whOutcomes";
@@ -32,7 +33,7 @@ export function VaQuarterlyChart() {
         Good vision (6/12+) — quarterly specialist outcomes
       </p>
 
-      <div className="min-h-[280px] w-full flex-1 landscape:min-h-[240px] sm:min-h-[300px]">
+      <div className="min-h-[200px] w-full flex-1 landscape:min-h-[170px] sm:min-h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 8, right: 12, left: 4, bottom: 4 }}>
             <defs>
@@ -102,6 +103,11 @@ export function VaQuarterlyChart() {
           Sydney Blue Mountains ({BLUE_MOUNTAINS_VA_REFERENCE_PERCENT}%)
         </span>
       </div>
+
+      <p className="mt-2 shrink-0 border-t border-slate-100 pt-2 text-left text-[9px] leading-snug text-slate-500 sm:text-[10px]">
+        <span className="font-semibold text-slate-600">Reference (Sydney Blue Mountains): </span>
+        {BLUE_MOUNTAINS_CITATION}
+      </p>
     </div>
   );
 }
