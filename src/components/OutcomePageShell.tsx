@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
-import { useMessages } from "@/lib/i18n";
+import { useLocale, useMessages } from "@/lib/i18n";
 import { resetPageScrollAfterPaint } from "@/lib/scrollReset";
 
 type OutcomePageShellProps = {
@@ -39,20 +39,30 @@ export function OutcomePageShell({
   headlineSpaced = false,
 }: OutcomePageShellProps) {
   const t = useMessages();
+  const { locale } = useLocale();
+  const zhTitle = locale === "zh-CN";
   const resolvedNext = nextLabel ?? t.common.next;
   const resolvedBack = backLabel ?? t.common.back;
   const [showHeadline, setShowHeadline] = useState(false);
   const contentScrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const t = window.setTimeout(() => setShowHeadline(true), 60);
-    return () => window.clearTimeout(t);
+    const timer = window.setTimeout(() => setShowHeadline(true), 60);
+    return () => window.clearTimeout(timer);
   }, [headline]);
 
   useLayoutEffect(() => {
     if (!alignContentTop) return;
     resetPageScrollAfterPaint(contentScrollRef.current);
   }, [alignContentTop, headline]);
+
+  const headlineSize = prominentHeadline
+    ? zhTitle
+      ? "text-[2.281rem] landscape:text-[2.106rem] sm:text-[2.535rem] landscape:sm:text-[2.281rem]"
+      : "text-[1.901rem] landscape:text-[1.755rem] sm:text-[2.1125rem] landscape:sm:text-[1.901rem]"
+    : zhTitle
+      ? "text-[1.35rem] landscape:text-[1.2rem] sm:text-[1.5rem] landscape:sm:text-[1.35rem]"
+      : "text-lg landscape:text-base sm:text-xl landscape:sm:text-lg";
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
@@ -69,11 +79,9 @@ export function OutcomePageShell({
           </p>
         ) : null}
         <h2
-          className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance font-extrabold leading-snug text-brand-navy ${
-            prominentHeadline
-              ? "text-[1.901rem] landscape:text-[1.755rem] sm:text-[2.1125rem] landscape:sm:text-[1.901rem]"
-              : "text-lg landscape:text-base sm:text-xl landscape:sm:text-lg"
-          } ${showHeadline ? "animate-scale-jump" : "opacity-0"}`}
+          className={`${eyebrow ? "mt-1 landscape:mt-0.5" : ""} text-balance font-extrabold leading-snug text-brand-navy ${headlineSize} ${
+            showHeadline ? "animate-scale-jump" : "opacity-0"
+          }`}
         >
           {headline}
         </h2>

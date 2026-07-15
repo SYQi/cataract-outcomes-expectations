@@ -31,26 +31,6 @@ html {
   }
 }
 
-/*
- * Simplified Chinese: enlarge all type ~20% for denser glyphs.
- * `zoom` scales rem and absolute-px Tailwind sizes (unlike root font-size alone).
- */
-html[data-locale="zh-CN"] {
-  zoom: 1.2;
-}
-
-@supports not (zoom: 1) {
-  html[data-locale="zh-CN"] {
-    font-size: 120%;
-  }
-
-  @media (orientation: landscape) and (min-width: 768px) {
-    html[data-locale="zh-CN"] {
-      font-size: 18px;
-    }
-  }
-}
-
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;

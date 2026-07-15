@@ -48,12 +48,7 @@ export function LocaleProvider({
   );
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.lang = LOCALE_HTML_LANG[locale];
-    root.dataset.locale = locale;
-    return () => {
-      delete root.dataset.locale;
-    };
+    document.documentElement.lang = LOCALE_HTML_LANG[locale];
   }, [locale]);
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;

@@ -2,7 +2,7 @@
 
 import { OutcomePageShell } from "@/components/OutcomePageShell";
 import { PromsHorizontalScale } from "@/components/PromsHorizontalScale";
-import { useMessages } from "@/lib/i18n";
+import { useLocale, useMessages } from "@/lib/i18n";
 import { CAT_PROM5_CITATION } from "@/lib/whOutcomes";
 
 type PromsOutcomePageProps = {
@@ -13,11 +13,21 @@ type PromsOutcomePageProps = {
 
 export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomePageProps) {
   const t = useMessages();
+  const { locale } = useLocale();
+  const zhTitle = locale === "zh-CN";
 
   return (
     <OutcomePageShell
       eyebrow={t.proms.eyebrow}
-      headline={<span className="block text-[2.025rem] sm:text-[2.25rem]">{t.proms.headline}</span>}
+      headline={
+        <span
+          className={`block ${
+            zhTitle ? "text-[2.43rem] sm:text-[2.7rem]" : "text-[2.025rem] sm:text-[2.25rem]"
+          }`}
+        >
+          {t.proms.headline}
+        </span>
+      }
       onBack={onBack}
       onNext={onNext}
       nextLabel={t.proms.nextLabel}

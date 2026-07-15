@@ -49,6 +49,7 @@ const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", ...OUTCOME_STE
 function ConversionWizardInner() {
   const t = useMessages();
   const { locale, setLocale } = useLocale();
+  const zhTitle = locale === "zh-CN";
   const [step, setStep] = useState<Step>("admin");
   const [patient, setPatient] = useState<PatientIntake>({
     ...EMPTY_PATIENT_INTAKE,
@@ -175,7 +176,13 @@ function ConversionWizardInner() {
             <div className="mb-2 flex justify-center sm:mb-3">
               <WhLogo size="lg" />
             </div>
-            <h1 className="text-2xl font-bold leading-snug text-brand-navy landscape:text-xl sm:text-3xl">
+            <h1
+              className={`font-bold leading-snug text-brand-navy ${
+                zhTitle
+                  ? "text-[1.8rem] landscape:text-[1.5rem] sm:text-[2.25rem]"
+                  : "text-2xl landscape:text-xl sm:text-3xl"
+              }`}
+            >
               <span className="block">{t.wizard.titleLine1}</span>
               <span className="mt-1 block">{t.wizard.titleLine2}</span>
             </h1>
@@ -187,7 +194,13 @@ function ConversionWizardInner() {
         )}
         {step === "assessment" && (
           <>
-            <h1 className="text-xl font-bold text-brand-navy landscape:text-lg sm:text-2xl">
+            <h1
+              className={`font-bold text-brand-navy ${
+                zhTitle
+                  ? "text-[1.5rem] landscape:text-[1.35rem] sm:text-[1.8rem]"
+                  : "text-xl landscape:text-lg sm:text-2xl"
+              }`}
+            >
               {t.wizard.assessmentTitle}
             </h1>
             <p className="mt-1 text-sm text-slate-500">{t.wizard.assessmentSubtitle}</p>

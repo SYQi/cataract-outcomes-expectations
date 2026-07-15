@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { GradientSlider } from "@/components/GradientSlider";
 import type { CatProm5Answers } from "@/lib/catProm5";
 import { CAT_PROM5_QUESTIONS } from "@/lib/catProm5";
-import { formatMessage, useMessages } from "@/lib/i18n";
+import { formatMessage, useLocale, useMessages } from "@/lib/i18n";
 
 type CatProm5QuestionPageProps = {
   /** Number of questions currently unlocked (1–5). */
@@ -25,6 +25,8 @@ export function CatProm5QuestionPage({
   onFrontierRelease,
 }: CatProm5QuestionPageProps) {
   const t = useMessages();
+  const { locale } = useLocale();
+  const zhTitle = locale === "zh-CN";
   const questionRefs = useRef<(HTMLElement | null)[]>([]);
   const prevUnlocked = useRef(unlockedCount);
 
@@ -60,7 +62,13 @@ export function CatProm5QuestionPage({
                   total: CAT_PROM5_QUESTIONS.length,
                 })}
               </p>
-              <h2 className="mt-3 text-center text-[1.5rem] font-semibold leading-snug text-brand-navy sm:text-[1.62rem]">
+              <h2
+                className={`mt-3 text-center font-semibold leading-snug text-brand-navy ${
+                  zhTitle
+                    ? "text-[1.8rem] sm:text-[1.944rem]"
+                    : "text-[1.5rem] sm:text-[1.62rem]"
+                }`}
+              >
                 {letter}){" "}
                 {copy.labelParts.map((part, i) =>
                   part.emphasize ? (
