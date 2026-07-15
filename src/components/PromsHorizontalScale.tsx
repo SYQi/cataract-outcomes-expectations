@@ -6,7 +6,7 @@ import {
   POST_OP_CAT_PROM5_FIRST_EYE,
   POST_OP_CAT_PROM5_SECOND_EYE,
 } from "@/lib/catProm5";
-import { useMessages } from "@/lib/i18n";
+import { useLocale, useMessages } from "@/lib/i18n";
 
 type PromsHorizontalScaleProps = {
   patientScore: number;
@@ -93,6 +93,7 @@ const SCORE_NUM = "text-[1.3em] font-extrabold leading-none";
 
 export function PromsHorizontalScale({ patientScore, animate = true }: PromsHorizontalScaleProps) {
   const t = useMessages();
+  const { locale } = useLocale();
   const [visible, setVisible] = useState(!animate);
 
   useEffect(() => {
@@ -117,7 +118,8 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
       label: t.proms.firstEye,
       color: "#0d9488",
       delayMs: 450,
-      placement: "below",
+      // Chinese: place above the bar like 2nd-eye (labels sit clearer with denser glyphs).
+      placement: locale === "zh-CN" ? "above" : "below",
     },
     {
       id: "second",
