@@ -17,6 +17,7 @@ export default function AdminSessionsPage() {
   const [storage, setStorage] = useState("");
   const [clearing, setClearing] = useState(false);
   const [savingUpgradeId, setSavingUpgradeId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const loadSessions = async (pwd: string) => {
     setLoading(true);
@@ -81,6 +82,32 @@ export default function AdminSessionsPage() {
       setError("Network error while saving upgrade decision");
     } finally {
       setSavingUpgradeId(null);
+    }
+  };
+
+  const deleteSession = async (sessionId: string) => {
+    setDeletingId(sessionId);
+    setError("");
+    try {
+      const res = await fetch("/api/sessions/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, sessionId }),
+      });
+      if (res.status === 401) {
+        setError("Incorrect password");
+        setAuthed(false);
+        return;
+      }
+      if (!res.ok) {
+        setError("Failed to delete session");
+        return;
+      }
+      setSessions((prev) => prev.filter((s) => s.sessionId !== sessionId));
+    } catch {
+      setError("Network error while deleting session");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -216,12 +243,13 @@ export default function AdminSessionsPage() {
               <th className="px-3 py-2">PROMS</th>
               <th className="px-3 py-2">Done</th>
               <th className="px-3 py-2">Upgrade</th>
+              <th className="px-3 py-2"> </th>
             </tr>
           </thead>
           <tbody>
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={14} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={15} className="px-3 py-8 text-center text-slate-400">
                   No sessions recorded yet.
                 </td>
               </tr>
@@ -260,7 +288,17 @@ export default function AdminSessionsPage() {
                     <option value="">Pending</option>
                     <option value="upgraded">Upgraded</option>
                     <option value="no-upgrade">No upgrade</option>
-                  </select>
+                    </select>
+                </td>
+                <td className="px-3 py-2">
+                  <button
+                    type="button"
+                    onClick={() => void deleteSession(s.sessionId)}
+                    disabled={deletingId === s.sessionId}
+                    className="rounded-lg border border-red-200 bg-red-50 px-2.5 py-1.5 text-xs font-semibold text-red-700 hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {deletingId === s.sessionId ? "Deleting…" : "Delete"}
+                  </button>
                 </td>
               </tr>
             ))}

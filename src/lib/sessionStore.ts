@@ -98,6 +98,32 @@ export async function setSessionUpgradeDecision(
   return updated;
 }
 
+/**
+ * Permanently delete a single session record.
+ * Returns true if a record was removed, false if it did not exist / id was invalid.
+ */
+export async function deleteSessionRecord(sessionId: string): Promise<boolean> {
+  if (!/^[A-Za-z0-9_-]+$/.test(sessionId)) return false;
+  const filename = `${sessionId}.json`;
+
+  if (hasBlobStorage()) {
+    const pathname = `${BLOB_PREFIX}${filename}`;
+    const existing = await readBlobRecord(pathname).catch(() => null);
+    if (!existing) return false;
+    await del(pathname);
+    return true;
+  }
+
+  await ensureLocalDir();
+  const filePath = path.join(LOCAL_DIR, filename);
+  try {
+    await rm(filePath, { force: false });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export async function listSessionRecords(): Promise<PatientSessionRecord[]> {
   if (hasBlobStorage()) {
     const records: PatientSessionRecord[] = [];
