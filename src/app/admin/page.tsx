@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { PAGE_LABELS, type PatientSessionRecord } from "@/lib/sessionAnalytics";
+import {
+  PAGE_LABELS,
+  isUpgradeDecision,
+  type PatientSessionRecord,
+  type UpgradeDecision,
+} from "@/lib/sessionAnalytics";
 
 export default function AdminSessionsPage() {
   const [password, setPassword] = useState("");
@@ -11,6 +16,7 @@ export default function AdminSessionsPage() {
   const [sessions, setSessions] = useState<PatientSessionRecord[]>([]);
   const [storage, setStorage] = useState("");
   const [clearing, setClearing] = useState(false);
+  const [savingUpgradeId, setSavingUpgradeId] = useState<string | null>(null);
 
   const loadSessions = async (pwd: string) => {
     setLoading(true);
@@ -44,6 +50,38 @@ export default function AdminSessionsPage() {
 
   const downloadCsv = () => {
     window.location.href = `/api/sessions/export?password=${encodeURIComponent(password)}&format=csv`;
+  };
+
+  const setUpgradeDecision = async (sessionId: string, decision: UpgradeDecision | null) => {
+    setSavingUpgradeId(sessionId);
+    setError("");
+    try {
+      const res = await fetch("/api/sessions/upgrade", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password, sessionId, decision }),
+      });
+      if (res.status === 401) {
+        setError("Incorrect password");
+        setAuthed(false);
+        return;
+      }
+      if (!res.ok) {
+        setError("Failed to save upgrade decision");
+        return;
+      }
+      setSessions((prev) =>
+        prev.map((s) =>
+          s.sessionId === sessionId
+            ? { ...s, upgradeDecision: decision ?? undefined }
+            : s,
+        ),
+      );
+    } catch {
+      setError("Network error while saving upgrade decision");
+    } finally {
+      setSavingUpgradeId(null);
+    }
   };
 
   const clearAllSessions = async () => {
@@ -153,8 +191,11 @@ export default function AdminSessionsPage() {
       <p className="mt-3 text-xs text-slate-500">
         Open the CSV in Excel or Google Sheets. Columns include name, NRIC, form date/time,{" "}
         <span className="font-medium text-slate-700">insurer</span>, consultant,{" "}
-        <span className="font-medium text-slate-700">room assistant</span>, and seconds spent on each
-        page. Clear all sessions requires the same admin password and asks for confirmation.
+        <span className="font-medium text-slate-700">room assistant</span>,{" "}
+        <span className="font-medium text-slate-700">upgrade decision</span>, and seconds spent on each
+        page. Use the Upgrade column below for end-of-day labelling — it saves immediately and exports as{" "}
+        <span className="font-mono">upgrade_decision</span>. Clear all sessions requires the same admin
+        password and asks for confirmation.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -174,12 +215,13 @@ export default function AdminSessionsPage() {
               <th className="px-3 py-2">Compl</th>
               <th className="px-3 py-2">PROMS</th>
               <th className="px-3 py-2">Done</th>
+              <th className="px-3 py-2">Upgrade</th>
             </tr>
           </thead>
           <tbody>
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={13} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={14} className="px-3 py-8 text-center text-slate-400">
                   No sessions recorded yet.
                 </td>
               </tr>
@@ -199,6 +241,27 @@ export default function AdminSessionsPage() {
                 <td className="px-3 py-2">{s.pageSeconds.complications}</td>
                 <td className="px-3 py-2">{s.pageSeconds.proms}</td>
                 <td className="px-3 py-2">{s.completed ? "Yes" : "Partial"}</td>
+                <td className="px-3 py-2">
+                  <select
+                    value={s.upgradeDecision ?? ""}
+                    disabled={savingUpgradeId === s.sessionId}
+                    onChange={(e) => {
+                      const v = e.target.value;
+                      void setUpgradeDecision(s.sessionId, isUpgradeDecision(v) ? v : null);
+                    }}
+                    className={`rounded-lg border px-2 py-1.5 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-brand-navy/20 disabled:opacity-50 ${
+                      s.upgradeDecision === "upgraded"
+                        ? "border-green-300 bg-green-50 text-green-700"
+                        : s.upgradeDecision === "no-upgrade"
+                          ? "border-slate-300 bg-slate-100 text-slate-600"
+                          : "border-amber-300 bg-amber-50 text-amber-700"
+                    }`}
+                  >
+                    <option value="">Pending</option>
+                    <option value="upgraded">Upgraded</option>
+                    <option value="no-upgrade">No upgrade</option>
+                  </select>
+                </td>
               </tr>
             ))}
           </tbody>

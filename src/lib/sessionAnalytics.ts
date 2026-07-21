@@ -14,6 +14,13 @@ export type TrackedPage = (typeof TRACKED_PAGES)[number];
 
 export type PageDurationsSeconds = Record<TrackedPage, number>;
 
+/** Staff-entered end-of-day label: did the patient follow through with a private upgrade? */
+export type UpgradeDecision = "upgraded" | "no-upgrade";
+
+export function isUpgradeDecision(value: unknown): value is UpgradeDecision {
+  return value === "upgraded" || value === "no-upgrade";
+}
+
 export type PatientSessionRecord = {
   sessionId: string;
   patientName: string;
@@ -30,6 +37,8 @@ export type PatientSessionRecord = {
   catProm5Score: number | null;
   visualAcuity: string | null;
   completed: boolean;
+  /** Set manually from /admin after the clinic day; absent until labelled. */
+  upgradeDecision?: UpgradeDecision;
 };
 
 export function emptyPageSeconds(): PageDurationsSeconds {

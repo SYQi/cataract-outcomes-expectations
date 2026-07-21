@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { PatientSessionRecord } from "@/lib/sessionAnalytics";
 import { emptyPageSeconds, isTrackedPage } from "@/lib/sessionAnalytics";
-import { saveSessionRecord } from "@/lib/sessionStore";
+import { readSessionRecord, saveSessionRecord } from "@/lib/sessionStore";
 
 export const runtime = "nodejs";
 
@@ -40,6 +40,15 @@ export async function POST(request: Request) {
       patientName: body.patientName.trim(),
       nric: body.nric.trim().toUpperCase(),
     };
+
+    // The wizard client never sends upgradeDecision; keep any label staff
+    // already set on /admin so a late flush cannot wipe it.
+    if (record.upgradeDecision === undefined) {
+      const existing = await readSessionRecord(record.sessionId);
+      if (existing?.upgradeDecision) {
+        record.upgradeDecision = existing.upgradeDecision;
+      }
+    }
 
     await saveSessionRecord(record);
     return NextResponse.json({ ok: true, sessionId: record.sessionId });

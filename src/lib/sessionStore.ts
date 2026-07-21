@@ -1,7 +1,7 @@
 import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
 import path from "path";
 import { del, get, list, put } from "@vercel/blob";
-import type { PatientSessionRecord } from "@/lib/sessionAnalytics";
+import type { PatientSessionRecord, UpgradeDecision } from "@/lib/sessionAnalytics";
 
 const LOCAL_DIR = "/tmp/patient-conversion-sessions";
 const BLOB_PREFIX = "patient-sessions/";
@@ -51,6 +51,51 @@ export async function saveSessionRecord(record: PatientSessionRecord): Promise<v
 
   await ensureLocalDir();
   await writeFile(path.join(LOCAL_DIR, filename), body, "utf8");
+}
+
+/** Read a single stored record by session id (Blob or local file). */
+export async function readSessionRecord(sessionId: string): Promise<PatientSessionRecord | null> {
+  // Session ids are UUIDs or sess_* tokens; reject anything path-like.
+  if (!/^[A-Za-z0-9_-]+$/.test(sessionId)) return null;
+  const filename = `${sessionId}.json`;
+
+  if (hasBlobStorage()) {
+    try {
+      return await readBlobRecord(`${BLOB_PREFIX}${filename}`);
+    } catch {
+      return null;
+    }
+  }
+
+  await ensureLocalDir();
+  try {
+    const raw = await readFile(path.join(LOCAL_DIR, filename), "utf8");
+    const json = JSON.parse(raw) as PatientSessionRecord;
+    return json?.sessionId ? json : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Set or clear the staff-entered upgrade decision on a stored session.
+ * Returns the updated record, or null if the session does not exist.
+ */
+export async function setSessionUpgradeDecision(
+  sessionId: string,
+  decision: UpgradeDecision | null,
+): Promise<PatientSessionRecord | null> {
+  const record = await readSessionRecord(sessionId);
+  if (!record) return null;
+
+  const updated: PatientSessionRecord = { ...record };
+  if (decision) {
+    updated.upgradeDecision = decision;
+  } else {
+    delete updated.upgradeDecision;
+  }
+  await saveSessionRecord(updated);
+  return updated;
 }
 
 export async function listSessionRecords(): Promise<PatientSessionRecord[]> {
@@ -141,6 +186,7 @@ export function sessionsToCsv(records: PatientSessionRecord[]): string {
     "cat_prom5_score",
     "visual_acuity",
     "completed",
+    "upgrade_decision",
   ];
 
   const escape = (value: string | number | boolean | null | undefined) => {
@@ -172,6 +218,7 @@ export function sessionsToCsv(records: PatientSessionRecord[]): string {
       r.catProm5Score ?? "",
       r.visualAcuity ?? "",
       r.completed ? "yes" : "no",
+      r.upgradeDecision === "upgraded" ? "upgraded" : r.upgradeDecision === "no-upgrade" ? "no upgrade" : "",
     ]
       .map(escape)
       .join(","),
