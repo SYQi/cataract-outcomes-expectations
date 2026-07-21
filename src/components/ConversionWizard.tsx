@@ -81,6 +81,7 @@ function ConversionWizardInner() {
     formDateTime: patient.dateTime,
     insurer: patient.insurer,
     consultant: patient.consultant,
+    roomAssistant: patient.roomAssistant,
     catProm5Score: step === "admin" || step === "details" || step === "assessment" ? null : scores.score100,
     visualAcuity:
       step === "admin" || step === "details" || step === "assessment" || !visualAcuity

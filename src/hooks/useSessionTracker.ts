@@ -15,6 +15,7 @@ type UseSessionTrackerArgs = {
   formDateTime: string;
   insurer: string;
   consultant: string;
+  roomAssistant: string;
   catProm5Score: number | null;
   visualAcuity: string | null;
 };
@@ -46,6 +47,7 @@ export function useSessionTracker({
   formDateTime,
   insurer,
   consultant,
+  roomAssistant,
   catProm5Score,
   visualAcuity,
 }: UseSessionTrackerArgs) {
@@ -60,6 +62,7 @@ export function useSessionTracker({
     formDateTime,
     insurer,
     consultant,
+    roomAssistant,
     catProm5Score,
     visualAcuity,
   });
@@ -71,10 +74,20 @@ export function useSessionTracker({
       formDateTime,
       insurer,
       consultant,
+      roomAssistant,
       catProm5Score,
       visualAcuity,
     };
-  }, [patientName, nric, formDateTime, insurer, consultant, catProm5Score, visualAcuity]);
+  }, [
+    patientName,
+    nric,
+    formDateTime,
+    insurer,
+    consultant,
+    roomAssistant,
+    catProm5Score,
+    visualAcuity,
+  ]);
 
   const accumulateCurrentPage = useCallback(() => {
     const elapsedMs = Date.now() - pageEnteredAtRef.current;
@@ -97,6 +110,7 @@ export function useSessionTracker({
         formDateTime: meta.formDateTime,
         insurer: meta.insurer || undefined,
         consultant: meta.consultant || undefined,
+        roomAssistant: meta.roomAssistant || undefined,
         startedAtIso: startedAtIsoRef.current,
         endedAtIso: new Date().toISOString(),
         pageSeconds,

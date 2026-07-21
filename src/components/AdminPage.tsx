@@ -3,6 +3,7 @@
 import {
   CONSULTANTS,
   INSURERS,
+  ROOM_ASSISTANTS,
   type PatientIntake,
 } from "@/lib/patientRegistry";
 import { useMessages, type Locale } from "@/lib/i18n";
@@ -30,7 +31,8 @@ export function AdminPage({
     patient.nric.trim().length > 0 &&
     patient.visualAcuity !== "" &&
     patient.insurer !== "" &&
-    patient.consultant !== "";
+    patient.consultant !== "" &&
+    patient.roomAssistant !== "";
 
   return (
     <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
@@ -124,6 +126,27 @@ export function AdminPage({
             {CONSULTANTS.map((consultant) => (
               <option key={consultant} value={consultant}>
                 {consultant}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Room assistant</span>
+          <select
+            value={patient.roomAssistant}
+            onChange={(e) =>
+              onChange({
+                ...patient,
+                roomAssistant: e.target.value as PatientIntake["roomAssistant"],
+              })
+            }
+            className="mt-1 w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-base focus:border-brand-navy focus:outline-none focus:ring-2 focus:ring-brand-navy/20"
+          >
+            <option value="">Select room assistant</option>
+            {ROOM_ASSISTANTS.map((assistant) => (
+              <option key={assistant} value={assistant}>
+                {assistant}
               </option>
             ))}
           </select>

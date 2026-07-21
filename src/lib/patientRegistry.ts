@@ -25,6 +25,26 @@ export const CONSULTANTS = [
 
 export type ConsultantName = (typeof CONSULTANTS)[number];
 
+export const ROOM_ASSISTANTS = [
+  "K Sujatha",
+  "Sri Murni Dakir",
+  "Nuraini Binte Ismail",
+  "Jothi Lakshmi D/O Jayabalan",
+  "Junaidah Binte Shariff",
+  "Dhamirah Amaninah Binte Abdul Karim",
+  "Sarah Binte AB Samad",
+  "Siti Nur Shazelina Binte Abdul Samat",
+  "Tan Mei Ping (Cathy)",
+  "Nur Shafiqa Binte Mohamad",
+  "Firdani Binte Seman",
+  "Nurul Amirah Binti Mohd Said",
+  "Nur Ameera Binte Rahim",
+  "Siti Sa'adiah Binte Sohayman",
+  "Nurul Huda Binte Rosli",
+] as const;
+
+export type RoomAssistant = (typeof ROOM_ASSISTANTS)[number];
+
 export type ConsultantProfile = {
   name: ConsultantName;
   slug: string;
@@ -195,6 +215,7 @@ export type PatientIntake = {
   visualAcuity: VisualAcuity | "";
   insurer: Insurer | "";
   consultant: ConsultantName | "";
+  roomAssistant: RoomAssistant | "";
 };
 
 export const EMPTY_PATIENT_INTAKE: PatientIntake = {
@@ -204,4 +225,5 @@ export const EMPTY_PATIENT_INTAKE: PatientIntake = {
   visualAcuity: "",
   insurer: "",
   consultant: "",
+  roomAssistant: "",
 };

@@ -22,6 +22,7 @@ export type PatientSessionRecord = {
   formDateTime: string;
   insurer?: string;
   consultant?: string;
+  roomAssistant?: string;
   startedAtIso: string;
   endedAtIso: string;
   pageSeconds: PageDurationsSeconds;
