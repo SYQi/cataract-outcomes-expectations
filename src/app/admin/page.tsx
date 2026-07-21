@@ -151,8 +151,10 @@ export default function AdminSessionsPage() {
       {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
       <p className="mt-3 text-xs text-slate-500">
-        Open the CSV in Excel or Google Sheets. Columns include name, NRIC, form date/time, and seconds
-        spent on each page. Clear all sessions requires the same admin password and asks for confirmation.
+        Open the CSV in Excel or Google Sheets. Columns include name, NRIC, form date/time,{" "}
+        <span className="font-medium text-slate-700">insurer</span>, consultant,{" "}
+        <span className="font-medium text-slate-700">room assistant</span>, and seconds spent on each
+        page. Clear all sessions requires the same admin password and asks for confirmation.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -162,6 +164,7 @@ export default function AdminSessionsPage() {
               <th className="px-3 py-2">Patient</th>
               <th className="px-3 py-2">NRIC</th>
               <th className="px-3 py-2">Form date/time</th>
+              <th className="px-3 py-2">Insurer</th>
               <th className="px-3 py-2">Room assistant</th>
               <th className="px-3 py-2">Total (s)</th>
               <th className="px-3 py-2">Details</th>
@@ -176,7 +179,7 @@ export default function AdminSessionsPage() {
           <tbody>
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={12} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={13} className="px-3 py-8 text-center text-slate-400">
                   No sessions recorded yet.
                 </td>
               </tr>
@@ -186,6 +189,7 @@ export default function AdminSessionsPage() {
                 <td className="px-3 py-2 font-medium text-slate-800">{s.patientName || "—"}</td>
                 <td className="px-3 py-2 font-mono text-xs">{s.nric || "—"}</td>
                 <td className="px-3 py-2 text-xs text-slate-600">{s.formDateTime || "—"}</td>
+                <td className="px-3 py-2 text-xs text-slate-700">{s.insurer || "—"}</td>
                 <td className="px-3 py-2 text-xs text-slate-700">{s.roomAssistant || "—"}</td>
                 <td className="px-3 py-2 font-semibold">{s.totalSeconds}</td>
                 <td className="px-3 py-2">{s.pageSeconds.details}</td>
