@@ -60,7 +60,7 @@ function MarkerLabel({
       <p
         className={`text-center font-bold leading-tight ${
           compact
-            ? "max-w-[4.75rem] text-[11px] sm:max-w-[5.5rem] sm:text-[12px]"
+            ? "max-w-[6.5rem] text-[16.5px] sm:max-w-[7.5rem] sm:text-[18px]"
             : "max-w-[6.5rem] text-[13px] sm:max-w-[7.5rem] sm:text-[15px]"
         } ${marker.emphasis ? "text-red-700" : "text-slate-800"}`}
       >
@@ -68,7 +68,7 @@ function MarkerLabel({
       </p>
       <p
         className={`font-black ${
-          compact ? "text-xs sm:text-sm" : "text-sm sm:text-base"
+          compact ? "text-[1.125rem] sm:text-[1.3125rem]" : "text-sm sm:text-base"
         } ${marker.emphasis ? "text-red-600" : "text-brand-navy"}`}
       >
         {marker.score}
@@ -159,17 +159,17 @@ export function PromsHorizontalScale({
   const aboveMarkers = markers.filter((m) => m.placement === "above");
   const belowMarkers = markers.filter((m) => m.placement === "below");
   const markerLane = compact
-    ? "relative mb-1 h-11 overflow-visible landscape:mb-0.5 landscape:h-10 sm:mb-1 sm:h-12"
+    ? "relative mb-1 h-14 overflow-visible landscape:mb-0.5 landscape:h-12 sm:mb-1 sm:h-16"
     : "relative mb-2 h-14 sm:mb-3 sm:h-16";
   const belowLane = compact
-    ? "relative mt-0.5 h-11 overflow-visible landscape:h-10 sm:h-12"
+    ? "relative mt-0.5 h-14 overflow-visible landscape:h-12 sm:h-16"
     : "relative mt-1 h-14 sm:h-16";
   const barHeight = compact
     ? "relative mx-2 h-6 sm:mx-3 sm:h-7"
     : "relative mx-1 h-7 sm:mx-2 sm:h-8";
 
   const qolClass = emphasizeQolCopy
-    ? "mt-2 text-[1.5rem] leading-snug landscape:mt-1.5 landscape:text-[1.4rem] sm:mt-2.5 sm:text-[1.725rem]"
+    ? "mt-2 text-[2.1rem] leading-snug landscape:mt-1.5 landscape:text-[1.96rem] sm:mt-2.5 sm:text-[2.415rem]"
     : compact
       ? "mt-2 text-[1rem] landscape:mt-1.5 landscape:text-[0.95rem] sm:mt-3 sm:text-[1.15rem]"
       : "mt-8 text-[1.17rem] sm:mt-8 sm:text-[1.365rem]";

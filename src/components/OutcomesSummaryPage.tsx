@@ -51,24 +51,24 @@ function MetricCard({
     <button
       type="button"
       onClick={onClick}
-      className={`group flex w-full flex-col rounded-2xl border-2 p-4 text-left shadow-md ring-1 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-4 landscape:p-3 sm:p-4 ${accentClass}`}
+      className={`group flex w-full flex-col items-center rounded-2xl border-2 p-4 text-center shadow-md ring-1 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-4 landscape:p-3 sm:p-4 ${accentClass}`}
     >
-      <p className="text-[1.05rem] font-bold uppercase tracking-wide text-slate-500 sm:text-[1.2rem]">
+      <p className="text-[1.26rem] font-bold uppercase tracking-wide text-slate-500 sm:text-[1.44rem]">
         {title}
       </p>
       <p
         className={`mt-1 font-black leading-none tracking-tight ${valueClass} ${
           largeZh
-            ? "text-[3.9rem] landscape:text-[3.3rem] sm:text-[4.5rem]"
-            : "text-[3.6rem] landscape:text-[3.12rem] sm:text-[4.2rem]"
+            ? "text-[4.68rem] landscape:text-[3.96rem] sm:text-[5.4rem]"
+            : "text-[4.32rem] landscape:text-[3.744rem] sm:text-[5.04rem]"
         }`}
       >
         {value}
       </p>
-      <p className="mt-2 text-[1.2rem] font-semibold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-[1.05rem] sm:text-[1.35rem]">
+      <p className="mt-2 text-[1.44rem] font-semibold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-[1.26rem] sm:text-[1.62rem]">
         {caption}
       </p>
-      <p className="mt-3 text-[1.05rem] font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:mt-2 sm:text-[1.2rem]">
+      <p className="mt-3 text-[1.26rem] font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:mt-2 sm:text-[1.44rem]">
         {moreDetails} →
       </p>
     </button>
