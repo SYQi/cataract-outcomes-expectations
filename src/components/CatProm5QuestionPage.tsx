@@ -65,8 +65,8 @@ export function CatProm5QuestionPage({
               <h2
                 className={`mt-3 text-center font-semibold leading-snug text-brand-navy ${
                   zhTitle
-                    ? "text-[1.8rem] sm:text-[1.944rem]"
-                    : "text-[1.5rem] sm:text-[1.62rem]"
+                    ? "text-[2.52rem] sm:text-[2.722rem]"
+                    : "text-[2.1rem] sm:text-[2.268rem]"
                 }`}
               >
                 {letter}){" "}
