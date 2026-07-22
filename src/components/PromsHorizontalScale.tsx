@@ -146,13 +146,13 @@ export function PromsHorizontalScale({
   const aboveMarkers = markers.filter((m) => m.placement === "above");
   const belowMarkers = markers.filter((m) => m.placement === "below");
   const markerLane = compact
-    ? "relative mb-1 h-10 landscape:mb-0.5 landscape:h-8 sm:mb-1.5 sm:h-12"
+    ? "relative mb-0.5 h-9 landscape:mb-0 landscape:h-7 sm:mb-1 sm:h-11"
     : "relative mb-2 h-14 sm:mb-3 sm:h-16";
   const belowLane = compact
-    ? "relative mt-0.5 h-10 landscape:h-8 sm:h-12"
+    ? "relative mt-0 h-9 landscape:h-7 sm:h-11"
     : "relative mt-1 h-14 sm:h-16";
   const barHeight = compact
-    ? "relative mx-1 h-5 landscape:h-4 sm:mx-2 sm:h-6"
+    ? "relative mx-1 h-6 landscape:h-5 sm:mx-2 sm:h-7"
     : "relative mx-1 h-7 sm:mx-2 sm:h-8";
 
   return (
@@ -193,17 +193,21 @@ export function PromsHorizontalScale({
 
       {!hideQolCopy && visible && (
         <p
-          className="mt-8 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-8 sm:text-[1.365rem]"
-          style={{ animationDelay: "1.2s" }}
+          className={`animate-fade-up text-center font-bold leading-snug text-slate-700 ${
+            compact
+              ? "mt-2 text-[1rem] landscape:mt-1.5 landscape:text-[0.95rem] sm:mt-3 sm:text-[1.15rem]"
+              : "mt-8 text-[1.17rem] sm:mt-8 sm:text-[1.365rem]"
+          }`}
+          style={{ animationDelay: compact ? "0.35s" : "1.2s" }}
         >
           <span className="block">{t.proms.qolLine1}</span>
-          <span className="mt-1 block">
+          <span className="mt-0.5 block landscape:mt-0">
             <span className={`${SCORE_NUM} text-brand-red`}>{patientScore}</span>
             {t.proms.qolLine2Before ? ` ${t.proms.qolLine2Before} ` : " "}
             {t.proms.qolLine2Mid}{" "}
             <span className={`${SCORE_NUM} text-green-600`}>{POST_OP_CAT_PROM5_AVERAGE}</span>
           </span>
-          <span className="mt-1 block">{t.proms.qolLine3}</span>
+          <span className="mt-0.5 block landscape:mt-0">{t.proms.qolLine3}</span>
         </p>
       )}
     </div>

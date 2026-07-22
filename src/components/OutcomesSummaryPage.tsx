@@ -26,6 +26,7 @@ function MetricCard({
   moreDetails,
   accent,
   onClick,
+  largeZh,
 }: {
   title: string;
   value: string;
@@ -33,11 +34,12 @@ function MetricCard({
   moreDetails: string;
   accent: "teal" | "navy" | "green";
   onClick: () => void;
+  largeZh: boolean;
 }) {
   const accentClass = {
-    teal: "border-teal-300 bg-gradient-to-br from-teal-50 to-white",
-    navy: "border-blue-300 bg-gradient-to-br from-blue-50 to-white",
-    green: "border-green-300 bg-gradient-to-br from-green-50 to-white",
+    teal: "border-teal-300 bg-gradient-to-br from-teal-50 via-white to-teal-50/40 ring-teal-200/50",
+    navy: "border-blue-300 bg-gradient-to-br from-blue-50 via-white to-blue-50/40 ring-blue-200/50",
+    green: "border-green-300 bg-gradient-to-br from-green-50 via-white to-green-50/40 ring-green-200/50",
   }[accent];
   const valueClass = {
     teal: "text-brand-teal",
@@ -49,20 +51,22 @@ function MetricCard({
     <button
       type="button"
       onClick={onClick}
-      className={`group flex min-h-0 w-full flex-col rounded-xl border-2 p-2.5 text-left shadow-sm transition hover:shadow-md focus:outline-none focus-visible:ring-4 focus-visible:ring-brand-navy/20 landscape:rounded-lg landscape:p-2 sm:rounded-2xl sm:p-3 ${accentClass}`}
+      className={`group flex w-full flex-col rounded-2xl border-2 p-4 text-left shadow-md ring-1 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-4 landscape:p-3 sm:p-4 ${accentClass}`}
     >
-      <p className="text-[11px] font-bold uppercase tracking-wide text-slate-500 landscape:text-[10px] sm:text-sm">
-        {title}
-      </p>
+      <p className="text-sm font-bold uppercase tracking-wide text-slate-500 sm:text-base">{title}</p>
       <p
-        className={`mt-0.5 font-black leading-none landscape:mt-0 ${valueClass} text-[2.25rem] landscape:text-[1.85rem] sm:text-[2.75rem]`}
+        className={`mt-1 font-black leading-none tracking-tight ${valueClass} ${
+          largeZh
+            ? "text-[3.25rem] landscape:text-[2.75rem] sm:text-[3.75rem]"
+            : "text-[3rem] landscape:text-[2.6rem] sm:text-[3.5rem]"
+        }`}
       >
         {value}
       </p>
-      <p className="mt-1 text-sm font-semibold leading-snug text-slate-700 landscape:mt-0.5 landscape:text-xs sm:text-base">
+      <p className="mt-2 text-base font-semibold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-sm sm:text-lg">
         {caption}
       </p>
-      <p className="mt-auto pt-1.5 text-xs font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:pt-1 landscape:text-[11px] sm:text-sm">
+      <p className="mt-3 text-sm font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:mt-2 sm:text-base">
         {moreDetails} →
       </p>
     </button>
@@ -80,7 +84,7 @@ export function OutcomesSummaryPage({
 }: OutcomesSummaryPageProps) {
   const t = useMessages();
   const { locale } = useLocale();
-  const zhTitle = locale === "zh-CN";
+  const largeZh = locale === "zh-CN";
 
   return (
     <OutcomePageShell
@@ -103,22 +107,18 @@ export function OutcomesSummaryPage({
       nextLabel={t.outcomesSummary.nextLabel}
       backLabel={t.outcomesSummary.backLabel}
     >
-      <div className="flex min-h-0 flex-1 flex-col gap-2 landscape:gap-1.5 sm:gap-2.5">
-        <div className="shrink-0 rounded-xl border-2 border-brand-navy/20 bg-brand-navy px-3 py-2 text-center shadow-md landscape:rounded-lg landscape:py-1.5 sm:rounded-2xl sm:px-4 sm:py-2.5">
+      <div className="flex min-h-0 flex-1 flex-col justify-start gap-3 landscape:gap-2 sm:gap-3.5">
+        <div className="shrink-0 rounded-2xl border-2 border-brand-teal/40 bg-gradient-to-r from-brand-navy via-[#00307a] to-brand-navy px-4 py-3 text-center shadow-lg landscape:py-2 sm:rounded-2xl sm:py-3.5">
           <p
-            className={`font-extrabold leading-snug text-white ${
-              zhTitle
-                ? "text-base landscape:text-sm sm:text-xl"
-                : "text-base landscape:text-sm sm:text-lg"
+            className={`font-extrabold leading-snug tracking-wide text-white ${
+              largeZh ? "text-xl landscape:text-lg sm:text-2xl" : "text-lg landscape:text-base sm:text-xl"
             }`}
           >
-            {t.outcomesSummary.specialistBannerBefore}
-            <span className="text-[1.3em] text-teal-300">{t.outcomesSummary.specialistBannerWord}</span>
-            {t.outcomesSummary.specialistBannerAfter}
+            {t.outcomesSummary.specialistBanner}
           </p>
         </div>
 
-        <div className="grid min-h-0 shrink grid-cols-3 gap-2 landscape:gap-1.5 sm:gap-3">
+        <div className="grid shrink-0 grid-cols-3 gap-3 landscape:gap-2.5 sm:gap-4">
           <MetricCard
             title={t.outcomesSummary.vaTitle}
             value={`${VA_612_OR_BETTER_PERCENT}%`}
@@ -126,6 +126,7 @@ export function OutcomesSummaryPage({
             moreDetails={t.outcomesSummary.moreDetails}
             accent="teal"
             onClick={onOpenVa}
+            largeZh={largeZh}
           />
           <MetricCard
             title={t.outcomesSummary.refractiveTitle}
@@ -134,6 +135,7 @@ export function OutcomesSummaryPage({
             moreDetails={t.outcomesSummary.moreDetails}
             accent="navy"
             onClick={onOpenRefraction}
+            largeZh={largeZh}
           />
           <MetricCard
             title={t.outcomesSummary.complicationsTitle}
@@ -142,27 +144,25 @@ export function OutcomesSummaryPage({
             moreDetails={t.outcomesSummary.moreDetails}
             accent="green"
             onClick={onOpenComplications}
+            largeZh={largeZh}
           />
         </div>
 
-        <div className="flex min-h-0 flex-1 flex-col rounded-xl border-2 border-rose-200 bg-gradient-to-br from-rose-50 to-white p-2 shadow-sm landscape:rounded-lg landscape:p-1.5 sm:rounded-2xl sm:p-3">
-          <div className="mb-1 flex shrink-0 justify-end">
+        <div className="relative shrink-0 rounded-2xl border-2 border-rose-300/80 bg-gradient-to-br from-rose-50 via-white to-amber-50/40 p-3 shadow-md landscape:p-2.5 sm:p-4">
+          <div className="absolute right-3 top-3 z-10 landscape:right-2 landscape:top-2">
             <button
               type="button"
               onClick={onOpenProms}
-              className="rounded-lg border border-brand-navy/20 bg-white px-2.5 py-1 text-xs font-bold text-brand-navy shadow-sm hover:bg-slate-50 landscape:py-0.5 sm:rounded-xl sm:px-3 sm:py-1.5 sm:text-sm"
+              className="rounded-xl border border-brand-navy/25 bg-white/95 px-3 py-1.5 text-sm font-bold text-brand-navy shadow-sm backdrop-blur hover:bg-white landscape:px-2.5 landscape:py-1 landscape:text-xs"
             >
               {t.outcomesSummary.moreDetails} →
             </button>
           </div>
-          <div className="min-h-0 flex-1">
-            <PromsHorizontalScale
-              patientScore={patientScore}
-              hideEndLabels
-              hideQolCopy
-              compact
-            />
-          </div>
+          <PromsHorizontalScale
+            patientScore={patientScore}
+            hideEndLabels
+            compact
+          />
         </div>
       </div>
     </OutcomePageShell>

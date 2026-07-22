@@ -74,9 +74,7 @@ export type Messages = {
     headlineBefore: string;
     headlineSpecialist: string;
     headlineAfter: string;
-    specialistBannerBefore: string;
-    specialistBannerWord: string;
-    specialistBannerAfter: string;
+    specialistBanner: string;
     vaTitle: string;
     vaCaption: string;
     refractiveTitle: string;
