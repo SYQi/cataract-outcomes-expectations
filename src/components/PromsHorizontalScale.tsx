@@ -11,6 +11,12 @@ import { useLocale, useMessages } from "@/lib/i18n";
 type PromsHorizontalScaleProps = {
   patientScore: number;
   animate?: boolean;
+  /** Hide Poor / Great end labels. */
+  hideEndLabels?: boolean;
+  /** Hide the quality-of-life sentence under the bar. */
+  hideQolCopy?: boolean;
+  /** Tighter vertical footprint for the outcomes overview. */
+  compact?: boolean;
 };
 
 type Marker = {
@@ -91,7 +97,13 @@ function MarkerDot({
 /** +30% on top of surrounding sentence size for highlighted scores. */
 const SCORE_NUM = "text-[1.3em] font-extrabold leading-none";
 
-export function PromsHorizontalScale({ patientScore, animate = true }: PromsHorizontalScaleProps) {
+export function PromsHorizontalScale({
+  patientScore,
+  animate = true,
+  hideEndLabels = false,
+  hideQolCopy = false,
+  compact = false,
+}: PromsHorizontalScaleProps) {
   const t = useMessages();
   const { locale } = useLocale();
   const [visible, setVisible] = useState(!animate);
@@ -133,22 +145,33 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
 
   const aboveMarkers = markers.filter((m) => m.placement === "above");
   const belowMarkers = markers.filter((m) => m.placement === "below");
+  const markerLane = compact
+    ? "relative mb-1 h-10 landscape:mb-0.5 landscape:h-8 sm:mb-1.5 sm:h-12"
+    : "relative mb-2 h-14 sm:mb-3 sm:h-16";
+  const belowLane = compact
+    ? "relative mt-0.5 h-10 landscape:h-8 sm:h-12"
+    : "relative mt-1 h-14 sm:h-16";
+  const barHeight = compact
+    ? "relative mx-1 h-5 landscape:h-4 sm:mx-2 sm:h-6"
+    : "relative mx-1 h-7 sm:mx-2 sm:h-8";
 
   return (
-    <div className="flex min-h-0 flex-col justify-center px-1 sm:px-2">
-      <div className="relative mx-1 sm:mx-4">
-        <div className="mb-2 flex justify-between text-xs font-semibold sm:text-sm">
-          <span className="text-red-600">{t.proms.poor}</span>
-          <span className="text-green-600">{t.proms.great}</span>
-        </div>
+    <div className={`flex min-h-0 flex-col justify-center ${compact ? "px-0" : "px-1 sm:px-2"}`}>
+      <div className={`relative ${compact ? "mx-0 sm:mx-2" : "mx-1 sm:mx-4"}`}>
+        {!hideEndLabels && (
+          <div className="mb-2 flex justify-between text-xs font-semibold sm:text-sm">
+            <span className="text-red-600">{t.proms.poor}</span>
+            <span className="text-green-600">{t.proms.great}</span>
+          </div>
+        )}
 
-        <div className="relative mb-2 h-14 sm:mb-3 sm:h-16">
+        <div className={markerLane}>
           {aboveMarkers.map((m) => (
             <MarkerLabel key={`above-${m.id}`} marker={m} visible={visible} anchor="bottom" />
           ))}
         </div>
 
-        <div className="relative mx-1 h-7 sm:mx-2 sm:h-8">
+        <div className={barHeight}>
           <div
             className="absolute inset-0 rounded-full shadow-inner"
             style={{
@@ -161,14 +184,14 @@ export function PromsHorizontalScale({ patientScore, animate = true }: PromsHori
           ))}
         </div>
 
-        <div className="relative mt-1 h-14 sm:h-16">
+        <div className={belowLane}>
           {belowMarkers.map((m) => (
             <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} />
           ))}
         </div>
       </div>
 
-      {visible && (
+      {!hideQolCopy && visible && (
         <p
           className="mt-8 animate-fade-up text-center text-[1.17rem] font-bold leading-snug text-slate-700 sm:mt-8 sm:text-[1.365rem]"
           style={{ animationDelay: "1.2s" }}

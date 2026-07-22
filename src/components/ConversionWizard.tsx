@@ -174,7 +174,7 @@ function ConversionWizardInner() {
   const mainClass =
     step === "assessment"
       ? "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain"
-      : step === "va"
+      : step === "va" || step === "outcomes-summary"
         ? "flex min-h-0 flex-1 flex-col justify-start overflow-hidden overscroll-contain"
         : "flex min-h-0 flex-1 flex-col justify-start overflow-y-auto overscroll-contain";
 

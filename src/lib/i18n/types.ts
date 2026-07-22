@@ -71,8 +71,12 @@ export type Messages = {
   };
   outcomesSummary: {
     eyebrow: string;
-    headline: string;
-    specialistBanner: string;
+    headlineBefore: string;
+    headlineSpecialist: string;
+    headlineAfter: string;
+    specialistBannerBefore: string;
+    specialistBannerWord: string;
+    specialistBannerAfter: string;
     vaTitle: string;
     vaCaption: string;
     refractiveTitle: string;
