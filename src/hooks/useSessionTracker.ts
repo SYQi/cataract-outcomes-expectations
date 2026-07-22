@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import {
+  emptyDetailDrillClicks,
   emptyPageSeconds,
+  type DetailDrillClicks,
+  type DetailDrillKey,
   type PageDurationsSeconds,
   type PatientSessionRecord,
   type TrackedPage,
@@ -54,6 +57,7 @@ export function useSessionTracker({
   const sessionIdRef = useRef(newSessionId());
   const startedAtIsoRef = useRef(new Date().toISOString());
   const pageSecondsRef = useRef<PageDurationsSeconds>(emptyPageSeconds());
+  const detailDrillClicksRef = useRef<DetailDrillClicks>(emptyDetailDrillClicks());
   const pageEnteredAtRef = useRef(Date.now());
   const currentPageRef = useRef<TrackedPage>(step);
   const latestMetaRef = useRef({
@@ -115,6 +119,7 @@ export function useSessionTracker({
         endedAtIso: new Date().toISOString(),
         pageSeconds,
         totalSeconds,
+        detailDrillClicks: { ...detailDrillClicksRef.current },
         catProm5Score: meta.catProm5Score,
         visualAcuity: meta.visualAcuity,
         completed,
@@ -158,14 +163,23 @@ export function useSessionTracker({
     };
   }, [flush]);
 
+  const recordDetailDrill = useCallback(
+    (key: DetailDrillKey) => {
+      detailDrillClicksRef.current[key] += 1;
+      void flush(false);
+    },
+    [flush],
+  );
+
   const finalizeAndReset = useCallback(async () => {
     await flush(true);
     sessionIdRef.current = newSessionId();
     startedAtIsoRef.current = new Date().toISOString();
     pageSecondsRef.current = emptyPageSeconds();
+    detailDrillClicksRef.current = emptyDetailDrillClicks();
     pageEnteredAtRef.current = Date.now();
     currentPageRef.current = "admin";
   }, [flush]);
 
-  return { flush, finalizeAndReset };
+  return { flush, finalizeAndReset, recordDetailDrill };
 }

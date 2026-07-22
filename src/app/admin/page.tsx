@@ -219,10 +219,11 @@ export default function AdminSessionsPage() {
         Open the CSV in Excel or Google Sheets. Columns include name, NRIC, form date/time,{" "}
         <span className="font-medium text-slate-700">insurer</span>, consultant,{" "}
         <span className="font-medium text-slate-700">room assistant</span>,{" "}
-        <span className="font-medium text-slate-700">upgrade decision</span>, and seconds spent on each
-        page. Use the Upgrade column below for end-of-day labelling — it saves immediately and exports as{" "}
-        <span className="font-mono">upgrade_decision</span>. Clear all sessions requires the same admin
-        password and asks for confirmation.
+        <span className="font-medium text-slate-700">upgrade decision</span>, seconds on each page, and{" "}
+        <span className="font-medium text-slate-700">More details clicks</span> (how often the patient
+        opened each outcomes detail page from the overview). VA / Refract / Compl / PROMS columns show{" "}
+        <span className="font-mono">clicks × / seconds</span>. Clear all sessions requires the same
+        admin password and asks for confirmation.
       </p>
 
       <div className="mt-6 overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
@@ -237,10 +238,19 @@ export default function AdminSessionsPage() {
               <th className="px-3 py-2">Total (s)</th>
               <th className="px-3 py-2">Details</th>
               <th className="px-3 py-2">Assess</th>
-              <th className="px-3 py-2">VA</th>
-              <th className="px-3 py-2">Refract</th>
-              <th className="px-3 py-2">Compl</th>
-              <th className="px-3 py-2">PROMS</th>
+              <th className="px-3 py-2">Overview</th>
+              <th className="px-3 py-2" title="More details clicks × / time on detail page">
+                VA
+              </th>
+              <th className="px-3 py-2" title="More details clicks × / time on detail page">
+                Refract
+              </th>
+              <th className="px-3 py-2" title="More details clicks × / time on detail page">
+                Compl
+              </th>
+              <th className="px-3 py-2" title="More details clicks × / time on detail page">
+                PROMS
+              </th>
               <th className="px-3 py-2">Done</th>
               <th className="px-3 py-2">Upgrade</th>
               <th className="px-3 py-2"> </th>
@@ -249,12 +259,25 @@ export default function AdminSessionsPage() {
           <tbody>
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={15} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={16} className="px-3 py-8 text-center text-slate-400">
                   No sessions recorded yet.
                 </td>
               </tr>
             )}
-            {sessions.map((s) => (
+            {sessions.map((s) => {
+              const clicks = s.detailDrillClicks;
+              const drillCell = (key: "va" | "refraction" | "complications" | "proms") => {
+                const n = clicks?.[key] ?? 0;
+                const secs = s.pageSeconds[key] ?? 0;
+                return (
+                  <td className="px-3 py-2 whitespace-nowrap text-xs">
+                    <span className="font-semibold text-slate-800">{n}×</span>
+                    <span className="text-slate-400"> / </span>
+                    <span className="text-slate-600">{secs}s</span>
+                  </td>
+                );
+              };
+              return (
               <tr key={s.sessionId} className="border-t border-slate-100">
                 <td className="px-3 py-2 font-medium text-slate-800">{s.patientName || "—"}</td>
                 <td className="px-3 py-2 font-mono text-xs">{s.nric || "—"}</td>
@@ -264,10 +287,11 @@ export default function AdminSessionsPage() {
                 <td className="px-3 py-2 font-semibold">{s.totalSeconds}</td>
                 <td className="px-3 py-2">{s.pageSeconds.details}</td>
                 <td className="px-3 py-2">{s.pageSeconds.assessment}</td>
-                <td className="px-3 py-2">{s.pageSeconds.va}</td>
-                <td className="px-3 py-2">{s.pageSeconds.refraction}</td>
-                <td className="px-3 py-2">{s.pageSeconds.complications}</td>
-                <td className="px-3 py-2">{s.pageSeconds.proms}</td>
+                <td className="px-3 py-2">{s.pageSeconds["outcomes-summary"] ?? 0}</td>
+                {drillCell("va")}
+                {drillCell("refraction")}
+                {drillCell("complications")}
+                {drillCell("proms")}
                 <td className="px-3 py-2">{s.completed ? "Yes" : "Partial"}</td>
                 <td className="px-3 py-2">
                   <select
@@ -301,7 +325,8 @@ export default function AdminSessionsPage() {
                   </button>
                 </td>
               </tr>
-            ))}
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -315,6 +340,15 @@ export default function AdminSessionsPage() {
             </li>
           ))}
         </ul>
+        <p className="mt-3 font-semibold text-slate-700">More details clicks (CSV)</p>
+        <p className="mt-1">
+          <span className="font-mono">clicks_va_details</span>,{" "}
+          <span className="font-mono">clicks_refraction_details</span>,{" "}
+          <span className="font-mono">clicks_complications_details</span>,{" "}
+          <span className="font-mono">clicks_proms_details</span> — counted each time the patient
+          opens that outcomes page from the overview. Matching{" "}
+          <span className="font-mono">seconds_*</span> columns record time spent on those pages.
+        </p>
       </div>
     </main>
   );

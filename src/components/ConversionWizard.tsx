@@ -84,7 +84,7 @@ function ConversionWizardInner() {
   const isDetail = DETAIL_STEPS.includes(step);
   const visualAcuity = patient.visualAcuity as VisualAcuity;
 
-  const { finalizeAndReset } = useSessionTracker({
+  const { finalizeAndReset, recordDetailDrill } = useSessionTracker({
     step: step as TrackedPage,
     patientName: patient.name,
     nric: patient.nric,
@@ -346,10 +346,22 @@ function ConversionWizardInner() {
                   setStep("assessment");
                 }}
                 onNext={() => setStep("care-team")}
-                onOpenVa={() => setStep("va")}
-                onOpenRefraction={() => setStep("refraction")}
-                onOpenComplications={() => setStep("complications")}
-                onOpenProms={() => setStep("proms")}
+                onOpenVa={() => {
+                  recordDetailDrill("va");
+                  setStep("va");
+                }}
+                onOpenRefraction={() => {
+                  recordDetailDrill("refraction");
+                  setStep("refraction");
+                }}
+                onOpenComplications={() => {
+                  recordDetailDrill("complications");
+                  setStep("complications");
+                }}
+                onOpenProms={() => {
+                  recordDetailDrill("proms");
+                  setStep("proms");
+                }}
               />
             )}
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { PatientSessionRecord } from "@/lib/sessionAnalytics";
-import { emptyPageSeconds, isTrackedPage } from "@/lib/sessionAnalytics";
+import { emptyDetailDrillClicks, emptyPageSeconds, isTrackedPage } from "@/lib/sessionAnalytics";
 import { readSessionRecord, saveSessionRecord } from "@/lib/sessionStore";
 
 export const runtime = "nodejs";
@@ -32,10 +32,15 @@ export async function POST(request: Request) {
 
     const pageSeconds = { ...emptyPageSeconds(), ...body.pageSeconds };
     const totalSeconds = Object.values(pageSeconds).reduce((sum, n) => sum + (Number(n) || 0), 0);
+    const detailDrillClicks = {
+      ...emptyDetailDrillClicks(),
+      ...(body.detailDrillClicks ?? {}),
+    };
 
     const record: PatientSessionRecord = {
       ...body,
       pageSeconds,
+      detailDrillClicks,
       totalSeconds: Math.round(totalSeconds),
       patientName: body.patientName.trim(),
       nric: body.nric.trim().toUpperCase(),
