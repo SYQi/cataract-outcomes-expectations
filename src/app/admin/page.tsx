@@ -234,6 +234,7 @@ export default function AdminSessionsPage() {
               <th className="px-3 py-2">NRIC</th>
               <th className="px-3 py-2">Form date/time</th>
               <th className="px-3 py-2">Insurer</th>
+              <th className="px-3 py-2">Consultant</th>
               <th className="px-3 py-2">Room assistant</th>
               <th className="px-3 py-2">Total (s)</th>
               <th className="px-3 py-2">Details</th>
@@ -259,7 +260,7 @@ export default function AdminSessionsPage() {
           <tbody>
             {sessions.length === 0 && (
               <tr>
-                <td colSpan={16} className="px-3 py-8 text-center text-slate-400">
+                <td colSpan={17} className="px-3 py-8 text-center text-slate-400">
                   No sessions recorded yet.
                 </td>
               </tr>
@@ -283,6 +284,7 @@ export default function AdminSessionsPage() {
                 <td className="px-3 py-2 font-mono text-xs">{s.nric || "—"}</td>
                 <td className="px-3 py-2 text-xs text-slate-600">{s.formDateTime || "—"}</td>
                 <td className="px-3 py-2 text-xs text-slate-700">{s.insurer || "—"}</td>
+                <td className="px-3 py-2 text-xs text-slate-700">{s.consultant || "—"}</td>
                 <td className="px-3 py-2 text-xs text-slate-700">{s.roomAssistant || "—"}</td>
                 <td className="px-3 py-2 font-semibold">{s.totalSeconds}</td>
                 <td className="px-3 py-2">{s.pageSeconds.details}</td>
