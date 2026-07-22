@@ -53,20 +53,22 @@ function MetricCard({
       onClick={onClick}
       className={`group flex w-full flex-col rounded-2xl border-2 p-4 text-left shadow-md ring-1 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-4 landscape:p-3 sm:p-4 ${accentClass}`}
     >
-      <p className="text-sm font-bold uppercase tracking-wide text-slate-500 sm:text-base">{title}</p>
+      <p className="text-[1.05rem] font-bold uppercase tracking-wide text-slate-500 sm:text-[1.2rem]">
+        {title}
+      </p>
       <p
         className={`mt-1 font-black leading-none tracking-tight ${valueClass} ${
           largeZh
-            ? "text-[3.25rem] landscape:text-[2.75rem] sm:text-[3.75rem]"
-            : "text-[3rem] landscape:text-[2.6rem] sm:text-[3.5rem]"
+            ? "text-[3.9rem] landscape:text-[3.3rem] sm:text-[4.5rem]"
+            : "text-[3.6rem] landscape:text-[3.12rem] sm:text-[4.2rem]"
         }`}
       >
         {value}
       </p>
-      <p className="mt-2 text-base font-semibold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-sm sm:text-lg">
+      <p className="mt-2 text-[1.2rem] font-semibold leading-snug text-slate-700 landscape:mt-1.5 landscape:text-[1.05rem] sm:text-[1.35rem]">
         {caption}
       </p>
-      <p className="mt-3 text-sm font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:mt-2 sm:text-base">
+      <p className="mt-3 text-[1.05rem] font-bold text-brand-navy underline-offset-2 group-hover:underline landscape:mt-2 sm:text-[1.2rem]">
         {moreDetails} →
       </p>
     </button>
@@ -102,6 +104,7 @@ export function OutcomesSummaryPage({
       alignContentTop
       compactHeadline
       fitViewport
+      summaryHeadlineBoost
       onBack={onBack}
       onNext={onNext}
       nextLabel={t.outcomesSummary.nextLabel}
@@ -111,7 +114,9 @@ export function OutcomesSummaryPage({
         <div className="shrink-0 rounded-2xl border-2 border-brand-teal/40 bg-gradient-to-r from-brand-navy via-[#00307a] to-brand-navy px-4 py-3 text-center shadow-lg landscape:py-2 sm:rounded-2xl sm:py-3.5">
           <p
             className={`font-extrabold leading-snug tracking-wide text-white ${
-              largeZh ? "text-xl landscape:text-lg sm:text-2xl" : "text-lg landscape:text-base sm:text-xl"
+              largeZh
+                ? "text-[1.5rem] landscape:text-[1.35rem] sm:text-[1.8rem]"
+                : "text-[1.35rem] landscape:text-[1.2rem] sm:text-[1.5rem]"
             }`}
           >
             {t.outcomesSummary.specialistBanner}
@@ -148,12 +153,12 @@ export function OutcomesSummaryPage({
           />
         </div>
 
-        <div className="relative shrink-0 rounded-2xl border-2 border-rose-300/80 bg-gradient-to-br from-rose-50 via-white to-amber-50/40 p-3 shadow-md landscape:p-2.5 sm:p-4">
-          <div className="absolute right-3 top-3 z-10 landscape:right-2 landscape:top-2">
+        <div className="shrink-0 overflow-hidden rounded-2xl border-2 border-rose-300/80 bg-gradient-to-br from-rose-50 via-white to-amber-50/40 p-3 shadow-md landscape:p-2.5 sm:p-4">
+          <div className="mb-1 flex justify-end">
             <button
               type="button"
               onClick={onOpenProms}
-              className="rounded-xl border border-brand-navy/25 bg-white/95 px-3 py-1.5 text-sm font-bold text-brand-navy shadow-sm backdrop-blur hover:bg-white landscape:px-2.5 landscape:py-1 landscape:text-xs"
+              className="rounded-xl border border-brand-navy/25 bg-white px-3.5 py-1.5 text-[1.05rem] font-bold text-brand-navy shadow-sm hover:bg-slate-50 landscape:px-3 landscape:py-1 landscape:text-[0.95rem]"
             >
               {t.outcomesSummary.moreDetails} →
             </button>
@@ -162,6 +167,7 @@ export function OutcomesSummaryPage({
             patientScore={patientScore}
             hideEndLabels
             compact
+            emphasizeQolCopy
           />
         </div>
       </div>

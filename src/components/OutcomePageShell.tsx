@@ -22,6 +22,8 @@ type OutcomePageShellProps = {
   fitViewport?: boolean;
   /** Extra top margin before the headline (care team page). */
   headlineSpaced?: boolean;
+  /** +20% on top of prominent headline sizing (outcomes overview). */
+  summaryHeadlineBoost?: boolean;
 };
 
 export function OutcomePageShell({
@@ -37,6 +39,7 @@ export function OutcomePageShell({
   compactHeadline = false,
   fitViewport = false,
   headlineSpaced = false,
+  summaryHeadlineBoost = false,
 }: OutcomePageShellProps) {
   const t = useMessages();
   const { locale } = useLocale();
@@ -57,12 +60,20 @@ export function OutcomePageShell({
   }, [alignContentTop, headline]);
 
   const headlineSize = prominentHeadline
-    ? zhTitle
-      ? "text-[2.281rem] landscape:text-[2.106rem] sm:text-[2.535rem] landscape:sm:text-[2.281rem]"
-      : "text-[1.901rem] landscape:text-[1.755rem] sm:text-[2.1125rem] landscape:sm:text-[1.901rem]"
+    ? summaryHeadlineBoost
+      ? zhTitle
+        ? "text-[2.737rem] landscape:text-[2.527rem] sm:text-[3.042rem] landscape:sm:text-[2.737rem]"
+        : "text-[2.281rem] landscape:text-[2.106rem] sm:text-[2.535rem] landscape:sm:text-[2.281rem]"
+      : zhTitle
+        ? "text-[2.281rem] landscape:text-[2.106rem] sm:text-[2.535rem] landscape:sm:text-[2.281rem]"
+        : "text-[1.901rem] landscape:text-[1.755rem] sm:text-[2.1125rem] landscape:sm:text-[1.901rem]"
     : zhTitle
       ? "text-[1.35rem] landscape:text-[1.2rem] sm:text-[1.5rem] landscape:sm:text-[1.35rem]"
       : "text-lg landscape:text-base sm:text-xl landscape:sm:text-lg";
+
+  const eyebrowSize = summaryHeadlineBoost
+    ? "text-[12px] landscape:text-[11px] sm:text-[14.4px]"
+    : "text-[10px] landscape:text-[9px] sm:text-xs";
 
   return (
     <section className="flex min-h-0 flex-1 flex-col">
@@ -74,7 +85,7 @@ export function OutcomePageShell({
         }`}
       >
         {eyebrow ? (
-          <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-teal landscape:text-[9px] sm:text-xs">
+          <p className={`font-semibold uppercase tracking-[0.18em] text-brand-teal ${eyebrowSize}`}>
             {eyebrow}
           </p>
         ) : null}
