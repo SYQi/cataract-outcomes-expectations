@@ -30,8 +30,8 @@ export function PromsOutcomePage({ patientScore, onBack, onNext }: PromsOutcomeP
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel={t.proms.nextLabel}
-      backLabel={t.proms.backLabel}
+      nextLabel={t.outcomesSummary.nextLabel}
+      backLabel={t.outcomesSummary.backToOverview}
     >
       <div className="flex flex-col justify-center rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
         <PromsHorizontalScale patientScore={patientScore} />

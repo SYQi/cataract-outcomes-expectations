@@ -37,8 +37,8 @@ export function VaOutcomePage({ visualAcuity, onBack, onNext }: VaOutcomePagePro
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel={t.va.nextLabel}
-      backLabel={t.va.backLabel}
+      nextLabel={t.outcomesSummary.nextLabel}
+      backLabel={t.outcomesSummary.backToOverview}
     >
       <div className="grid min-h-0 flex-1 grid-cols-1 items-stretch gap-3 landscape:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] landscape:gap-3">
         <div className="min-h-0 landscape:max-h-full">

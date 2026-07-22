@@ -17,6 +17,7 @@ export const zhCN: Messages = {
     assessmentSubtitle: "CAT-PROM5 问卷",
     outcomeOf: "第 {current} 页，共 {total} 页 · {label}",
     swipeHint: "左右滑动可切换成效页面",
+    outcomeSummary: "您的成效",
     outcomeVa: "视力",
     outcomeRefraction: "屈光准确度",
     outcomeComplications: "并发症",
@@ -95,6 +96,23 @@ export const zhCN: Messages = {
   },
   messaging: {
     specialistCareFootnote: "数据来自兀兰医院专科眼科医疗服务的真实手术成效",
+  },
+  outcomesSummary: {
+    eyebrow: "您的手术成效",
+    headline: "专科医生所能达到的成效",
+    specialistBanner: "以下为专科医生所达成的真实手术成效",
+    vaTitle: "良好视力",
+    vaCaption: "术后视力达到 6/12 或更佳",
+    refractiveTitle: "屈光准确度",
+    refractiveCaption: "与目标相差 ±1.0D 以内 — 多数患者无需远用眼镜",
+    complicationsTitle: "无并发症",
+    complicationsCaption: "手术顺利完成，无并发症",
+    promsTitle: "生活质量",
+    promsCaption: "您今天的感受，与第一只眼、第二只眼手术后的预期对比",
+    moreDetails: "查看详情",
+    nextLabel: "您的护理团队 →",
+    backLabel: "修改答案",
+    backToOverview: "← 返回成效总览",
   },
   va: {
     eyebrow: "视力",
@@ -175,7 +193,7 @@ export const zhCN: Messages = {
     nhgEyeInstitute: "全国医疗集团眼科研究所",
     sourcePrefix: "来源：",
     nextLabel: "下一位患者",
-    backLabel: "← 生活质量",
+    backLabel: "← 成效总览",
     consultants: {
       "Dr James Pan": {
         rank: "高级顾问医生",

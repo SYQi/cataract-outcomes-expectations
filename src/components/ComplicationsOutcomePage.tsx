@@ -54,7 +54,8 @@ export function ComplicationsOutcomePage({ onBack, onNext }: ComplicationsOutcom
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel={t.complications.nextLabel}
+      nextLabel={t.outcomesSummary.nextLabel}
+      backLabel={t.outcomesSummary.backToOverview}
     >
       <div className="flex flex-col gap-2 landscape:grid landscape:grid-cols-2 landscape:gap-3 sm:gap-3">
         <div

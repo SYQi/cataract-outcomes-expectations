@@ -37,6 +37,7 @@ export type Messages = {
     assessmentSubtitle: string;
     outcomeOf: string; // "{current} of {total} · {label}"
     swipeHint: string;
+    outcomeSummary: string;
     outcomeVa: string;
     outcomeRefraction: string;
     outcomeComplications: string;
@@ -67,6 +68,23 @@ export type Messages = {
   };
   messaging: {
     specialistCareFootnote: string;
+  };
+  outcomesSummary: {
+    eyebrow: string;
+    headline: string;
+    specialistBanner: string;
+    vaTitle: string;
+    vaCaption: string;
+    refractiveTitle: string;
+    refractiveCaption: string;
+    complicationsTitle: string;
+    complicationsCaption: string;
+    promsTitle: string;
+    promsCaption: string;
+    moreDetails: string;
+    nextLabel: string;
+    backLabel: string;
+    backToOverview: string;
   };
   va: {
     eyebrow: string;

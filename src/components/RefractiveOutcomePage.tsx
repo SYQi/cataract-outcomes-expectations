@@ -40,7 +40,8 @@ export function RefractiveOutcomePage({ onBack, onNext }: RefractiveOutcomePageP
       }
       onBack={onBack}
       onNext={onNext}
-      nextLabel={t.refraction.nextLabel}
+      nextLabel={t.outcomesSummary.nextLabel}
+      backLabel={t.outcomesSummary.backToOverview}
     >
       <div className="flex flex-col items-center gap-3 sm:gap-4">
         <div className="flex shrink-0 justify-center">

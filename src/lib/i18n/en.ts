@@ -17,6 +17,7 @@ export const en: Messages = {
     assessmentSubtitle: "CAT-PROM5 questionnaire",
     outcomeOf: "{current} of {total} · {label}",
     swipeHint: "Swipe left or right between outcome pages",
+    outcomeSummary: "Your outcomes",
     outcomeVa: "Visual acuity",
     outcomeRefraction: "Refractive accuracy",
     outcomeComplications: "Complications",
@@ -97,6 +98,23 @@ export const en: Messages = {
   messaging: {
     specialistCareFootnote:
       "Real outcomes from specialist ophthalmology care at Woodlands Hospital",
+  },
+  outcomesSummary: {
+    eyebrow: "Your surgical outcomes",
+    headline: "What specialist surgeons achieve",
+    specialistBanner: "These are real outcomes achieved by specialist surgeons",
+    vaTitle: "Good vision",
+    vaCaption: "6/12 or better after surgery",
+    refractiveTitle: "Refractive accuracy",
+    refractiveCaption: "Within ±1.0D — most need no distance glasses",
+    complicationsTitle: "No complications",
+    complicationsCaption: "Surgery completed without complications",
+    promsTitle: "Quality of life",
+    promsCaption: "How you feel today vs after 1st and 2nd eye surgery",
+    moreDetails: "More details",
+    nextLabel: "Your care team →",
+    backLabel: "Revise answers",
+    backToOverview: "← Outcomes overview",
   },
   va: {
     eyebrow: "Visual acuity",
@@ -179,7 +197,7 @@ export const en: Messages = {
     nhgEyeInstitute: "NHG Eye Institute",
     sourcePrefix: "Source:",
     nextLabel: "New patient",
-    backLabel: "← Quality of life",
+    backLabel: "← Outcomes overview",
     consultants: {
       "Dr James Pan": {
         rank: "Senior Consultant",

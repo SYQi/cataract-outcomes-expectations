@@ -6,6 +6,7 @@ import { CareTeamPage } from "@/components/CareTeamPage";
 import { CatProm5QuestionPage } from "@/components/CatProm5QuestionPage";
 import { ComplicationsOutcomePage } from "@/components/ComplicationsOutcomePage";
 import { NewPatientPasswordGate } from "@/components/NewPatientPasswordGate";
+import { OutcomesSummaryPage } from "@/components/OutcomesSummaryPage";
 import { PromsOutcomePage } from "@/components/PromsOutcomePage";
 import { RefractiveOutcomePage } from "@/components/RefractiveOutcomePage";
 import { VaOutcomePage } from "@/components/VaOutcomePage";
@@ -36,15 +37,23 @@ type Step =
   | "admin"
   | "details"
   | "assessment"
+  | "outcomes-summary"
   | "va"
   | "refraction"
   | "complications"
-  | "care-team"
-  | "proms";
+  | "proms"
+  | "care-team";
 
-const OUTCOME_STEPS: Step[] = ["va", "refraction", "complications", "proms", "care-team"];
+/** Primary patient path after CAT-PROM5. */
+const PRIMARY_OUTCOME_STEPS: Step[] = ["outcomes-summary", "care-team"];
 
-const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", ...OUTCOME_STEPS];
+/** Optional detail pages reached from the summary. */
+const DETAIL_STEPS: Step[] = ["va", "refraction", "complications", "proms"];
+
+const OUTCOME_STEPS: Step[] = [...PRIMARY_OUTCOME_STEPS, ...DETAIL_STEPS];
+
+/** Progress chrome: summary stands in for all detail drills. */
+const PROGRESS_STEPS: Step[] = ["admin", "details", "assessment", "outcomes-summary", "care-team"];
 
 function ConversionWizardInner() {
   const t = useMessages();
@@ -65,13 +74,14 @@ function ConversionWizardInner() {
   }, []);
 
   useEffect(() => {
-    if (step !== "details" && step !== "va") return;
+    if (step !== "details" && step !== "outcomes-summary" && step !== "va") return;
     resetPageScrollAfterPaint(mainRef.current);
   }, [step]);
 
   const scores = useMemo(() => computeCatProm5Score100(answers), [answers]);
   const verifyValid = patient.name.trim().length > 0 && patient.nric.trim().length > 0;
   const isOutcome = OUTCOME_STEPS.includes(step);
+  const isDetail = DETAIL_STEPS.includes(step);
   const visualAcuity = patient.visualAcuity as VisualAcuity;
 
   const { finalizeAndReset } = useSessionTracker({
@@ -108,27 +118,34 @@ function ConversionWizardInner() {
       setUnlockedCount((c) => c + 1);
     } else {
       resetPageScroll(mainRef.current);
-      setStep("va");
+      setStep("outcomes-summary");
     }
   };
 
-  const outcomeIndex = OUTCOME_STEPS.indexOf(step);
-  const progressIndex = PROGRESS_STEPS.indexOf(step);
+  const goToSummary = useCallback(() => {
+    resetPageScroll(mainRef.current);
+    setStep("outcomes-summary");
+  }, []);
+
+  const progressStep: Step =
+    step === "va" || step === "refraction" || step === "complications" || step === "proms"
+      ? "outcomes-summary"
+      : step;
+  const progressIndex = PROGRESS_STEPS.indexOf(progressStep);
+  const outcomeIndex = PRIMARY_OUTCOME_STEPS.indexOf(
+    step === "care-team" ? "care-team" : "outcomes-summary",
+  );
 
   const onSwipeLeft = useCallback(() => {
-    if (step === "va") setStep("refraction");
-    else if (step === "refraction") setStep("complications");
-    else if (step === "complications") setStep("proms");
-    else if (step === "proms") setStep("care-team");
-  }, [step]);
+    if (step === "outcomes-summary") setStep("care-team");
+    else if (isDetail) setStep("care-team");
+  }, [step, isDetail]);
 
   const onSwipeRight = useCallback(() => {
-    if (step === "va") setStep("assessment");
-    else if (step === "refraction") setStep("va");
-    else if (step === "complications") setStep("refraction");
-    else if (step === "proms") setStep("complications");
-    else if (step === "care-team") setStep("proms");
-  }, [step]);
+    if (step === "outcomes-summary") setStep("assessment");
+    else if (step === "care-team") setStep("outcomes-summary");
+    else if (isDetail) setStep("outcomes-summary");
+  }, [step, isDetail]);
 
   const { active: swipeNavActive, onTouchStart, onTouchEnd } = useOutcomeSwipe({
     enabled: isOutcome,
@@ -137,15 +154,17 @@ function ConversionWizardInner() {
   });
 
   const outcomeLabel =
-    step === "va"
-      ? t.wizard.outcomeVa
-      : step === "refraction"
-        ? t.wizard.outcomeRefraction
-        : step === "complications"
-          ? t.wizard.outcomeComplications
-          : step === "proms"
-            ? t.wizard.outcomeProms
-            : t.wizard.outcomeCareTeam;
+    step === "outcomes-summary"
+      ? t.wizard.outcomeSummary
+      : step === "va"
+        ? t.wizard.outcomeVa
+        : step === "refraction"
+          ? t.wizard.outcomeRefraction
+          : step === "complications"
+            ? t.wizard.outcomeComplications
+            : step === "proms"
+              ? t.wizard.outcomeProms
+              : t.wizard.outcomeCareTeam;
 
   const maxWidth = isOutcome
     ? "max-w-5xl landscape:max-w-6xl"
@@ -229,8 +248,8 @@ function ConversionWizardInner() {
           <>
             <p className="mt-1 text-[11px] font-medium uppercase tracking-wide text-slate-400">
               {formatMessage(t.wizard.outcomeOf, {
-                current: outcomeIndex + 1,
-                total: OUTCOME_STEPS.length,
+                current: Math.max(1, outcomeIndex + 1),
+                total: PRIMARY_OUTCOME_STEPS.length,
                 label: outcomeLabel,
               })}
             </p>
@@ -319,35 +338,47 @@ function ConversionWizardInner() {
 
         {isOutcome && visualAcuity && (
           <>
-            {step === "va" && (
-              <VaOutcomePage
-                visualAcuity={visualAcuity}
+            {step === "outcomes-summary" && (
+              <OutcomesSummaryPage
+                patientScore={scores.score100}
                 onBack={() => {
                   setUnlockedCount(CAT_PROM5_QUESTIONS.length);
                   setStep("assessment");
                 }}
-                onNext={() => setStep("refraction")}
+                onNext={() => setStep("care-team")}
+                onOpenVa={() => setStep("va")}
+                onOpenRefraction={() => setStep("refraction")}
+                onOpenComplications={() => setStep("complications")}
+                onOpenProms={() => setStep("proms")}
+              />
+            )}
+
+            {step === "va" && (
+              <VaOutcomePage
+                visualAcuity={visualAcuity}
+                onBack={goToSummary}
+                onNext={() => setStep("care-team")}
               />
             )}
 
             {step === "refraction" && (
               <RefractiveOutcomePage
-                onBack={() => setStep("va")}
-                onNext={() => setStep("complications")}
+                onBack={goToSummary}
+                onNext={() => setStep("care-team")}
               />
             )}
 
             {step === "complications" && (
               <ComplicationsOutcomePage
-                onBack={() => setStep("refraction")}
-                onNext={() => setStep("proms")}
+                onBack={goToSummary}
+                onNext={() => setStep("care-team")}
               />
             )}
 
             {step === "proms" && (
               <PromsOutcomePage
                 patientScore={scores.score100}
-                onBack={() => setStep("complications")}
+                onBack={goToSummary}
                 onNext={() => setStep("care-team")}
               />
             )}
@@ -355,7 +386,7 @@ function ConversionWizardInner() {
             {step === "care-team" && (
               <CareTeamPage
                 patient={patient}
-                onBack={() => setStep("proms")}
+                onBack={() => setStep("outcomes-summary")}
                 onNewPatient={() => setShowNewPatientGate(true)}
               />
             )}
