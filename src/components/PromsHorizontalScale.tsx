@@ -43,11 +43,13 @@ function MarkerLabel({
   visible,
   anchor = "top",
   compact = false,
+  numbersOnly = false,
 }: {
   marker: Marker;
   visible: boolean;
   anchor?: "top" | "bottom";
   compact?: boolean;
+  numbersOnly?: boolean;
 }) {
   const left = clampMarkerLeft(marker.score, compact);
   return (
@@ -57,15 +59,17 @@ function MarkerLabel({
       } ${visible ? "animate-fade-up" : "opacity-0"}`}
       style={{ left: `${left}%`, animationDelay: `${marker.delayMs}ms` }}
     >
-      <p
-        className={`text-center font-bold leading-tight ${
-          compact
-            ? "max-w-[6.5rem] text-[16.5px] sm:max-w-[7.5rem] sm:text-[18px]"
-            : "max-w-[6.5rem] text-[13px] sm:max-w-[7.5rem] sm:text-[15px]"
-        } ${marker.emphasis ? "text-red-700" : "text-slate-800"}`}
-      >
-        {marker.label}
-      </p>
+      {!numbersOnly && (
+        <p
+          className={`text-center font-bold leading-tight ${
+            compact
+              ? "max-w-[6.5rem] text-[16.5px] sm:max-w-[7.5rem] sm:text-[18px]"
+              : "max-w-[6.5rem] text-[13px] sm:max-w-[7.5rem] sm:text-[15px]"
+          } ${marker.emphasis ? "text-red-700" : "text-slate-800"}`}
+        >
+          {marker.label}
+        </p>
+      )}
       <p
         className={`font-black ${
           compact ? "text-[1.125rem] sm:text-[1.3125rem]" : "text-sm sm:text-base"
@@ -159,11 +163,17 @@ export function PromsHorizontalScale({
 
   const aboveMarkers = markers.filter((m) => m.placement === "above");
   const belowMarkers = markers.filter((m) => m.placement === "below");
+  // Outcomes overview (compact) in Chinese: show score numbers only — no Chinese labels.
+  const numbersOnly = compact && locale === "zh-CN";
   const markerLane = compact
-    ? "relative mb-1 h-14 overflow-visible landscape:mb-0.5 landscape:h-12 sm:mb-1 sm:h-16"
+    ? numbersOnly
+      ? "relative mb-1 h-8 overflow-visible landscape:mb-0.5 landscape:h-7 sm:mb-1 sm:h-9"
+      : "relative mb-1 h-14 overflow-visible landscape:mb-0.5 landscape:h-12 sm:mb-1 sm:h-16"
     : "relative mb-2 h-14 sm:mb-3 sm:h-16";
   const belowLane = compact
-    ? "relative mt-0.5 h-14 overflow-visible landscape:h-12 sm:h-16"
+    ? numbersOnly
+      ? "relative mt-0.5 h-8 overflow-visible landscape:h-7 sm:h-9"
+      : "relative mt-0.5 h-14 overflow-visible landscape:h-12 sm:h-16"
     : "relative mt-1 h-14 sm:h-16";
   const barHeight = compact
     ? "relative mx-2 h-6 sm:mx-3 sm:h-7"
@@ -197,6 +207,7 @@ export function PromsHorizontalScale({
               visible={visible}
               anchor="bottom"
               compact={compact}
+              numbersOnly={numbersOnly}
             />
           ))}
         </div>
@@ -217,7 +228,13 @@ export function PromsHorizontalScale({
         {belowMarkers.length > 0 && (
           <div className={belowLane}>
             {belowMarkers.map((m) => (
-              <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} compact={compact} />
+              <MarkerLabel
+                key={`below-${m.id}`}
+                marker={m}
+                visible={visible}
+                compact={compact}
+                numbersOnly={numbersOnly}
+              />
             ))}
           </div>
         )}
