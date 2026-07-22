@@ -171,6 +171,24 @@ export function useSessionTracker({
     [flush],
   );
 
+  /**
+   * Call when staff leave the intake form for a real patient visit.
+   * Stamps formDateTime immediately (avoids a React state race) and discards
+   * idle time spent waiting on the admin screen (e.g. tablet left open
+   * between patients) so startedAt / page seconds reflect the visit.
+   */
+  const beginPatientSession = useCallback((formDateTime: string) => {
+    latestMetaRef.current = {
+      ...latestMetaRef.current,
+      formDateTime,
+    };
+    startedAtIsoRef.current = new Date().toISOString();
+    pageSecondsRef.current = emptyPageSeconds();
+    detailDrillClicksRef.current = emptyDetailDrillClicks();
+    pageEnteredAtRef.current = Date.now();
+    currentPageRef.current = "admin";
+  }, []);
+
   const finalizeAndReset = useCallback(async () => {
     await flush(true);
     sessionIdRef.current = newSessionId();
@@ -181,5 +199,5 @@ export function useSessionTracker({
     currentPageRef.current = "admin";
   }, [flush]);
 
-  return { flush, finalizeAndReset, recordDetailDrill };
+  return { flush, finalizeAndReset, beginPatientSession, recordDetailDrill };
 }

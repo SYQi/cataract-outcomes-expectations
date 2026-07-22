@@ -69,9 +69,16 @@ function ConversionWizardInner() {
   const [showNewPatientGate, setShowNewPatientGate] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
 
+  // Keep the admin clock live while waiting on the intake screen. Without this,
+  // a tablet left open from morning freezes formDateTime at first page load /
+  // last "new patient" reset (seen as ~10:xx for afternoon visits).
   useEffect(() => {
-    setPatient((p) => ({ ...p, dateTime: formatGmt8Timestamp() }));
-  }, []);
+    if (step !== "admin") return;
+    const tick = () => setPatient((p) => ({ ...p, dateTime: formatGmt8Timestamp() }));
+    tick();
+    const id = window.setInterval(tick, 1000);
+    return () => window.clearInterval(id);
+  }, [step]);
 
   useEffect(() => {
     if (step !== "details" && step !== "outcomes-summary" && step !== "va") return;
@@ -84,7 +91,7 @@ function ConversionWizardInner() {
   const isDetail = DETAIL_STEPS.includes(step);
   const visualAcuity = patient.visualAcuity as VisualAcuity;
 
-  const { finalizeAndReset, recordDetailDrill } = useSessionTracker({
+  const { finalizeAndReset, beginPatientSession, recordDetailDrill } = useSessionTracker({
     step: step as TrackedPage,
     patientName: patient.name,
     nric: patient.nric,
@@ -274,6 +281,9 @@ function ConversionWizardInner() {
               locale={locale}
               onLocaleChange={setLocale}
               onContinue={() => {
+                const stamped = formatGmt8Timestamp();
+                setPatient((p) => ({ ...p, dateTime: stamped }));
+                beginPatientSession(stamped);
                 resetPageScrollAfterPaint(mainRef.current);
                 setStep("details");
               }}

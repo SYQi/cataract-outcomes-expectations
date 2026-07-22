@@ -46,7 +46,7 @@ export type PatientSessionRecord = {
   sessionId: string;
   patientName: string;
   nric: string;
-  /** GMT+8 display timestamp captured on the form. */
+  /** GMT+8 display timestamp captured when staff continue from intake. */
   formDateTime: string;
   insurer?: string;
   consultant?: string;
