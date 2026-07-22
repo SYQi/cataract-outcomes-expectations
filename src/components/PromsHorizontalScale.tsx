@@ -135,7 +135,8 @@ export function PromsHorizontalScale({
       color: "#D31145",
       delayMs: 0,
       emphasis: true,
-      placement: "below",
+      // Compact overview: sit with the eye markers above the bar.
+      placement: compact ? "above" : "below",
     },
     {
       id: "first",
@@ -213,11 +214,13 @@ export function PromsHorizontalScale({
           ))}
         </div>
 
-        <div className={belowLane}>
-          {belowMarkers.map((m) => (
-            <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} compact={compact} />
-          ))}
-        </div>
+        {belowMarkers.length > 0 && (
+          <div className={belowLane}>
+            {belowMarkers.map((m) => (
+              <MarkerLabel key={`below-${m.id}`} marker={m} visible={visible} compact={compact} />
+            ))}
+          </div>
+        )}
       </div>
 
       {!hideQolCopy && visible && (
