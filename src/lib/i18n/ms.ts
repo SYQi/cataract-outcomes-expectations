@@ -103,9 +103,9 @@ export const ms: Messages = {
   },
   outcomesSummary: {
     eyebrow: "Hasil pembedahan anda",
-    headlineBefore: "Apa yang dicapai oleh pakar bedah ",
+    headlineBefore: "Apa yang Dicapai oleh ",
     headlineSpecialist: "Pakar",
-    headlineAfter: "",
+    headlineAfter: " bedah",
     specialistBanner: "Hasil Hospital Woodlands 2026",
     vaTitle: "Penglihatan yang baik",
     vaCaption: "6/12 atau lebih baik selepas pembedahan",
