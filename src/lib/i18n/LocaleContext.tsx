@@ -9,6 +9,7 @@ import {
 } from "react";
 import { en } from "@/lib/i18n/en";
 import { ms } from "@/lib/i18n/ms";
+import { ta } from "@/lib/i18n/ta";
 import { zhCN } from "@/lib/i18n/zh-CN";
 import {
   DEFAULT_LOCALE,
@@ -21,6 +22,7 @@ const dictionaries: Record<Locale, Messages> = {
   en,
   "zh-CN": zhCN,
   ms,
+  ta,
 };
 
 type LocaleContextValue = {

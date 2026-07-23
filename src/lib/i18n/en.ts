@@ -8,8 +8,9 @@ export const en: Messages = {
     languageEnglish: "English",
     languageChinese: "简体中文",
     languageMalay: "Bahasa Melayu",
+    languageTamil: "தமிழ்",
     languageHint:
-      "English is the default. Choose Simplified Chinese or Bahasa Melayu for the patient’s preferred language.",
+      "English is the default. Choose Simplified Chinese, Bahasa Melayu, or Tamil for the patient’s preferred language.",
   },
   wizard: {
     titleLine1: "Cataract Surgery:",
