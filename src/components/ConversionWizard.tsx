@@ -99,7 +99,10 @@ function ConversionWizardInner() {
     insurer: patient.insurer,
     consultant: patient.consultant,
     roomAssistant: patient.roomAssistant,
-    catProm5Score: step === "admin" || step === "details" || step === "assessment" ? null : scores.score100,
+    catProm5Score:
+      step === "admin" || step === "details"
+        ? null
+        : scores.score100,
     visualAcuity:
       step === "admin" || step === "details" || step === "assessment" || !visualAcuity
         ? null

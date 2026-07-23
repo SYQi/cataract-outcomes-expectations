@@ -46,13 +46,14 @@ export async function POST(request: Request) {
       nric: body.nric.trim().toUpperCase(),
     };
 
-    // The wizard client never sends upgradeDecision; keep any label staff
-    // already set on /admin so a late flush cannot wipe it.
-    if (record.upgradeDecision === undefined) {
-      const existing = await readSessionRecord(record.sessionId);
-      if (existing?.upgradeDecision) {
-        record.upgradeDecision = existing.upgradeDecision;
-      }
+    // Preserve staff-labelled upgrade decisions and any previously saved
+    // CAT-PROM5 score when a later flush omits them (e.g. early wizard steps).
+    const existing = await readSessionRecord(record.sessionId);
+    if (record.upgradeDecision === undefined && existing?.upgradeDecision) {
+      record.upgradeDecision = existing.upgradeDecision;
+    }
+    if (record.catProm5Score == null && existing?.catProm5Score != null) {
+      record.catProm5Score = existing.catProm5Score;
     }
 
     await saveSessionRecord(record);
