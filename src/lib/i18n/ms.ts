@@ -179,7 +179,7 @@ export const ms: Messages = {
     backLabel: "← Komplikasi",
     poor: "Lemah",
     great: "Baik",
-    youToday: "Anda hari ini",
+    youToday: "Anda\nhari ini",
     firstEye: "Pembedahan Mata ke-1",
     secondEye: "Pembedahan Mata ke-2",
     qolLine1: "Kualiti hidup dijangka meningkat daripada",

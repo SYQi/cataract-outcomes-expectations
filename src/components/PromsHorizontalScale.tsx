@@ -61,7 +61,7 @@ function MarkerLabel({
     >
       {!numbersOnly && (
         <p
-          className={`text-center font-bold leading-tight ${
+          className={`whitespace-pre-line text-center font-bold leading-tight ${
             compact
               ? "max-w-[6.5rem] text-[16.5px] sm:max-w-[7.5rem] sm:text-[18px]"
               : "max-w-[6.5rem] text-[13px] sm:max-w-[7.5rem] sm:text-[15px]"
