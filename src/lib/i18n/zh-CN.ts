@@ -7,7 +7,9 @@ export const zhCN: Messages = {
     languageLabel: "Questionnaire language",
     languageEnglish: "English",
     languageChinese: "简体中文",
-    languageHint: "English is the default. Choose Simplified Chinese for Chinese-speaking patients.",
+    languageMalay: "Bahasa Melayu",
+    languageHint:
+      "English is the default. Choose Simplified Chinese or Bahasa Melayu for the patient’s preferred language.",
   },
   wizard: {
     titleLine1: "白内障手术：",

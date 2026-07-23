@@ -166,7 +166,7 @@ export function AdminPage({
       <fieldset className="mt-6 rounded-xl border border-slate-200 bg-slate-50/80 p-4">
         <legend className="px-1 text-sm font-semibold text-brand-navy">{t.admin.languageLabel}</legend>
         <p className="text-xs text-slate-500">{t.admin.languageHint}</p>
-        <div className="mt-3 grid grid-cols-2 gap-3">
+        <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-3">
           <button
             type="button"
             onClick={() => onLocaleChange("en")}
@@ -188,6 +188,17 @@ export function AdminPage({
             }`}
           >
             {t.admin.languageChinese}
+          </button>
+          <button
+            type="button"
+            onClick={() => onLocaleChange("ms")}
+            className={`rounded-xl px-4 py-3 text-base font-semibold transition ${
+              locale === "ms"
+                ? "bg-brand-navy text-white shadow-sm ring-2 ring-brand-navy/30"
+                : "border border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+            }`}
+          >
+            {t.admin.languageMalay}
           </button>
         </div>
       </fieldset>

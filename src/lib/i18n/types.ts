@@ -1,10 +1,11 @@
-export type Locale = "en" | "zh-CN";
+export type Locale = "en" | "zh-CN" | "ms";
 
 export const DEFAULT_LOCALE: Locale = "en";
 
 export const LOCALE_HTML_LANG: Record<Locale, string> = {
   en: "en",
   "zh-CN": "zh-CN",
+  ms: "ms",
 };
 
 export type CatProm5QuestionCopy = {
@@ -27,6 +28,7 @@ export type Messages = {
     languageLabel: string;
     languageEnglish: string;
     languageChinese: string;
+    languageMalay: string;
     languageHint: string;
   };
   wizard: {
